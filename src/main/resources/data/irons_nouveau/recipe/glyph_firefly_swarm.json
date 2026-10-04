@@ -1,0 +1,17 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "type": "irons_nouveau:spell_scroll",
+      "spell": "irons_spellbooks:firefly_swarm"
+    },
+    {
+      "item": "ars_nouveau:source_gem"
+    }
+  ],
+  "output": {
+    "id": "irons_nouveau:glyph_firefly_swarm",
+    "count": 1
+  }
+}

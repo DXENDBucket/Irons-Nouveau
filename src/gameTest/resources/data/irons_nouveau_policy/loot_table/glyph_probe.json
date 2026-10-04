@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {"rolls": 1, "entries": [{"type": "minecraft:item", "name": "irons_nouveau:glyph_firebolt"}]},
+    {"rolls": 1, "entries": [{"type": "minecraft:item", "name": "ars_nouveau:glyph_light"}]},
+    {"rolls": 1, "entries": [{"type": "minecraft:item", "name": "irons_spellbooks:scroll"}]}
+  ]
+}

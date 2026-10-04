@@ -1,0 +1,17 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "type": "irons_nouveau:spell_scroll",
+      "spell": "irons_spellbooks:counterspell"
+    },
+    {
+      "item": "ars_nouveau:source_gem"
+    }
+  ],
+  "output": {
+    "id": "irons_nouveau:glyph_counterspell",
+    "count": 1
+  }
+}

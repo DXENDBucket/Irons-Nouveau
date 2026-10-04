@@ -1,0 +1,17 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "inputs": [
+    {
+      "type": "irons_nouveau:spell_scroll",
+      "spell": "irons_spellbooks:cone_of_cold"
+    },
+    {
+      "item": "ars_nouveau:source_gem"
+    }
+  ],
+  "output": {
+    "id": "irons_nouveau:glyph_cone_of_cold",
+    "count": 1
+  }
+}

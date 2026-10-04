@@ -1,0 +1,18 @@
+# Copy to config/irons_nouveau-server.toml while the game/server is stopped.
+# This example changes both independent policies. Either policy can be used on its own.
+[spell_levels]
+mode = "FIXED"
+default_level = 1
+# Native Iron spell IDs; these are base levels before Ars Amplify/Dampen.
+overrides = [
+    "irons_spellbooks:firebolt=3",
+    "irons_spellbooks:heal=2",
+    "irons_spellbooks:summon_vex=4"
+]
+# false makes creative follow the configured fixed levels too.
+creative_native_max = false
+
+[learning]
+# ARS: learn glyph items using Ars; Scribe recipes use a matching Iron scroll plus a source gem.
+# SCROLL_CRAFTING: retain the requirement to personally craft/upgrade each spell's native scroll.
+mode = "ARS"
