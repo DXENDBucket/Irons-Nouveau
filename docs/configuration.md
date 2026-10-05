@@ -84,6 +84,8 @@ creative_native_max = false
 
 ## 学习方式
 
+0.15.1 起，JEI 中的 Iron 魔符抄写台配方随学习模式显示：`SCROLL_CRAFTING` 下隐藏，`ARS` 下正常显示；客户端收到模式变更后更新，无需重启 JEI。不隐藏魔符物品或原生 Iron 卷轴配方。JEI 为可选联动，服务端的制作权限检查仍独立生效。
+
 `learning.mode` 与等级模式独立：
 
 - `SCROLL_CRAFTING`：本人成功撰写／升级 Iron 卷轴后解锁对应魔符；魔符物品和 Ars 抄写台不能绕过制作记录，Iron 魔符不进入随机战利品。这是默认玩法。
