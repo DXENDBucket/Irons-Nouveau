@@ -26,8 +26,8 @@ public final class BreathVisuals {
     }
     public static void tick(AbstractConeProjectile cone) {
         var state = (ConeState)cone; var anchor = cone.level().getEntity(state.ironsNouveau$anchor());
-        if (anchor != null) place(cone, anchor.position().add(state.ironsNouveau$offset()), anchor.getLookAngle());
-        var direction = cone.getLookAngle(); var pos = cone.position().add(direction.scale(.35));
+        if (anchor != null) place(cone, anchor.getEyePosition().add(state.ironsNouveau$offset()), anchor.getLookAngle());
+        var direction = cone.getLookAngle(); var pos = particleOrigin(cone);
         var random = cone.level().random;
         int count = cone instanceof PoisonBreathProjectile ? 20 : 12;
         for (int i = 0; i < count; i++) {
@@ -40,5 +40,13 @@ public final class BreathVisuals {
             cone.level().addParticle(particle, pos.x + random.nextGaussian() * .1, pos.y + random.nextGaussian() * .1,
                     pos.z + random.nextGaussian() * .1, motion.x, motion.y, motion.z);
         }
+    }
+    /** Match Iron's native mouth-height and forward offsets; block triggers retain their hit origin. */
+    public static Vec3 particleOrigin(AbstractConeProjectile cone) {
+        var state = (ConeState)cone;
+        var anchor = cone.level().getEntity(state.ironsNouveau$anchor());
+        if (anchor != null) return anchor.position().add(0, anchor.getEyeHeight() * .9f, 0)
+                .add(anchor.getLookAngle().normalize().scale(cone instanceof ConeOfColdProjectile ? 1.5 : 1.6));
+        return cone.position().add(cone.getLookAngle().scale(.35));
     }
 }

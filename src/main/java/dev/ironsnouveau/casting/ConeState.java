@@ -2,7 +2,7 @@ package dev.ironsnouveau.casting;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.*;
 import java.util.Set;
-/** Networked emission pose is separate from Projectile.owner, which always remains the payer/caster. */
+/** Networked emission pose is separate from Projectile.owner; bound offsets are relative to anchor eyes. */
 public interface ConeState {
     boolean ironsNouveau$managed();
     int ironsNouveau$anchor();

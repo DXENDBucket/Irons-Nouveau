@@ -61,7 +61,9 @@ public final class BreathExecution implements CastExecution {
         pulses++;
     }
     private void ignite(CastSession session) {
-        var world = session.world(); var origin = cone.position(); var random = world.random;
+        var world = session.world();
+        var origin = pose.eyeAnchored() && pose.anchor() != null ? pose.anchor().getEyePosition() : cone.position();
+        var random = world.random;
         for (int i = 0; i < 3; i++) {
             var direction = cone.getLookAngle().xRot((random.nextFloat() * 2 - 1) * .2617994f)
                     .yRot((random.nextFloat() * 2 - 1) * .2617994f);

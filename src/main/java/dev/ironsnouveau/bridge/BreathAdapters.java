@@ -10,7 +10,7 @@ import io.redspace.ironsspellbooks.entity.spells.cone_of_cold.ConeOfColdProjecti
 public final class BreathAdapters {
     private BreathAdapters() {}
     public static LocationSpellAdapter of(String id) { return (ctx, hit) -> {
-        var pose = BreathPose.from(ctx, hit);
+        var pose = BreathPose.forBreath(ctx, hit);
         AbstractConeProjectile cone = switch (id) {
             case "fire_breath" -> new FireBreathProjectile(ctx.world(), ctx.caster());
             case "poison_breath" -> new PoisonBreathProjectile(ctx.world(), ctx.caster());
