@@ -39,7 +39,14 @@
     "PoisonSplashChildrenMixin",
     "IronGlyphKnowledgeMixin",
     "CreeperHeadAccess",
-    "ScribeLearningMixin"
+    "ScribeLearningMixin",
+    "ArrowEmissionMixin",
+    "FangEmissionMixin",
+    "CreeperChainMixin",
+    "FirecrackerAccess",
+    "TouchDigAccess",
+    "MotionEffectMixin",
+    "BallLightningImpactMixin"
   ],
   "injectors": {
     "defaultRequire": 1

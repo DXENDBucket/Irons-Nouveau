@@ -16,6 +16,12 @@ public class ProjectilePayload {
     public ProjectilePayload(float powerFactor, BiConsumer<CastSession, Entity> afterHit) { this.powerFactor = powerFactor; this.afterHit = afterHit; }
     public static final ProjectilePayload HALF_POWER = damage(.5f);
     public static final ProjectilePayload FULL_POWER = damage(1);
+    public static final ProjectilePayload FLAMING_BARRAGE = new ProjectilePayload(1, (session, target) -> {}) {
+        @Override public void configure(CastSession session, AbstractMagicProjectile projectile) {
+            super.configure(session, projectile); projectile.setCursorHoming(true);
+        }
+        @Override public double launchSpeedMultiplier() { return .5; }
+    };
     public static final ProjectilePayload BLOOD_NEEDLE = damage(.25f);
     public static final ProjectilePayload GUIDING_BOLT = new ProjectilePayload(.5f, (session, target) -> {
         if (target instanceof LivingEntity living)
@@ -23,6 +29,7 @@ public class ProjectilePayload {
     });
     public static ProjectilePayload damage(float factor) { return new ProjectilePayload(factor, (session, target) -> {}); }
     public float damage(CastPlan plan) { return plan.nativePower() * powerFactor; }
+    public double launchSpeedMultiplier() { return 1; }
     public void configure(CastSession session, AbstractMagicProjectile projectile) { projectile.setDamage(damage(session.plan())); }
     public boolean apply(CastSession session, AbstractMagicProjectile projectile, Entity target) {
         if (target == projectile) return false;

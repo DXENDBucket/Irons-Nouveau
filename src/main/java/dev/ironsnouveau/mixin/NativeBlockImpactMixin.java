@@ -14,7 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {FireboltProjectile.class, IcicleProjectile.class, MagicMissileProjectile.class,
         GuidingBoltProjectile.class, MagicArrowProjectile.class,
-        io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile.class}, remap = false)
+        io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile.class,
+        io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball.class}, remap = false)
 public abstract class NativeBlockImpactMixin {
     @Inject(method = "onHitBlock", at = @At("TAIL"))
     private void ironsNouveau$block(BlockHitResult hit, CallbackInfo ci) {

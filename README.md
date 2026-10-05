@@ -1,10 +1,10 @@
 # Iron's Nouveau
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.11.0**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.12.0**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
-现有 77 个魔符：16 个弹射物形态强化、61 个效果魔符。0.10.0 新增唤魔学派的苦力怕头投掷形态；0.9.0 新增 36 个法术，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
+现有 95 个魔符：18 个弹射物形态强化、77 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
 
 `NativeSpellLevelEvent` 允许可选集成为非玩家提供每种法术的基础等级，然后统一计算增幅。未处理时使用所选等级策略：个人卷轴模式为 1 级，固定模式读取配置。Path-To-Zero 的咒法师使用此入口保留抽取到的原生稀有度等级，无须伪造玩家或临时修改法术注册对象。
 
@@ -32,12 +32,28 @@
 | 新增目标效果 | `blessing_of_life`, `wololo`, `sacrifice`, `devour`, `acupuncture`, `counterspell`, `ice_tomb`, `summon_ender_chest` |
 | 新增区域 | `earthquake`, `blizzard`, `poison_splash`, `gravity_fissure`, `scorch`, `heat_surge`, `frostwave`, `shockwave` |
 | 新增位置实体／攻击 | `ice_block`, `shield`, `scapegoat`, `stomp`, `fang_strike`, `fang_ward`, `sonic_boom`, `divine_smite` |
+| 0.12.0 弹射物形态 | `ball_lightning`, `flaming_barrage` |
+| 0.12.0 持续发射／连锁 | `starfall`, `arrow_volley`, `chain_creeper`, `fang_swirl`, `blaze_storm`, `cloud_of_regeneration` |
+| 0.12.0 武器／地形／采掘 | `flaming_strike`, `raise_hell`, `ice_spikes`, `firecracker`, `spectral_hammer`, `touch_dig` |
+| 0.12.0 实体动作 | `shadow_slash`, `burning_dash`, `ascension`, `volt_strike` |
 
 持续射线、传送和传送门尚未接入。邪术冲击波是瞬时目标攻击，已接入；没有加入 Iron 原生的连发重施状态。上述清单是本版实际注册内容，不等于整个 Iron 法术库。
 
 位置效果在 Ars 触发点产生；需要方向的新增效果沿用吐息的方向优先级（目标朝向、弹射物来向、施法者朝向）。属性与伤害来源仍取原施法者。反制保留 Iron 的可反制目标限制；献祭仅接受本人召唤物；召唤末影箱仅为玩家打开其自己的箱子。
 
 针灸、噬咬、落冰、獠牙和毒液迸溅的初次命中属于已支付的一次施放，不在每个目标命中时重复收取整次费用。毒云等持续实体仍逐轮支付；延迟生成的毒云继承原施法者、等级、账本与租期。冰墓缺蓝停止治疗，到期或清理时释放乘客。暴风雪缺蓝同时停止冻结与牵引。
+
+## 持续发射与实体动作（0.12.0）
+
+`自身 → 烈焰冲锋` 让施法者冲刺；`弹射物 → 烈焰冲锋` 让命中的生物沿自身朝向冲刺。暗影斩击、烈焰冲锋、飞升、伏特打击仅接受存活的实体目标，方块触发不生效也不收 Iron 费用。法强、武器伤害、费用和攻击归属始终取原施法者。烈焰／闪电冲刺使用原生接触效果；不会覆盖目标正在进行的 Iron 施法数据。
+
+星海落瀑每 4 tick 降下两枚流星，烈焰风暴每 5 tick 发射一枚火球，再生云域每 10 tick 治疗一轮。首轮费用包含在触发中，后续逐轮付费；缺蓝结束，回蓝不会重新启动。箭雨与旋转尖牙保留原生逐排／逐轮发射，在固定期限内缺蓝跳过当轮；苦力怕之环击杀后的连锁也需要支付。已支付发射费用的子弹命中不再收费，并继承所有者、等级及清理期限。
+
+烈焰追踪弹幕是弹射物形态，每次 Ars 触发生成一枚小火球；地狱浮现每次生成一轮烈焰。需要连发时使用 Ars 编排，不创建 Iron 重施状态。闪电球的标准弹射物保留原生反弹和重复命中，后续伤害轮次（10 tick）继续付费；环绕等载体继续遵循 Ars 的轨迹和触发规则。
+
+点石成杵与幽冥锤要求玩家施法，遵守冒险模式、出生点及方块破坏事件保护。幽冥锤保留原生可采掘标签和延迟采掘，半径最多 8、深度最多 16；这些是工作量边界，不是施法等级上限。一次冰刺最多 64 根、箭雨最多 32 排且每排 32 枚，仍受每人 256 个托管实体限制。
+
+尖牙漩涡、地狱浮现等法术在 Iron 默认配置中可能不可撰写。接入魔符不会绕过上游卷轴获取限制；默认撰写学习模式下仍需可制作的卷轴，或按服务器需求选择独立的 Ars 学习配置。
 
 ## 吐息的使用规则
 
@@ -89,6 +105,8 @@
 ## 构建与验证
 
 Java 21；本地 `libs/` 提供上游依赖，首次克隆须按 [构建说明与完整依赖清单](docs/building.md) 准备，不是直接克隆即可构建。执行 `./gradlew.bat assemble` 打包。仅结算或注册有变化时按需运行 `runGameTestServer`；`-PwithoutGlyphAddons=true` 使用独立目录并排除 Not Enough Glyphs。上游依赖与资源的归属见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+
+0.12.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_emitters assemble`，6 项针对性服务端 GameTest 全部通过。覆盖实体动作选择与伤害归属、箭雨／尖牙逐轮费用及清理、持续火球缺蓝结束、星海与云域、两种新形态接续 Ars 效果、闪电球重复伤害计费、地形实体、采掘保护与创造免蓝。日志为 `build/expansion-final.log`。未重跑历史全量测试，未启动客户端；视觉与真实多人位移仍需游戏内确认。
 
 0.11.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_standalone`，针对性用例通过。运行环境不安装 Ars ’n’ Spells、Not Enough Glyphs、JEI 或 Path-To-Zero；验证 77 个魔符注册、默认撰写解锁、两项配置独立切换、抄写台服务端权限和卷轴材料匹配、Ars 魔符物品学习、固定等级实际治疗及 Ars 扣蓝、缺蓝三发散射、创造免蓝及可配置等级、切回后个人记录保留。日志为 `build/standalone-release-check.log`。本次不重跑全部历史测试，不启动客户端或使用正式存档，客户端显示与多人连接未作实机验证。
 

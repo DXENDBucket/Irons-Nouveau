@@ -22,6 +22,7 @@ public final class EffectResources {
     private static final String KEY = "irons_nouveau_lease";
     private static final Set<Entity> ACTIVE = Collections.newSetFromMap(new IdentityHashMap<>());
     private static final ThreadLocal<Origin> ORIGIN = new ThreadLocal<>();
+    private static final ThreadLocal<Boolean> PAID_CHILDREN = ThreadLocal.withInitial(() -> false);
     private static final Map<Entity, TriggerMana> ACCOUNTS = new IdentityHashMap<>();
     private static final Map<Entity, Long> PAID = new IdentityHashMap<>();
     private static final Set<Entity> PAYING = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -68,6 +69,36 @@ public final class EffectResources {
         if (spawned) entity.getPersistentData().getCompound(KEY).putBoolean("one_shot", true);
         return spawned;
     }
+    public static boolean managed(Entity entity) { return entity.getPersistentData().contains(KEY); }
+    public static boolean paidChildren(Resolution ctx, int ticks, BooleanSupplier action) {
+        boolean previous = PAID_CHILDREN.get(); PAID_CHILDREN.set(true);
+        try { return scoped(new Origin(ctx.caster(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks,
+                TriggerMana.current()), action); }
+        finally { PAID_CHILDREN.set(previous); }
+    }
+    public static boolean paidChildren(CastSession session, BooleanSupplier action) {
+        boolean previous = PAID_CHILDREN.get(); PAID_CHILDREN.set(true);
+        try { return scoped(session, action); } finally { PAID_CHILDREN.set(previous); }
+    }
+    /** An emitter pays per emission; its projectiles have already paid for their eventual impact. */
+    public static void emit(Entity parent, int lifetime, boolean firstFree, Runnable action) {
+        if (!managed(parent)) { action.run(); return; }
+        var tag = parent.getPersistentData().getCompound(KEY);
+        BooleanSupplier spawn = () -> {
+            boolean previous = PAID_CHILDREN.get(); PAID_CHILDREN.set(true);
+            try { children(parent, lifetime, action); return true; }
+            finally { PAID_CHILDREN.set(previous); }
+        };
+        if (firstFree && !tag.getBoolean("emitted")) { tag.putBoolean("emitted", true); spawn.getAsBoolean(); }
+        else {
+            // Emission itself is billed even when the parent projectile's initial impact was prepaid.
+            var world = (ServerLevel)parent.level();
+            var owner = world.getEntity(tag.getUUID("owner"));
+            if (owner instanceof LivingEntity living && living.isAlive())
+                ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, living))
+                        .trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), spawn);
+        }
+    }
     /** Delayed native child creation must inherit the parent attribution and billing account. */
     public static void children(Entity parent, int duration, Runnable action) {
         var tag = parent.getPersistentData().getCompound(KEY);
@@ -88,7 +119,8 @@ public final class EffectResources {
         if (event.isCanceled() || !(event.getLevel() instanceof ServerLevel world)) return;
         Entity entity = event.getEntity(); var origin = ORIGIN.get();
         if (origin != null && (BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getNamespace().equals("irons_spellbooks")
-                || entity instanceof io.redspace.ironsspellbooks.entity.spells.ExtendedEvokerFang)
+                || entity instanceof io.redspace.ironsspellbooks.entity.spells.ExtendedEvokerFang
+                || entity instanceof io.redspace.ironsspellbooks.entity.spells.ExtendedFireworkRocket)
                 && (!(entity instanceof NativeCastCarrier carrier) || carrier.ironsNouveau$session() == null)) {
             long owned = ACTIVE.stream().filter(e -> !e.isRemoved() && e.getPersistentData().getCompound(KEY).hasUUID("owner")
                     && e.getPersistentData().getCompound(KEY).getUUID("owner").equals(origin.owner().getUUID())).count();
@@ -97,6 +129,7 @@ public final class EffectResources {
             tag.putUUID("owner", origin.owner().getUUID()); tag.putString("glyph", origin.glyph().toString());
             tag.putString("spell", origin.spell().toString()); tag.putInt("level", origin.level());
             tag.putLong("expires", world.getGameTime() + origin.ticks());
+            if (PAID_CHILDREN.get()) tag.putBoolean("one_shot", true);
             entity.getPersistentData().put(KEY, tag);
         }
         if (entity.getPersistentData().contains(KEY)) {

@@ -49,7 +49,7 @@ public final class StandaloneGameTests {
     public static void independentRuntimeSupportsBothLevelAndLearningPolicies(GameTestHelper h) {
         for (var mod : List.of("ars_n_spells", "not_enough_glyphs", "path_to_zero", "jei"))
             h.assertTrue(!ModList.get().isLoaded(mod), "Standalone test must exclude " + mod);
-        h.assertTrue(IronsNouveau.forms().size() == 16 && IronsNouveau.glyphs().size() == 61, "All 77 glyphs register independently");
+        h.assertTrue(IronsNouveau.forms().size() == 18 && IronsNouveau.glyphs().size() == 77, "All 95 glyphs register independently");
         var player = ScrollProgressGameTests.player(h);
         var cap = CapabilityRegistry.getPlayerDataCap(player);
         var fire = SpellRegistry.FIREBOLT_SPELL.get(); var id = fire.getSpellResource();

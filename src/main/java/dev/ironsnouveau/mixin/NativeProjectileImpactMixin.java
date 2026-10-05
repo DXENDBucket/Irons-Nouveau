@@ -20,7 +20,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = {FireboltProjectile.class, IcicleProjectile.class, MagicMissileProjectile.class,
-        GuidingBoltProjectile.class, LightningLanceProjectile.class, MagicArrowProjectile.class, BloodNeedle.class}, remap = false)
+        GuidingBoltProjectile.class, LightningLanceProjectile.class, MagicArrowProjectile.class, BloodNeedle.class,
+        io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball.class}, remap = false)
 public abstract class NativeProjectileImpactMixin {
     @WrapOperation(method = "onHitEntity", at = @At(value = "INVOKE",
             target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z"))

@@ -17,7 +17,7 @@ public final class ProjectileExecution implements CastExecution {
         projectile.setOwner(session.caster());
         projectile.setPos(aim.origin());
         payload.configure(session, projectile);
-        projectile.setDeltaMovement(aim.direction().scale(projectile.getSpeed() * session.plan().modifiers().speedMultiplier()));
+        projectile.setDeltaMovement(aim.direction().scale(projectile.getSpeed() * session.plan().modifiers().speedMultiplier() * payload.launchSpeedMultiplier()));
         var velocity = projectile.getDeltaMovement();
         projectile.setYRot((float)(Math.atan2(velocity.x, velocity.z) * 180 / Math.PI));
         projectile.setXRot((float)(Math.atan2(velocity.y, velocity.horizontalDistance()) * 180 / Math.PI));
