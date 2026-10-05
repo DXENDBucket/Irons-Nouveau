@@ -46,7 +46,11 @@
     "FirecrackerAccess",
     "TouchDigAccess",
     "MotionEffectMixin",
-    "BallLightningImpactMixin"
+    "BallLightningImpactMixin",
+    "GlyphRegistryOrderMixin"
+  ],
+  "client": [
+    "GlyphFormatterOrderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

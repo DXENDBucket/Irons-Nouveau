@@ -1,6 +1,6 @@
 # Iron's Nouveau
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.12.0**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.12.2**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
@@ -13,6 +13,10 @@
 ## 已接入魔符
 
 所有 ID 都在 `irons_nouveau` 命名空间，前缀为 `glyph_`。图标引用对应 Iron 学派卷轴模型，同学派暂时共用外观；每个魔符都有中英文描述，通过本人撰写／升级 Iron 卷轴解锁。
+
+0.12.1 调整展示顺序：法术书编排、魔符学习界面及 Ars 魔符创造物品栏中，Iron 魔符排在同类 Ars 与附属魔符之后，各组内部沿用原界面的名称／阶级排序。效果与强化仍留在各自类别。
+
+0.12.2 修复编排界面的附属分类边界：按界面实际注册的分类条件区分普通效果与子形态等专用类别，避免共用排序编号时，普通 Iron 效果被排到“子形态”标题下。无需强制依赖附属。
 
 所有 Iron 魔符固定为 Ars Ⅰ阶，旧配置的Ⅱ／Ⅲ阶也不会重新引入法术书门槛；此阶级不影响 Iron 实际施法等级。生存模式只有本人成功撰写或升级原生 Iron 卷轴才能解锁对应魔符，魔符物品和 Ars 学习入口不能绕过制作记录。全局战利品过滤器排除 Iron 魔符物品，保留原生 Iron 卷轴和 Ars 自身魔符。
 
@@ -105,6 +109,10 @@
 ## 构建与验证
 
 Java 21；本地 `libs/` 提供上游依赖，首次克隆须按 [构建说明与完整依赖清单](docs/building.md) 准备，不是直接克隆即可构建。执行 `./gradlew.bat assemble` 打包。仅结算或注册有变化时按需运行 `runGameTestServer`；`-PwithoutGlyphAddons=true` 使用独立目录并排除 Not Enough Glyphs。上游依赖与资源的归属见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+
+0.12.1 仅调整展示排序，已核对 Ars 5.13.1 的排序入口与实际调用签名，`assemble` 通过。日志为 `build/glyph-order-build.log`；未启动客户端或重跑 GameTest。
+
+0.12.2 针对 NEG 的 Reverse Direction 同时属于子形态、继承普通效果排序编号的情况修复分类边界。两个轻量排序回归用例通过，覆盖相同编号跨类别、同类 Iron 后置与搜索后仅剩少量魔符的情况；打包通过，未启动游戏。日志为 `build/glyph-category-fix.log`。
 
 0.12.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_emitters assemble`，6 项针对性服务端 GameTest 全部通过。覆盖实体动作选择与伤害归属、箭雨／尖牙逐轮费用及清理、持续火球缺蓝结束、星海与云域、两种新形态接续 Ars 效果、闪电球重复伤害计费、地形实体、采掘保护与创造免蓝。日志为 `build/expansion-final.log`。未重跑历史全量测试，未启动客户端；视觉与真实多人位移仍需游戏内确认。
 
