@@ -1,6 +1,10 @@
 # Iron's Nouveau
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.12.3**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.13.1**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.13.0 默认启用包含 Iron 魔符的主动施法吟唱，可配置取最长时间或累加时间，两者都读取 Iron 原生吟唱缩减；关闭后恢复即时释放。纯 Ars／其他附属法术保持原行为，命中与持续触发不重复吟唱。范围与配置见 [配置说明](docs/configuration.md#主动吟唱)。
+
+0.13.1 将吟唱文字提示改为 Iron 原版吟唱条，复用原有位置、贴图、进度和倒计时显示；仅接入显示数据，不接管 Iron 施法状态或重复扣蓝。
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
@@ -107,6 +111,10 @@
 `GlyphAccessEvent` 保持原接口，分别检查学习与施放。万途归零通过此事件控制 Ars 使用权限；墨水权限约束卷轴撰写、升级和原生 Iron 卷轴的抄录，不限制实际施法等级或法强。Ars ’n’ Spells 的 Ars 卷轴不受新增抄录检查影响，沿用其绑定仪式。独立安装没有序列限制。玩家的个人法术掌握由 Iron’s Nouveau 自身检查，创造模式放行。召唤和持续资源在所有者死亡、离开维度、权限丢失或到期后清理，不强制加载区块。实体租期随 NBT 保存；每个所有者最多 256 个此类资源、服务端最多 4096 个。
 
 ## 构建与验证
+
+0.13.1 的 2 项倒计时单元测试和 2 项吟唱服务端 GameTest 通过，覆盖服务器校时、到期清理、旧取消消息与新吟唱隔离，以及此前的主动施法边界。独立服务端启动通过；核对了原版吟唱条的调用签名。日志 `build/chant-hud-validation.log`。未启动客户端验证画面。
+
+0.13.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_chant assemble`，2 项针对性 GameTest 通过：最长／累加时间、原生缩减与各段等级、瞬发与持续法术排除、实际主动施法入口延迟、纯 Ars 与关闭配置时即时释放、重复点击去重和换物品中断。日志为 `build/chant-validation.log`。未启动客户端；弓弩的动画与多人显示仍需实机确认。
 
 Java 21；本地 `libs/` 提供上游依赖，首次克隆须按 [构建说明与完整依赖清单](docs/building.md) 准备，不是直接克隆即可构建。执行 `./gradlew.bat assemble` 打包。仅结算或注册有变化时按需运行 `runGameTestServer`；`-PwithoutGlyphAddons=true` 使用独立目录并排除 Not Enough Glyphs。上游依赖与资源的归属见 [第三方说明](THIRD_PARTY_NOTICES.md)。
 

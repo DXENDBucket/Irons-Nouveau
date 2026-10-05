@@ -16,3 +16,9 @@ creative_native_max = false
 # ARS: learn glyph items using Ars; Scribe recipes use a matching Iron scroll plus a source gem.
 # SCROLL_CRAFTING: retain the requirement to personally craft/upgrade each spell's native scroll.
 mode = "ARS"
+
+[chanting]
+# Only active casts containing Iron's Nouveau glyphs. False restores immediate casting.
+enabled = true
+# MAXIMUM or SUM. Both include native Iron cast-time reduction.
+mode = "MAXIMUM"

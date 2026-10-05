@@ -10,12 +10,15 @@ import java.util.Map;
 public final class SpellLevelConfig {
     public enum Mode { PERSONAL_SCROLL, FIXED }
     public enum LearningMode { SCROLL_CRAFTING, ARS }
+    public enum ChantMode { MAXIMUM, SUM }
     public static final ModConfigSpec SPEC;
     public static final ModConfigSpec.EnumValue<Mode> MODE;
     public static final ModConfigSpec.IntValue DEFAULT_LEVEL;
     public static final ModConfigSpec.ConfigValue<List<? extends String>> SPELL_LEVELS;
     public static final ModConfigSpec.BooleanValue CREATIVE_NATIVE_MAX;
     public static final ModConfigSpec.EnumValue<LearningMode> LEARNING_MODE;
+    public static final ModConfigSpec.BooleanValue CHANTING_ENABLED;
+    public static final ModConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
     private static List<? extends String> cachedEntries = List.of();
     private static Map<ResourceLocation, Integer> cachedLevels = Map.of();
 
@@ -41,6 +44,15 @@ public final class SpellLevelConfig {
                 "ARS permits Iron glyphs in normal Ars random loot. Neither mode auto-teaches every glyph.")
                 .defineEnum("mode", LearningMode.SCROLL_CRAFTING);
         builder.pop();
+        builder.push("chanting");
+        CHANTING_ENABLED = builder.comment("Add a pre-cast chant to active Ars casts containing Iron's Nouveau glyphs.",
+                "False restores immediate casting. Pure Ars/addon spells and subsequent hit/passive triggers are unchanged.")
+                .define("enabled", true);
+        CHANTING_MODE = builder.comment("MAXIMUM: longest Iron chant in the recipe. SUM: add each Iron glyph occurrence.",
+                "Both use native Iron effective cast times, including cast-time reduction and the resolved spell level.",
+                "Instant spells and continuous channel durations contribute no pre-cast time. Split copies do not multiply it.")
+                .defineEnum("mode", ChantMode.MAXIMUM);
+        builder.pop();
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
@@ -48,6 +60,8 @@ public final class SpellLevelConfig {
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
     public static boolean requiresCrafting() { return read(LEARNING_MODE) == LearningMode.SCROLL_CRAFTING; }
+    public static boolean chantingEnabled() { return read(CHANTING_ENABLED); }
+    public static ChantMode chantMode() { return read(CHANTING_MODE); }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
     public static int configuredLevel(ResourceLocation spell) {

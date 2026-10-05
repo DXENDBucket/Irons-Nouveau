@@ -4,6 +4,8 @@
   "package": "dev.ironsnouveau.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "ActiveCasterChantMixin",
+    "ActiveBowChantMixin",
     "ProjectileConversionMixin",
     "NativeProjectileStateMixin",
     "NativeProjectileImpactMixin",
@@ -50,6 +52,7 @@
     "GlyphRegistryOrderMixin"
   ],
   "client": [
+    "NativeChantBarMixin",
     "GlyphFormatterOrderMixin"
   ],
   "injectors": {

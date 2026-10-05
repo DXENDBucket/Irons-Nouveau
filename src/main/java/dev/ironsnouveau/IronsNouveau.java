@@ -46,6 +46,7 @@ public final class IronsNouveau {
     private static final List<BridgeGlyph> GLYPHS = new ArrayList<>();
     private static final List<NativeFormAugment> FORMS = new ArrayList<>();
     public IronsNouveau(IEventBus bus, net.neoforged.fml.ModContainer container) {
+        bus.addListener(dev.ironsnouveau.network.ChantStatePayload::register);
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER,
                 dev.ironsnouveau.config.SpellLevelConfig.SPEC, "irons_nouveau-server.toml");
         dev.ironsnouveau.progression.SpellProgress.register(bus, NeoForge.EVENT_BUS);
@@ -121,6 +122,7 @@ public final class IronsNouveau {
             }
         }));
         CastSessions.register(NeoForge.EVENT_BUS);
+        dev.ironsnouveau.casting.ActiveChanting.register(NeoForge.EVENT_BUS);
         dev.ironsnouveau.casting.EffectResources.register(NeoForge.EVENT_BUS);
         NeoForge.EVENT_BUS.addListener(NativeCasting::beforeCast);
         NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST, NativeCasting::joined);
