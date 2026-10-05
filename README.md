@@ -1,6 +1,8 @@
 # Iron's Nouveau
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.13.1**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.14.1**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+原生冷却联动从 0.14.1 起默认开启（`cooldowns.enabled = true`）：玩家主动施法使用 Iron 的共享冷却、缩减、事件和同步。不同配方及原版法术书共用同种法术的 CD，一次释放的散射与持续效果不被自身 CD 中断。范围见 [配置说明](docs/configuration.md#原生冷却默认开启)。
 
 0.13.0 默认启用包含 Iron 魔符的主动施法吟唱，可配置取最长时间或累加时间，两者都读取 Iron 原生吟唱缩减；关闭后恢复即时释放。纯 Ars／其他附属法术保持原行为，命中与持续触发不重复吟唱。范围与配置见 [配置说明](docs/configuration.md#主动吟唱)。
 
@@ -111,6 +113,8 @@
 `GlyphAccessEvent` 保持原接口，分别检查学习与施放。万途归零通过此事件控制 Ars 使用权限；墨水权限约束卷轴撰写、升级和原生 Iron 卷轴的抄录，不限制实际施法等级或法强。Ars ’n’ Spells 的 Ars 卷轴不受新增抄录检查影响，沿用其绑定仪式。独立安装没有序列限制。玩家的个人法术掌握由 Iron’s Nouveau 自身检查，创造模式放行。召唤和持续资源在所有者死亡、离开维度、权限丢失或到期后清理，不强制加载区块。实体租期随 NBT 保存；每个所有者最多 256 个此类资源、服务端最多 4096 个。
 
 ## 构建与验证
+
+0.14.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_cooldown assemble`，3 项针对性 GameTest 通过：真实主动施法写入 Iron 冷却、重复魔符去重、跨配方共享、原生冷却缩减／事件／到期、关闭配置与纯 Ars 隔离、创造规则、三发散射、后续效果继续付费生效、预装填弩保留弹药与射击冷却、吟唱中断及验证失败不写冷却。日志 `build/cooldown-validation.log`。未启动客户端或重跑历史全量测试。
 
 0.13.1 的 2 项倒计时单元测试和 2 项吟唱服务端 GameTest 通过，覆盖服务器校时、到期清理、旧取消消息与新吟唱隔离，以及此前的主动施法边界。独立服务端启动通过；核对了原版吟唱条的调用签名。日志 `build/chant-hud-validation.log`。未启动客户端验证画面。
 

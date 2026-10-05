@@ -22,3 +22,8 @@ mode = "ARS"
 enabled = true
 # MAXIMUM or SUM. Both include native Iron cast-time reduction.
 mode = "MAXIMUM"
+
+[cooldowns]
+# Iron's shared spell cooldowns, native cooldown reduction and synchronization. Enabled by default.
+# Independent of chanting. Existing projectiles and ongoing effects are not interrupted.
+enabled = true

@@ -19,6 +19,7 @@ public final class SpellLevelConfig {
     public static final ModConfigSpec.EnumValue<LearningMode> LEARNING_MODE;
     public static final ModConfigSpec.BooleanValue CHANTING_ENABLED;
     public static final ModConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
+    public static final ModConfigSpec.BooleanValue COOLDOWNS_ENABLED;
     private static List<? extends String> cachedEntries = List.of();
     private static Map<ResourceLocation, Integer> cachedLevels = Map.of();
 
@@ -53,6 +54,15 @@ public final class SpellLevelConfig {
                 "Instant spells and continuous channel durations contribute no pre-cast time. Split copies do not multiply it.")
                 .defineEnum("mode", ChantMode.MAXIMUM);
         builder.pop();
+        builder.push("cooldowns");
+        COOLDOWNS_ENABLED = builder.comment("Native Iron cooldowns for player casts containing Iron's Nouveau glyphs. Enabled by default.",
+                "Shared with native Iron spellbooks and across Ars recipes; uses Iron cooldown reduction, events and synchronization.",
+                "Check before chanting and again on release. Successful release starts each distinct spell's cooldown once.",
+                "Existing projectiles, split branches and continuous effects keep running and paying mana normally.",
+                "Includes active caster tools, bows/crossbows and Enchanter's Sword magic; automatic turrets and passive equipment are unchanged.",
+                "Creative follows Iron's creative cooldown setting. False preserves previous bridge behavior.")
+                .define("enabled", true);
+        builder.pop();
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
@@ -62,6 +72,7 @@ public final class SpellLevelConfig {
     public static boolean requiresCrafting() { return read(LEARNING_MODE) == LearningMode.SCROLL_CRAFTING; }
     public static boolean chantingEnabled() { return read(CHANTING_ENABLED); }
     public static ChantMode chantMode() { return read(CHANTING_MODE); }
+    public static boolean cooldownsEnabled() { return read(COOLDOWNS_ENABLED); }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
     public static int configuredLevel(ResourceLocation spell) {
