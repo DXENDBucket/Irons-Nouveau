@@ -8,7 +8,7 @@ config="irons_nouveau.mixins.json"
 [[mods]]
 modId="irons_nouveau"
 version="${version}"
-displayName="Iron's Nouveau"
+displayName="Iron & Nouveau"
 authors="EndXiom"
 logoFile="irons-nouveau-icon.png"
 description='''Composable Ars Nouveau glyphs powered by Iron's Spells 'n Spellbooks.'''

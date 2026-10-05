@@ -18,7 +18,7 @@ creative_native_max = false
 mode = "ARS"
 
 [chanting]
-# Only active casts containing Iron's Nouveau glyphs. False restores immediate casting.
+# Only active casts containing Iron & Nouveau glyphs. False restores immediate casting.
 enabled = true
 # MAXIMUM or SUM. Both include native Iron cast-time reduction.
 mode = "MAXIMUM"

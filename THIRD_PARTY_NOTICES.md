@@ -1,6 +1,6 @@
 # Third-party notices
 
-Iron's Nouveau's own code is licensed under the MIT License in `LICENSE`, copyright 2026 EndXiom. That license does not relicense its dependencies or referenced upstream assets.
+The code of Iron & Nouveau is licensed under the MIT License in `LICENSE`, copyright 2026 EndXiom. That license does not relicense its dependencies or referenced upstream assets.
 
 ## Gradle wrapper
 
@@ -12,4 +12,4 @@ Ars Nouveau, Iron's Spells 'n Spellbooks and their dependencies are installed se
 
 Glyph models reference Iron's installed scroll models and textures by resource identifier. Those upstream resources are not copied into this repository and are not covered by this project's MIT license.
 
-The project icon was generated specifically for Iron's Nouveau using an image-generation tool. Its generation prompt is documented in `docs/icon-generation.txt`.
+The project icon was generated specifically for Iron & Nouveau (then named Iron's Nouveau) using an image-generation tool. Its original generation prompt is documented in `docs/icon-generation.txt`.

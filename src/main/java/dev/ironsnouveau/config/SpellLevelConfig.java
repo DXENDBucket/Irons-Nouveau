@@ -47,7 +47,7 @@ public final class SpellLevelConfig {
                 .defineEnum("mode", LearningMode.SCROLL_CRAFTING);
         builder.pop();
         builder.push("chanting");
-        CHANTING_ENABLED = builder.comment("Add a pre-cast chant to active Ars casts containing Iron's Nouveau glyphs.",
+        CHANTING_ENABLED = builder.comment("Add a pre-cast chant to active Ars casts containing Iron & Nouveau glyphs.",
                 "False restores immediate casting. Pure Ars/addon spells and subsequent hit/passive triggers are unchanged.")
                 .define("enabled", true);
         CHANTING_MODE = builder.comment("MAXIMUM: longest Iron chant in the recipe. SUM: add each Iron glyph occurrence.",
@@ -56,7 +56,7 @@ public final class SpellLevelConfig {
                 .defineEnum("mode", ChantMode.MAXIMUM);
         builder.pop();
         builder.push("cooldowns");
-        COOLDOWNS_ENABLED = builder.comment("Native Iron cooldowns for player casts containing Iron's Nouveau glyphs. Enabled by default.",
+        COOLDOWNS_ENABLED = builder.comment("Native Iron cooldowns for player casts containing Iron & Nouveau glyphs. Enabled by default.",
                 "Shared with native Iron spellbooks and across Ars recipes; uses Iron cooldown reduction, events and synchronization.",
                 "Check before chanting and again on release. Successful release starts each distinct spell's cooldown once.",
                 "Existing projectiles, split branches and continuous effects keep running and paying mana normally.",

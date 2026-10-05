@@ -1,6 +1,8 @@
-# Iron's Nouveau
+# Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.0**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.2**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+原名 Iron's Nouveau，现更名为 Iron & Nouveau（Iron 与新生魔艺）。Mod ID 仍为 `irons_nouveau`，物品、魔符和配置 ID 保持兼容。
 
 0.15.0 默认复用 Iron 玩家施法移动限制与施法移动速度属性。联动吟唱限制吟唱玩家，吐息限制实际喷吐的玩家；其他生物不新增减速，方块位置吐息不限制任何人。多个效果与原版施法不会重复缩放玩家移动输入。可用 `movement.enabled = false` 关闭联动限制。
 
@@ -112,7 +114,7 @@
 
 详见 [通用框架](docs/native-casting.md) 与 [法术支持边界](docs/spell-support.md)。核心拆分为魔符声明、修饰与计划、轨迹、命中载荷、效果适配器、计费和资源生命周期，新增法术不需要复制整套施法入口。
 
-`GlyphAccessEvent` 保持原接口，分别检查学习与施放。万途归零通过此事件控制 Ars 使用权限；墨水权限约束卷轴撰写、升级和原生 Iron 卷轴的抄录，不限制实际施法等级或法强。Ars ’n’ Spells 的 Ars 卷轴不受新增抄录检查影响，沿用其绑定仪式。独立安装没有序列限制。玩家的个人法术掌握由 Iron’s Nouveau 自身检查，创造模式放行。召唤和持续资源在所有者死亡、离开维度、权限丢失或到期后清理，不强制加载区块。实体租期随 NBT 保存；每个所有者最多 256 个此类资源、服务端最多 4096 个。
+`GlyphAccessEvent` 保持原接口，分别检查学习与施放。万途归零通过此事件控制 Ars 使用权限；墨水权限约束卷轴撰写、升级和原生 Iron 卷轴的抄录，不限制实际施法等级或法强。Ars ’n’ Spells 的 Ars 卷轴不受新增抄录检查影响，沿用其绑定仪式。独立安装没有序列限制。玩家的个人法术掌握由 Iron & Nouveau 自身检查，创造模式放行。召唤和持续资源在所有者死亡、离开维度、权限丢失或到期后清理，不强制加载区块。实体租期随 NBT 保存；每个所有者最多 256 个此类资源、服务端最多 4096 个。
 
 ## 构建与验证
 
