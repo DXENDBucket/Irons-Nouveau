@@ -32,6 +32,7 @@ public final class BreathExecution implements CastExecution {
         // BridgeGlyph has reserved this first emission; do not bill it a second time.
         pulse(session);
         nextPulse = session.world().getGameTime() + 10;
+        MovementRestrictions.begin(pose.anchor(), session.id(), session.remainingTicks());
         return true;
     }
     @Override public boolean tick(CastSession session) {
@@ -78,5 +79,8 @@ public final class BreathExecution implements CastExecution {
             if (world.hasChunkAt(block) && world.getBlockState(block).isAir()) world.setBlockAndUpdate(block, BaseFireBlock.getState(world, block));
         }
     }
-    @Override public void close(CastSession session, CastSession.EndReason reason) { cone.discard(); }
+    @Override public void close(CastSession session, CastSession.EndReason reason) {
+        MovementRestrictions.end(pose.anchor(), session.id());
+        cone.discard();
+    }
 }

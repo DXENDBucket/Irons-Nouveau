@@ -27,3 +27,8 @@ mode = "MAXIMUM"
 # Iron's shared spell cooldowns, native cooldown reduction and synchronization. Enabled by default.
 # Independent of chanting. Existing projectiles and ongoing effects are not interrupted.
 enabled = true
+
+[movement]
+# Reuse Iron's player casting input slowdown. Restricts the actual player breath host.
+# Non-player entities and block-position breaths receive no extra movement restriction.
+enabled = true

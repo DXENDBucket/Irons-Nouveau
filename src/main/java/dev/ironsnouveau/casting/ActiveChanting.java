@@ -39,10 +39,14 @@ public final class ActiveChanting {
     private ActiveChanting() {}
     public static void register(IEventBus bus) {
         bus.addListener(ActiveChanting::tick);
-        bus.addListener((ServerStoppedEvent e) -> ACTIVE.clear());
+        bus.addListener((ServerStoppedEvent e) -> {
+            ACTIVE.values().forEach(p -> MovementRestrictions.end(p.caster, p.token));
+            ACTIVE.clear();
+        });
         bus.addListener((LevelEvent.Unload e) -> ACTIVE.values().removeIf(p -> {
             if (p.world != e.getLevel()) return false;
             p.sync(0);
+            MovementRestrictions.end(p.caster, p.token);
             return true;
         }));
     }
@@ -56,12 +60,14 @@ public final class ActiveChanting {
             if (previous.valid()) return true; // Holding right-click must not restart the countdown.
             ACTIVE.remove(caster.getUUID());
             previous.sync(0);
+            MovementRestrictions.end(previous.caster, previous.token);
         }
         int ticks = ChantTiming.ticks(spell, caster, SpellLevelConfig.chantMode());
         if (ticks == 0 || !caster.isAlive() || ACTIVE.size() >= 4096) return false;
         var held = caster.getItemInHand(hand);
         var pending = new Pending(caster, world, hand, held, held.copy(), UUID.randomUUID(), world.getGameTime(), ticks, release);
         ACTIVE.put(caster.getUUID(), pending);
+        MovementRestrictions.begin(caster, pending.token, ticks);
         pending.progress(world.getGameTime());
         return true;
     }
@@ -71,12 +77,14 @@ public final class ActiveChanting {
             if (!pending.valid() || !SpellLevelConfig.chantingEnabled()) {
                 ACTIVE.remove(pending.caster.getUUID());
                 pending.sync(0);
+                MovementRestrictions.end(pending.caster, pending.token);
                 continue;
             }
             long now = pending.world.getGameTime();
             if (now - pending.start >= pending.ticks) {
                 ACTIVE.remove(pending.caster.getUUID());
                 pending.sync(0);
+                MovementRestrictions.end(pending.caster, pending.token);
                 // Invoke the original active action: targeting, validation and payment occur on release.
                 pending.release.run();
             } else if ((now - pending.start) % 20 == 0) pending.progress(now);

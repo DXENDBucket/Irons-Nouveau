@@ -20,6 +20,7 @@ public final class SpellLevelConfig {
     public static final ModConfigSpec.BooleanValue CHANTING_ENABLED;
     public static final ModConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
     public static final ModConfigSpec.BooleanValue COOLDOWNS_ENABLED;
+    public static final ModConfigSpec.BooleanValue MOVEMENT_ENABLED;
     private static List<? extends String> cachedEntries = List.of();
     private static Map<ResourceLocation, Integer> cachedLevels = Map.of();
 
@@ -63,6 +64,13 @@ public final class SpellLevelConfig {
                 "Creative follows Iron's creative cooldown setting. False preserves previous bridge behavior.")
                 .define("enabled", true);
         builder.pop();
+        builder.push("movement");
+        MOVEMENT_ENABLED = builder.comment("Use native Iron player movement restrictions during bridge chanting and player-anchored breaths.",
+                "Restricts the actual breathing player, not a remote caster. Mob- and block-position breaths restrict nobody.",
+                "Reuses Iron input scaling and CASTING_MOVESPEED. Non-player entities receive no additional restriction.",
+                "Multiple bridge casts never multiply this penalty. False disables only bridge restrictions, not native Iron casting.")
+                .define("enabled", true);
+        builder.pop();
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
@@ -73,6 +81,7 @@ public final class SpellLevelConfig {
     public static boolean chantingEnabled() { return read(CHANTING_ENABLED); }
     public static ChantMode chantMode() { return read(CHANTING_MODE); }
     public static boolean cooldownsEnabled() { return read(COOLDOWNS_ENABLED); }
+    public static boolean movementEnabled() { return read(MOVEMENT_ENABLED); }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
     public static int configuredLevel(ResourceLocation spell) {

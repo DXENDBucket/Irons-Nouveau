@@ -44,6 +44,7 @@ public final class CastSession {
     public CastAim aim() { return aim.sample(); }
     public State state() { return state; }
     public boolean active() { return state == State.ACTIVE; }
+    public int remainingTicks() { return (int)Math.clamp(plan.maxTicks() - (world.getGameTime() - started), 0, Integer.MAX_VALUE); }
     public boolean permitted() {
         return caster.isAlive() && !caster.isRemoved() && caster.level() == world
                 && SpellRegistry.getSpell(plan.spellId()).isEnabled()
