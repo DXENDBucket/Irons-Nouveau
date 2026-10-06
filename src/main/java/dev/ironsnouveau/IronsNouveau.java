@@ -133,8 +133,10 @@ public final class IronsNouveau {
                 .title(Component.translatable("itemGroup.irons_nouveau"))
                 .icon(() -> FORMS.getFirst().getGlyph().getDefaultInstance())
                 .displayItems((parameters, output) -> {
-                    FORMS.forEach(glyph -> output.accept(glyph.getGlyph()));
-                    GLYPHS.forEach(glyph -> output.accept(glyph.getGlyph()));
+                    var order = dev.ironsnouveau.glyph.GlyphDisplayOrder.bySchool(
+                            java.util.Comparator.comparing(part -> part.getRegistryName().toString()));
+                    FORMS.stream().sorted(order).forEach(glyph -> output.accept(glyph.getGlyph()));
+                    GLYPHS.stream().sorted(order).forEach(glyph -> output.accept(glyph.getGlyph()));
                 })
                 .build());
         tabs.register(bus);

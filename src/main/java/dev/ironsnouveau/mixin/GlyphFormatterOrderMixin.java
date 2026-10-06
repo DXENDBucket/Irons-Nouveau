@@ -4,6 +4,7 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractAugment;
 import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import com.hollingsworth.arsnouveau.client.gui.book.GlyphFormatter;
 import dev.ironsnouveau.glyph.DisplayGroupOrder;
+import dev.ironsnouveau.glyph.GlyphDisplayOrder;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ public abstract class GlyphFormatterOrderMixin {
                 if (categories.get(i).filter().test(glyph)) group = i;
             groups.put(glyph, group);
         }
-        original.call(glyphs, DisplayGroupOrder.comparator(glyphs, comparator, groups::get,
+        original.call(glyphs, DisplayGroupOrder.comparator(glyphs, GlyphDisplayOrder.bySchool(comparator), groups::get,
                 part -> part instanceof AbstractAugment ? 3 : part.getTypeIndex(), group -> group,
                 part -> part.getRegistryName().getNamespace().equals("irons_nouveau")));
     }

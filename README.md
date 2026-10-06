@@ -1,6 +1,6 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.2**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.3**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
 原名 Iron's Nouveau，现更名为 Iron & Nouveau（Iron 与新生魔艺）。Mod ID 仍为 `irons_nouveau`，物品、魔符和配置 ID 保持兼容。
 
@@ -24,7 +24,7 @@
 
 所有 ID 都在 `irons_nouveau` 命名空间，前缀为 `glyph_`。图标引用对应 Iron 学派卷轴模型，同学派暂时共用外观；每个魔符都有中英文描述，通过本人撰写／升级 Iron 卷轴解锁。
 
-0.12.1 调整展示顺序：法术书编排、魔符学习界面及 Ars 魔符创造物品栏中，Iron 魔符排在同类 Ars 与附属魔符之后，各组内部沿用原界面的名称／阶级排序。效果与强化仍留在各自类别。
+展示顺序：法术书编排、魔符学习界面及 Ars 魔符创造物品栏中，Iron 魔符排在同类 Ars 与附属魔符之后。0.15.3 起，同类 Iron 魔符再按 Iron 原生流派分组，同流派内部沿用原界面的名称／阶级排序；本模组创造栏也按流派分组。效果与强化仍留在各自类别，Ars 和其他附属的内部顺序不变。
 
 0.12.2 修复编排界面的附属分类边界：按界面实际注册的分类条件区分普通效果与子形态等专用类别，避免共用排序编号时，普通 Iron 效果被排到“子形态”标题下。无需强制依赖附属。
 
