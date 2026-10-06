@@ -41,7 +41,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         reservations.put(caster, needed);
         try {
             boolean applied = run(action);
-            if (applied && cost > 0) com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry.getMana(caster).ifPresent(mana -> mana.removeMana(cost));
+            if (applied && cost > 0) expendMana(cost);
             return applied;
         } finally {
             if (held == 0) reservations.remove(caster); else reservations.put(caster, held);
@@ -50,8 +50,24 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
     }
     private boolean enoughMana(int cost) {
         if (cost == 0) return true;
+        if (usesIronMana()) return io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster).getMana() >= cost;
         return com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry.getMana(caster)
                 .map(mana -> mana.getCurrentMana() >= cost).orElse(false);
+    }
+    private boolean usesIronMana() {
+        return dev.ironsnouveau.config.SpellLevelConfig.useIronMana()
+                && caster instanceof net.minecraft.server.level.ServerPlayer
+                && !(caster instanceof net.minecraftforge.common.util.FakePlayer);
+    }
+    private void expendMana(int cost) {
+        if (!usesIronMana()) {
+            com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry.getMana(caster).ifPresent(mana -> mana.removeMana(cost));
+            return;
+        }
+        var data = io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster);
+        data.setMana(Math.max(0, data.getMana() - cost));
+        io.redspace.ironsspellbooks.setup.Messages.sendToPlayer(new io.redspace.ironsspellbooks.network.SyncManaPacket(data),
+                (net.minecraft.server.level.ServerPlayer)caster);
     }
     private boolean run(BooleanSupplier action) {
         var previous = CURRENT.get(); CURRENT.set(this);

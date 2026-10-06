@@ -1,5 +1,7 @@
 # Forge 1.20.1 移植记录
 
+当前版本为 `0.15.5-forge1201-alpha.3`，包含 [Hex-Ars Linker 可选弹射物联动](hex-ars-linker.md)及默认开启的 [Iron 蓝池配置](configuration.md#魔力来源)。安装产物为 `build/libs/irons-nouveau-0.15.5-forge1201-alpha.3-all.jar`。下文保留初始 alpha.1 的移植和验证记录。
+
 日期：2026-10-06。分支：`1.20.1-forge`。基于 `5eb95ad`（0.15.3），测试版版本号 `0.15.3-forge1201-alpha.1`。1.21.1 主工作目录和 `main` 不受影响。
 
 ## 构建

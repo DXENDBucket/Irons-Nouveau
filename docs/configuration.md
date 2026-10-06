@@ -1,6 +1,6 @@
 # 等级、魔符学习与吟唱
 
-首次启动后生成 `config/irons_nouveau-server.toml`。多人游戏由服务端决定并通过 NeoForge 同步。建议停止游戏／服务器后编辑再启动。等级与学习的默认值保持原有玩法；0.13.0 起默认启用主动吟唱。另有可直接复制的 [固定等级 + Ars 学习示例](../config-examples/fixed-levels-ars-learning.toml)。
+进入世界后生成 `<世界目录>/serverconfig/irons_nouveau-server.toml`，单人世界通常位于 `saves/<世界名>/serverconfig/`。多人游戏由服务端决定并通过 Forge 同步。建议停止游戏／服务器后编辑再启动。等级与学习的默认值保持原有玩法；0.13.0 起默认启用主动吟唱。另有可直接复制的 [固定等级 + Ars 学习示例](../config-examples/fixed-levels-ars-learning.toml)。
 
 ```toml
 [spell_levels]
@@ -21,7 +21,22 @@ enabled = true
 
 [movement]
 enabled = true
+
+[mana]
+use_iron_mana = true
 ```
+
+## 魔力来源
+
+`mana.use_iron_mana = true`（默认）使玩家 Iron 魔符的触发与持续费用改从 Iron 蓝池扣除，复用原生魔力变更接口及蓝条同步。`false` 恢复之前的 Ars 资源来源。费用按最终法术等级计算，成功触发才支付。
+
+散射预算、命中、吐息和持续区域共用所选蓝池，Iron 空蓝不会转而扣 Ars。创造模式继续免蓝，非玩家和假玩家／自动施法器保留原来的资源来源。
+
+普通 Ars 魔符及形态仍按 Ars 规则收费，Hex 媒质费用也不变；混合法术可能同时需要两种魔力。这不是全局蓝池合并；若有其他蓝池联动模组，其自身路由配置仍然适用，同一笔 Iron 费用只交给所选接口处理一次。
+
+旧配置缺少此项时自动补为 `true`；要保持旧玩法请明确设为 `false`。
+
+alpha.3 在带 Hex／Linker 的 Forge 环境运行七项 GameTest 均通过，覆盖两种蓝池、空蓝拒绝、失败不扣费、嵌套预留、连续付款、创造免蓝、真实三发散射，以及原有治疗、解锁、吟唱冷却和 Linker 弹射物。日志：`build/mana-source-validation2.log`。
 
 ## 玩家施法移动限制（默认开启）
 

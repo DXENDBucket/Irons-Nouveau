@@ -1,6 +1,10 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-> 本分支为 **Minecraft 1.20.1 / Forge 47.4.x 移植测试版**，版本 `0.15.3-forge1201-alpha.1`。使用 Java 17、Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3。保留 95 个魔符；本次验证范围及待验证内容见 [移植记录](docs/forge-1.20.1-port.md)。下方历史版本说明来自 1.21.1 基线。
+> 本分支为 **Minecraft 1.20.1 / Forge 47.4.x 移植测试版**，版本 `0.15.5-forge1201-alpha.3`。使用 Java 17、Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3。保留 95 个魔符；本次验证范围及待验证内容见 [移植记录](docs/forge-1.20.1-port.md)。下方历史版本说明来自 1.21.1 基线。
+
+新增默认开启的 `mana.use_iron_mana`：玩家 Iron 魔符的触发与持续费用改扣 Iron 蓝量，关闭后恢复 Ars 资源来源。普通 Ars 魔符和 Hex 媒质的费用保持原规则，详见 [配置说明](docs/configuration.md#魔力来源)。
+
+新增 [Hex-Ars Linker 可选联动](docs/hex-ars-linker.md)：支持其指定位置发射入口将普通 Ars 弹射物替换为 Iron 弹射物。不要求安装 Hex 或 Linker。
 
 构建：先运行 `python tools/fetch_forge_dependencies.py` 获取锁定依赖，再用 Java 17 运行 `gradlew.bat jarJar`。安装 `build/libs/*-all.jar`，其中包含所需的 MixinExtras；Ars、Iron 及其前置仍需单独安装。
 
@@ -98,7 +102,7 @@
 - 毒云、火场、霜场、治疗区域等持续资源在创建后逐轮付费。同一实体同一轮覆盖多个目标只付一次；无魔力时跳过该轮，后续回蓝可恢复。黑洞按原生 10 tick 伤害周期支付并同时控制引力，雷暴按原生触发周期支付。原生持续时间不会因为没蓝暂停而延长。
 - 连锁闪电的后续跳转、萤火虫的重复攻击等独立激活也要付费。普通召唤生物支付召唤费用，其自主普通攻击不额外收费；同次召唤的一组单位付一次费用。
 - 后续链中的 Iron 效果在轮到它时另行检查费用。例如冰锥发射成功后，命中时若付不起治疗费用，冰锥依然命中，治疗失败。
-- 不调用 Iron 的完整 `onCast`，不额外启用原生读条、冷却或重施状态。通过 Ars 的施法来源支付；安装 Ars 'n' Spells 时沿用它的共享蓝池，避免两套蓝量各扣一次。
+- 不调用 Iron 的完整 `onCast`，不额外启用原生重施状态。玩家 Iron 魔符默认通过 Iron 的魔力接口支付，`mana.use_iron_mana = false` 恢复 Ars 资源来源；不同时向两套接口收取同一笔费用。主动吟唱与冷却由前述独立配置控制。
 
 ## 数值与空间规则
 

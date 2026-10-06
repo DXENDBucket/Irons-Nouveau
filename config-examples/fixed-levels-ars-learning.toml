@@ -32,3 +32,7 @@ enabled = true
 # Reuse Iron's player casting input slowdown. Restricts the actual player breath host.
 # Non-player entities and block-position breaths receive no extra movement restriction.
 enabled = true
+
+[mana]
+# Player Iron glyph trigger costs use Iron mana. False restores the Ars resource route.
+use_iron_mana = true

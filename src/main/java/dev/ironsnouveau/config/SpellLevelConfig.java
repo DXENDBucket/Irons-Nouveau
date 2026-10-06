@@ -21,6 +21,7 @@ public final class SpellLevelConfig {
     public static final ForgeConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
     public static final ForgeConfigSpec.BooleanValue COOLDOWNS_ENABLED;
     public static final ForgeConfigSpec.BooleanValue MOVEMENT_ENABLED;
+    public static final ForgeConfigSpec.BooleanValue USE_IRON_MANA;
     private static List<? extends String> cachedEntries = List.of();
     private static Map<ResourceLocation, Integer> cachedLevels = Map.of();
 
@@ -71,6 +72,13 @@ public final class SpellLevelConfig {
                 "Multiple bridge casts never multiply this penalty. False disables only bridge restrictions, not native Iron casting.")
                 .define("enabled", true);
         builder.pop();
+        builder.push("mana");
+        USE_IRON_MANA = builder.comment("Pay player Iron glyph trigger costs from Iron's native mana pool. Enabled by default.",
+                "False restores the Ars caster resource route. Does not change ordinary Ars glyph costs or Hex media costs.",
+                "Split affordability and ongoing effects use the same selected pool; creative remains free.",
+                "Non-player and fake-player casters retain their previous resource route.")
+                .define("use_iron_mana", true);
+        builder.pop();
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
@@ -82,6 +90,7 @@ public final class SpellLevelConfig {
     public static ChantMode chantMode() { return read(CHANTING_MODE); }
     public static boolean cooldownsEnabled() { return read(COOLDOWNS_ENABLED); }
     public static boolean movementEnabled() { return read(MOVEMENT_ENABLED); }
+    public static boolean useIronMana() { return read(USE_IRON_MANA); }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
     public static int configuredLevel(ResourceLocation spell) {
