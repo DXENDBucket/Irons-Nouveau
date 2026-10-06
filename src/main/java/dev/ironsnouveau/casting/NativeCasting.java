@@ -90,7 +90,10 @@ public final class NativeCasting {
     public static void joined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof EntityProjectileSpell ars && ars.resolver() != null) {
             var profile = CarrierProfiles.of(ars);
-            if (profile != null && profile.driven() && convert(ars)) event.setCanceled(true);
+            // Linker's positioned cast constructs its carrier directly, bypassing Ars' spawn hook.
+            boolean linkerShot = profile == CarrierProfiles.STRAIGHT
+                    && dev.ironsnouveau.compat.HexArsLinkCompat.isResolver(ars.resolver());
+            if (profile != null && (profile.driven() || linkerShot) && convert(ars)) event.setCanceled(true);
         }
     }
     /** Runs at Ars' addFreshEntity call, after velocity, spread and split count have been calculated. */

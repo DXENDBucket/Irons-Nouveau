@@ -1,6 +1,10 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.3**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.5**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.15.5 新增默认开启的 `mana.use_iron_mana`：玩家 Iron 魔符的触发与持续费用改扣 Iron 蓝量，关闭后恢复 Ars 资源来源。普通 Ars 魔符和 Hex 媒质的费用保持原规则，详见 [配置说明](docs/configuration.md#魔力来源)。
+
+0.15.4 新增 [Hex-Ars Linker 可选联动](docs/hex-ars-linker.md)：支持其指定位置发射入口将普通 Ars 弹射物替换为 Iron 弹射物。不要求安装 Hex 或 Linker。
 
 原名 Iron's Nouveau，现更名为 Iron & Nouveau（Iron 与新生魔艺）。Mod ID 仍为 `irons_nouveau`，物品、魔符和配置 ID 保持兼容。
 
@@ -94,7 +98,7 @@
 - 毒云、火场、霜场、治疗区域等持续资源在创建后逐轮付费。同一实体同一轮覆盖多个目标只付一次；无魔力时跳过该轮，后续回蓝可恢复。黑洞按原生 10 tick 伤害周期支付并同时控制引力，雷暴按原生触发周期支付。原生持续时间不会因为没蓝暂停而延长。
 - 连锁闪电的后续跳转、萤火虫的重复攻击等独立激活也要付费。普通召唤生物支付召唤费用，其自主普通攻击不额外收费；同次召唤的一组单位付一次费用。
 - 后续链中的 Iron 效果在轮到它时另行检查费用。例如冰锥发射成功后，命中时若付不起治疗费用，冰锥依然命中，治疗失败。
-- 不调用 Iron 的完整 `onCast`，不额外启用原生读条、冷却或重施状态。通过 Ars 的施法来源支付；安装 Ars 'n' Spells 时沿用它的共享蓝池，避免两套蓝量各扣一次。
+- 不调用 Iron 的完整 `onCast`，不额外启用原生重施状态。玩家 Iron 魔符默认通过 Iron 的魔力接口支付，`mana.use_iron_mana = false` 恢复 Ars 施法来源；安装 Ars 'n' Spells 时由它处理对应接口的蓝池联动，不同时向两个接口收取同一笔费用。主动吟唱与冷却由前述独立配置控制。
 
 ## 数值与空间规则
 

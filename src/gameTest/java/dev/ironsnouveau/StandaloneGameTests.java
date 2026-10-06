@@ -58,7 +58,9 @@ public final class StandaloneGameTests {
         var previousMode = SpellLevelConfig.MODE.get(); var previousDefault = SpellLevelConfig.DEFAULT_LEVEL.get();
         var previousOverrides = SpellLevelConfig.SPELL_LEVELS.get(); var previousCreative = SpellLevelConfig.CREATIVE_NATIVE_MAX.get();
         var previousLearning = SpellLevelConfig.LEARNING_MODE.get();
+        var previousMana = SpellLevelConfig.USE_IRON_MANA.get();
         try {
+            SpellLevelConfig.USE_IRON_MANA.set(false); // This legacy scenario explicitly exercises the Ars payment route.
             h.assertTrue(SpellLevelConfig.SPEC.isLoaded() && previousMode == SpellLevelConfig.Mode.PERSONAL_SCROLL
                     && previousLearning == SpellLevelConfig.LearningMode.SCROLL_CRAFTING, "Loaded server config preserves existing defaults");
             h.assertTrue(!cap.knowsGlyph(form) && !cap.unlockGlyph(form), "Default learning still requires personal crafting");
@@ -144,7 +146,7 @@ public final class StandaloneGameTests {
         } finally {
             SpellLevelConfig.MODE.set(previousMode); SpellLevelConfig.DEFAULT_LEVEL.set(previousDefault);
             SpellLevelConfig.SPELL_LEVELS.set(previousOverrides); SpellLevelConfig.CREATIVE_NATIVE_MAX.set(previousCreative);
-            SpellLevelConfig.LEARNING_MODE.set(previousLearning); player.discard();
+            SpellLevelConfig.LEARNING_MODE.set(previousLearning); SpellLevelConfig.USE_IRON_MANA.set(previousMana); player.discard();
         }
         h.succeed();
     }

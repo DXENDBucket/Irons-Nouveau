@@ -14,6 +14,13 @@ logoFile="irons-nouveau-icon.png"
 description='''Composable Ars Nouveau glyphs powered by Iron's Spells 'n Spellbooks.'''
 
 [[dependencies.irons_nouveau]]
+modId="hex_ars_link"
+type="optional"
+versionRange="[0,)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.irons_nouveau]]
 modId="not_enough_glyphs"
 type="optional"
 versionRange="[4.6.1,5)"

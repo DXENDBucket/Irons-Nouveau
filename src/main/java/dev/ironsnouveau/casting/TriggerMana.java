@@ -27,7 +27,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         while (low < high) {
             int mid = low + (high - low + 1) / 2;
             long needed = held + (long) mid * cost;
-            if (needed <= Integer.MAX_VALUE && source.enoughMana((int) needed)) low = mid; else high = mid - 1;
+            if (needed <= Integer.MAX_VALUE && enoughMana((int) needed)) low = mid; else high = mid - 1;
         }
         return low;
     }
@@ -37,16 +37,33 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         int cost = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level));
         var reservations = RESERVED.get();
         long held = reservations.getOrDefault(caster, 0L), needed = held + cost;
-        if (needed > Integer.MAX_VALUE || !source.enoughMana((int)needed)) return false;
+        if (needed > Integer.MAX_VALUE || !enoughMana((int)needed)) return false;
         reservations.put(caster, needed);
         try {
             boolean applied = run(action);
-            if (applied && cost > 0) source.expendMana(cost);
+            if (applied && cost > 0) expendMana(cost);
             return applied;
         } finally {
             if (held == 0) reservations.remove(caster); else reservations.put(caster, held);
             if (reservations.isEmpty()) RESERVED.remove();
         }
+    }
+    private boolean usesIronMana() {
+        return dev.ironsnouveau.config.SpellLevelConfig.useIronMana()
+                && caster instanceof net.minecraft.server.level.ServerPlayer
+                && !(caster instanceof net.neoforged.neoforge.common.util.FakePlayer);
+    }
+    private boolean enoughMana(int cost) {
+        if (cost == 0) return true;
+        return usesIronMana() ? io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster).getMana() >= cost
+                : source.enoughMana(cost);
+    }
+    private void expendMana(int cost) {
+        if (!usesIronMana()) { source.expendMana(cost); return; }
+        var data = io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster);
+        data.setMana(Math.max(0, data.getMana() - cost));
+        net.neoforged.neoforge.network.PacketDistributor.sendToPlayer((net.minecraft.server.level.ServerPlayer)caster,
+                new io.redspace.ironsspellbooks.network.SyncManaPacket(data));
     }
     private boolean run(BooleanSupplier action) {
         var previous = CURRENT.get(); CURRENT.set(this);
