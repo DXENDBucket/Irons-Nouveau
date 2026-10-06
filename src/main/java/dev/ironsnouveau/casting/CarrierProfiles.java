@@ -22,7 +22,7 @@ public enum CarrierProfiles {
     private final ResourceLocation glyphId;
     private final boolean driven;
     private Set<AbstractAugment> originalAugments = Set.of();
-    CarrierProfiles(String glyphId, boolean driven) { this.glyphId = ResourceLocation.parse(glyphId); this.driven = driven; }
+    CarrierProfiles(String glyphId, boolean driven) { this.glyphId = new ResourceLocation(glyphId); this.driven = driven; }
     public boolean driven() { return driven; }
     public AbstractSpellPart glyph() { return GlyphRegistry.getSpellPart(glyphId); }
     public void rememberOriginalAugments(AbstractSpellPart glyph) { originalAugments = Set.copyOf(glyph.compatibleAugments); }
@@ -35,7 +35,7 @@ public enum CarrierProfiles {
         return null;
     }
     public static CarrierProfiles of(EntityProjectileSpell carrier) {
-        return carrier instanceof EntityOrbitProjectile ? ORBIT : of(carrier.resolver().castType);
+        return carrier instanceof EntityOrbitProjectile ? ORBIT : of(carrier.spellResolver.castType);
     }
     public Set<AbstractAugment> augments() {
         var result = new HashSet<AbstractAugment>(Set.of(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE,

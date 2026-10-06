@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "output": "irons_nouveau:glyph_earthquake",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:earthquake"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ]
+}

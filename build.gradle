@@ -1,50 +1,51 @@
 plugins {
     id 'java-library'
-    id 'net.neoforged.moddev' version '2.0.146'
+    id 'net.minecraftforge.gradle' version '6.0.36'
+    id 'org.spongepowered.mixin' version '0.7.38'
 }
 group = 'dev.ironsnouveau'
-version = '0.15.3'
+version = '0.15.3-forge1201-alpha.1'
 base { archivesName = 'irons-nouveau' }
-java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
-repositories { mavenCentral() }
-sourceSets { gameTest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
-configurations {
-    gameTestImplementation.extendsFrom implementation
-    gameTestCompileOnly.extendsFrom compileOnly
-    gameTestRuntimeOnly.extendsFrom runtimeOnly
-}
-neoForge {
-    version = '21.1.250'
-    addModdingDependenciesTo sourceSets.gameTest
+java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
+repositories { flatDir { dirs 'libs' }; mavenCentral { content { excludeGroup 'local' } } }
+jarJar.enable()
+sourceSets { forgeTest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
+configurations { forgeTestImplementation.extendsFrom implementation; forgeTestRuntimeOnly.extendsFrom runtimeOnly }
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    copyIdeResources = true
     runs {
-        client { client() }
-        server { server(); programArgument '--nogui' }
-        gameTestServer {
-            type = 'gameTestServer'
-            gameDirectory = file(providers.gradleProperty('withoutGlyphAddons').getOrElse('false').toBoolean()
-                    ? 'run/gametest-no-addon' : providers.gradleProperty('standalone').getOrElse('false').toBoolean()
-                    ? 'run/gametest-standalone' : 'run/gametest')
-            systemProperty 'neoforge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau')
-        }
+        configureEach { property 'mixin.env.remapRefMap', 'true'; property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg" }
+        gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', 'irons_nouveau'; mods { irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
+        client { workingDirectory project.file('run/client'); mods { irons_nouveau { source sourceSets.main } } }
+        server { workingDirectory project.file('run/server'); args '--nogui'; mods { irons_nouveau { source sourceSets.main } } }
     }
-    mods { irons_nouveau { sourceSet sourceSets.main; sourceSet sourceSets.gameTest } }
 }
+mixin { add sourceSets.main, 'irons_nouveau.refmap.json'; config 'irons_nouveau.mixins.json' }
 dependencies {
-    compileOnly fileTree(dir: 'libs', include: '*.jar')
-    runtimeOnly fileTree(dir: 'libs', include: '*.jar',
-            excludes: providers.gradleProperty('standalone').getOrElse('false').toBoolean()
-                    ? ['ars-spells.jar', 'not-enough-glyphs.jar', 'jei.jar']
-                    : providers.gradleProperty('withoutGlyphAddons').getOrElse('false').toBoolean() ? ['not-enough-glyphs.jar'] : [])
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
+    for (name in ['ars-nouveau','irons-spells-n-spellbooks','geckolib','curios','patchouli','playeranimator','irons-lib','jei']) {
+        implementation fg.deobf("local:${name}:forge1201")
+    }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation 'io.github.llamalad7:mixinextras-common:0.4.1'
+    runtimeOnly 'io.github.llamalad7:mixinextras-forge:0.4.1'
+    annotationProcessor 'io.github.llamalad7:mixinextras-common:0.4.1'
+    jarJar('io.github.llamalad7:mixinextras-forge:0.4.1') { jarJar.ranged(it, '[0.4.1,0.5)') }
     testImplementation platform('org.junit:junit-bom:5.13.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
-tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8' }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs += ['-Xmaxerrs', '500'] }
 tasks.withType(Test).configureEach { useJUnitPlatform() }
-processResources {
-    inputs.property 'version', project.version
-    filesMatching('META-INF/neoforge.mods.toml') { expand(version: project.version) }
+processResources { inputs.property 'version', project.version; filesMatching('META-INF/mods.toml') { expand(version: project.version) } }
+tasks.named('jar') { from('LICENSE'); manifest { attributes 'MixinConfigs': 'irons_nouveau.mixins.json' }; finalizedBy 'reobfJar' }
+tasks.named('jarJar') {
+    archiveClassifier = 'all'
+    from('LICENSE')
+    from('THIRD_PARTY_NOTICES.md')
+    manifest { attributes 'MixinConfigs': 'irons_nouveau.mixins.json' }
+    finalizedBy 'reobfJarJar'
 }
-
-tasks.named('jar') { from('LICENSE') }
+reobf { jarJar {} }
 tasks.named('sourcesJar') { from('LICENSE') }

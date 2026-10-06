@@ -30,8 +30,8 @@ public final class ArsTrajectoryExecution implements CastExecution {
         var carrier = (NativeCastCarrier) projectile;
         carrier.ironsNouveau$session(session);
         carrier.ironsNouveau$arsDriven(true);
-        var context = trajectory.resolver().spellContext.clone();
-        trajectory.setResolver(new ImpactResolver(context, hit -> impact(session, hit)));
+        var context = trajectory.spellResolver.spellContext.clone();
+        trajectory.spellResolver = new ImpactResolver(context, hit -> impact(session, hit));
         return session.world().addFreshEntity(projectile);
     }
     private void impact(CastSession session, HitResult hit) {

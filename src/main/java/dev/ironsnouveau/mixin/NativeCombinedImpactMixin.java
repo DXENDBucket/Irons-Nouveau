@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** These native projectiles handle removal in onHit and do not both override onHitBlock. */
 @Mixin(value = {LightningLanceProjectile.class, BloodNeedle.class}, remap = false)
 public abstract class NativeCombinedImpactMixin {
-    @Inject(method = "onHit", at = @At("TAIL"))
+    @Inject(method = "onHit", remap = true, at = @At("TAIL"))
     private void ironsNouveau$block(HitResult hit, CallbackInfo ci) {
         var session = ((NativeCastCarrier)this).ironsNouveau$session();
         if (session != null && hit.getType() == HitResult.Type.BLOCK) session.impact(hit);

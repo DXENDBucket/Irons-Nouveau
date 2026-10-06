@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "output": "irons_nouveau:glyph_summon_swords",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_swords"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ]
+}

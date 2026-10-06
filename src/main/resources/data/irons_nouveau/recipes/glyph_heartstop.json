@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "output": "irons_nouveau:glyph_heartstop",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:heartstop"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ]
+}

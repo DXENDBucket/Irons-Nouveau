@@ -9,9 +9,8 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.common.MinecraftForge;
 import java.util.List;
 
 /** Optional JEI entry point; never referenced by common startup or server code. */
@@ -19,12 +18,12 @@ import java.util.List;
 public final class GlyphRecipeJeiPlugin implements IModPlugin {
     private IJeiRuntime runtime;
     private Boolean previous;
-    private List<RecipeHolder<GlyphRecipe>> hidden = List.of();
+    private List<GlyphRecipe> hidden = List.of();
 
-    public GlyphRecipeJeiPlugin() { NeoForge.EVENT_BUS.addListener(this::tick); }
+    public GlyphRecipeJeiPlugin() { MinecraftForge.EVENT_BUS.addListener(this::tick); }
 
     @Override public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(IronsNouveau.MOD_ID, "glyph_learning");
+        return new ResourceLocation(IronsNouveau.MOD_ID, "glyph_learning");
     }
 
     @Override public void onRuntimeAvailable(IJeiRuntime runtime) {
@@ -34,18 +33,18 @@ public final class GlyphRecipeJeiPlugin implements IModPlugin {
         refresh();
     }
 
-    private void tick(ClientTickEvent.Post event) { refresh(); }
+    private void tick(ClientTickEvent event) { if (event.phase == net.minecraftforge.event.TickEvent.Phase.END) refresh(); }
 
     private void refresh() {
         if (runtime == null) return;
         boolean hide = SpellLevelConfig.requiresCrafting();
         if (previous != null && previous == hide) return;
         var manager = runtime.getRecipeManager();
-        var type = JEIArsNouveauPlugin.GLYPH_RECIPE_TYPE.get();
+        var type = JEIArsNouveauPlugin.GLYPH_RECIPE_TYPE;
         if (hide) {
             // Only restore recipes that this plugin actually hid, not pre-existing hidden recipes.
             hidden = manager.createRecipeLookup(type).get()
-                    .filter(recipe -> SpellProgress.spellId(recipe.value().getSpellPart()) != null)
+                    .filter(recipe -> SpellProgress.spellId(recipe.getSpellPart()) != null)
                     .toList();
             manager.hideRecipes(type, hidden);
         } else if (!hidden.isEmpty()) {

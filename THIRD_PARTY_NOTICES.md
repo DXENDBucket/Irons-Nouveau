@@ -8,7 +8,9 @@ The code of Iron & Nouveau is licensed under the MIT License in `LICENSE`, copyr
 
 ## Runtime dependencies
 
-Ars Nouveau, Iron's Spells 'n Spellbooks and their dependencies are installed separately and remain under their respective licenses. Optional integrations are also installed separately. No dependency mod JARs are included in this repository or shaded into the Iron's Nouveau release JAR.
+Ars Nouveau, Iron's Spells 'n Spellbooks and their dependencies are installed separately and remain under their respective licenses. Optional integrations are also installed separately. Their JARs are not committed to this repository or included in the release JAR.
+
+The Forge 1.20.1 `all` artifact includes MixinExtras Forge 0.4.1 as a nested Jar-in-Jar dependency. MixinExtras is copyright LlamaLad7, distributed under the MIT License. Its original `LICENSE_MixinExtras` is preserved inside the nested JAR. See https://github.com/LlamaLad7/MixinExtras.
 
 Glyph models reference Iron's installed scroll models and textures by resource identifier. Those upstream resources are not copied into this repository and are not covered by this project's MIT license.
 

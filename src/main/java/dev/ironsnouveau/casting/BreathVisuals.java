@@ -18,9 +18,9 @@ public final class BreathVisuals {
         float scale = ((ConeState)cone).ironsNouveau$scale(); var parts = cone.getParts();
         for (int i = 0; i < parts.length; i++) {
             var dimensions = parts[i].getDimensions(null);
-            var pos = origin.add(direction.scale((1 + i * dimensions.width() / 2) * scale));
+            var pos = origin.add(direction.scale((1 + i * dimensions.width / 2) * scale));
             parts[i].setPos(pos);
-            double half = dimensions.width() * scale / 2, height = dimensions.height() * scale;
+            double half = dimensions.width * scale / 2, height = dimensions.height * scale;
             parts[i].setBoundingBox(new AABB(pos.x - half, pos.y, pos.z - half, pos.x + half, pos.y + height, pos.z + half));
         }
     }

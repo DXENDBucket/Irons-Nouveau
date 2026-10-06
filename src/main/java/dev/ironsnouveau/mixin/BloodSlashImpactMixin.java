@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = BloodSlashProjectile.class, remap = false)
 public abstract class BloodSlashImpactMixin {
-    @WrapOperation(method = "damageEntity", at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z"))
+    @WrapOperation(method = "damageEntity", at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z", remap = false))
     private boolean ironsNouveau$hit(Entity target, float damage, DamageSource source, Operation<Boolean> original) {
         var session = ((NativeCastCarrier)this).ironsNouveau$session();
         if (session != null && !session.permitted()) return false;

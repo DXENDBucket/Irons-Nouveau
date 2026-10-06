@@ -25,8 +25,8 @@ public final class NativeFormAugment extends AbstractAugment {
     }
     public NativeFormAugment(String spell, String name, SpellSchool school,
                               NativeCastAdapter adapter, int manaCost, SpellTier tier) {
-        super(ResourceLocation.fromNamespaceAndPath("irons_nouveau", "glyph_" + spell), name);
-        spellId = ResourceLocation.fromNamespaceAndPath("irons_spellbooks", spell);
+        super(new ResourceLocation("irons_nouveau", "glyph_" + spell), name);
+        spellId = new ResourceLocation("irons_spellbooks", spell);
         this.adapter = adapter;
         this.manaCost = manaCost;
         spellSchools.add(school); school.addSpellPart(this);

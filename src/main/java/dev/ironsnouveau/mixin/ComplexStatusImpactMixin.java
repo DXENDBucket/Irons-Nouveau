@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = {AcidOrb.class, Snowball.class}, remap = false)
 public abstract class ComplexStatusImpactMixin {
-    @WrapOperation(method = "onHit", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z"))
+    @WrapOperation(method = "onHit", remap = true, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;addEffect(Lnet/minecraft/world/effect/MobEffectInstance;)Z", remap = true))
     private boolean ironsNouveau$status(LivingEntity target, MobEffectInstance effect, Operation<Boolean> original) {
         boolean applied = original.call(target, effect);
         if (applied) ComplexImpacts.statusApplied(target);

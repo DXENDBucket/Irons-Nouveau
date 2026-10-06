@@ -27,7 +27,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         while (low < high) {
             int mid = low + (high - low + 1) / 2;
             long needed = held + (long) mid * cost;
-            if (needed <= Integer.MAX_VALUE && source.enoughMana((int) needed)) low = mid; else high = mid - 1;
+            if (needed <= Integer.MAX_VALUE && enoughMana((int) needed)) low = mid; else high = mid - 1;
         }
         return low;
     }
@@ -37,16 +37,21 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         int cost = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level));
         var reservations = RESERVED.get();
         long held = reservations.getOrDefault(caster, 0L), needed = held + cost;
-        if (needed > Integer.MAX_VALUE || !source.enoughMana((int)needed)) return false;
+        if (needed > Integer.MAX_VALUE || !enoughMana((int)needed)) return false;
         reservations.put(caster, needed);
         try {
             boolean applied = run(action);
-            if (applied && cost > 0) source.expendMana(cost);
+            if (applied && cost > 0) com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry.getMana(caster).ifPresent(mana -> mana.removeMana(cost));
             return applied;
         } finally {
             if (held == 0) reservations.remove(caster); else reservations.put(caster, held);
             if (reservations.isEmpty()) RESERVED.remove();
         }
+    }
+    private boolean enoughMana(int cost) {
+        if (cost == 0) return true;
+        return com.hollingsworth.arsnouveau.setup.registry.CapabilityRegistry.getMana(caster)
+                .map(mana -> mana.getCurrentMana() >= cost).orElse(false);
     }
     private boolean run(BooleanSupplier action) {
         var previous = CURRENT.get(); CURRENT.set(this);

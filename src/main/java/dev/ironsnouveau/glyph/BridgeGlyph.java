@@ -33,12 +33,6 @@ public final class BridgeGlyph extends AbstractEffect {
             compatibleAugments.add(AugmentExtendTime.INSTANCE);
             compatibleAugments.add(AugmentDurationDown.INSTANCE);
         }
-        // Super calls virtual methods before definition is assigned. Populate translated hints here.
-        for (var augment : compatibleAugments) {
-            String key = augment == AugmentAOE.INSTANCE ? "area"
-                    : augment == AugmentExtendTime.INSTANCE || augment == AugmentDurationDown.INSTANCE ? "duration" : "native_level";
-            augmentDescriptions.put(augment, Component.translatable("irons_nouveau.augment." + key));
-        }
     }
     public GlyphDefinition definition() { return definition; }
     @Override public int getDefaultManaCost() { return 0; }
@@ -49,11 +43,6 @@ public final class BridgeGlyph extends AbstractEffect {
     @Override public boolean shouldShowInUnlock() { return !dev.ironsnouveau.config.SpellLevelConfig.requiresCrafting(); }
     @Override protected Set<AbstractAugment> getCompatibleAugments() {
         return Set.of(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentAOE.INSTANCE);
-    }
-    @Override public void addAugmentDescriptions(Map<AbstractAugment, String> descriptions) {
-        descriptions.put(AugmentAmplify.INSTANCE, "Adds one native spell level.");
-        descriptions.put(AugmentDampen.INSTANCE, "Removes one native spell level, to a minimum of one.");
-        descriptions.put(AugmentAOE.INSTANCE, "Affects nearby targets.");
     }
     @Override public Glyph getGlyph() {
         if (glyphItem == null) glyphItem = new Glyph(this) {

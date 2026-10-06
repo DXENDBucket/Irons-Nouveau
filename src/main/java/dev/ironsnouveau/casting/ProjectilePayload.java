@@ -25,7 +25,7 @@ public class ProjectilePayload {
     public static final ProjectilePayload BLOOD_NEEDLE = damage(.25f);
     public static final ProjectilePayload GUIDING_BOLT = new ProjectilePayload(.5f, (session, target) -> {
         if (target instanceof LivingEntity living)
-            living.addEffect(new MobEffectInstance(MobEffectRegistry.GUIDING_BOLT, 500), session.caster());
+            living.addEffect(new MobEffectInstance(MobEffectRegistry.GUIDING_BOLT.get(), 500), session.caster());
     });
     public static ProjectilePayload damage(float factor) { return new ProjectilePayload(factor, (session, target) -> {}); }
     public float damage(CastPlan plan) { return plan.nativePower() * powerFactor; }

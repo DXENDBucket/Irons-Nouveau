@@ -10,6 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** The result slot commits ingredient consumption before awarding a normal click craft. */
 @Mixin(targets = "io.redspace.ironsspellbooks.gui.scroll_forge.ScrollForgeMenu$4", remap = false)
 public abstract class ScrollForgeResultMixin {
-    @Inject(method = "onTake", at = @At("RETURN"))
+    @Inject(method = "onTake", remap = true, at = @At("RETURN"))
     private void ironsNouveau$crafted(Player player, ItemStack output, CallbackInfo ci) { SpellProgress.crafted(player, output); }
 }

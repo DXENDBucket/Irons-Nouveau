@@ -2,7 +2,7 @@ package dev.ironsnouveau.api;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.Event;
+import net.minecraftforge.eventbus.api.Event;
 
 /** Optional non-player mastery source. Augments are applied after this base is resolved. */
 public final class NativeSpellLevelEvent extends Event {

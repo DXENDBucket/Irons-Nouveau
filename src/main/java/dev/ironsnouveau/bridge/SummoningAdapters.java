@@ -11,7 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.phys.*;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.common.MinecraftForge;
 import java.util.*;
 
 /** Summoner remains the caster; the Ars hit supplies the formation center and optional enemy target. */
@@ -20,21 +20,20 @@ public final class SummoningAdapters {
     public static LocationSpellAdapter forSpell(String id) { return (ctx, hit) -> summon(ctx, hit, id); }
     private static boolean summon(Resolution ctx, HitResult hit, String id) {
         if (hit.getType() == HitResult.Type.MISS) return false;
-        int nativeCount = switch (ctx.spell()) {
-            case io.redspace.ironsspellbooks.spells.evocation.SummonVexSpell spell -> spell.getSummonCount(ctx.level(), ctx.caster());
-            case io.redspace.ironsspellbooks.spells.blood.RaiseDeadSpell spell -> spell.getSummonCount(ctx.level(), ctx.caster());
-            default -> id.equals("summon_swords") ? 3 : 1;
-        };
-        int count = Math.clamp(nativeCount, 1, 64);
+        int nativeCount = ctx.spell() instanceof io.redspace.ironsspellbooks.spells.evocation.SummonVexSpell spell ? spell.getSummonCount(ctx.level(), ctx.caster()) :
+                ctx.spell() instanceof io.redspace.ironsspellbooks.spells.blood.RaiseDeadSpell spell ? spell.getSummonCount(ctx.level(), ctx.caster()) :
+                id.equals("summon_swords") ? 3 : 1;
+        int count = net.minecraft.util.Mth.clamp(nativeCount, 1, 64);
         boolean any = false;
         for (int i = 0; i < count; i++) {
             Mob mob = create(ctx, id, i); boolean flying = id.equals("summon_vex") || id.equals("summon_swords");
             Vec3 spawn = placement(ctx, mob, WorldSpellAdapters.center(hit), i, count, flying);
             if (spawn == null) { abandon(mob); continue; }
             mob.moveTo(spawn);
-            mob.finalizeSpawn(ctx.world(), ctx.world().getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+            mob.finalizeSpawn(ctx.world(), ctx.world().getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.MOB_SUMMONED, null, null);
             configure(ctx, mob, id);
-            var event = NeoForge.EVENT_BUS.post(new SpellSummonEvent<>(ctx.caster(), mob, ctx.definition().spellId(), ctx.level()));
+            var event = new SpellSummonEvent<>(ctx.caster(), mob, ctx.definition().spellId(), ctx.level());
+            MinecraftForge.EVENT_BUS.post(event);
             if (mob != event.getCreature()) abandon(mob);
             mob = event.getCreature();
             if (mob == null) continue;
@@ -73,18 +72,17 @@ public final class SummoningAdapters {
             mob.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(.22 * power);
             mob.getAttribute(Attributes.JUMP_STRENGTH).setBaseValue(.4 * power);
             mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Math.max(1, 15 * power));
-            mob.getAttribute(Attributes.SAFE_FALL_DISTANCE).setBaseValue(6 + (int)((.4 * power - .2) * 3));
         } else if (id.equals("summon_polar_bear")) {
             mob.getAttribute(Attributes.MAX_HEALTH).setBaseValue(((dev.ironsnouveau.mixin.PolarBearSpellAccess)ctx.spell()).ironsNouveau$health(ctx.level(), ctx.caster()));
             mob.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(ctx.power());
         } else if (id.equals("summon_swords")) {
             var spell = (io.redspace.ironsspellbooks.spells.ender.SummonSwordsSpell)ctx.spell();
             mob.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
-                    io.redspace.ironsspellbooks.IronsSpellbooks.id("spell_power_health_bonus"), spell.getHealthBonus(ctx.level(), ctx.caster()),
-                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                    java.util.UUID.nameUUIDFromBytes("irons_nouveau:spell_power_health_bonus".getBytes(java.nio.charset.StandardCharsets.UTF_8)), "spell_power_health_bonus", spell.getHealthBonus(ctx.level(), ctx.caster()),
+                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_TOTAL));
             mob.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
-                    io.redspace.ironsspellbooks.IronsSpellbooks.id("spell_power_damage_bonus"), spell.getDamageBonus(ctx.level(), ctx.caster()),
-                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+                    java.util.UUID.nameUUIDFromBytes("irons_nouveau:spell_power_damage_bonus".getBytes(java.nio.charset.StandardCharsets.UTF_8)), "spell_power_damage_bonus", spell.getDamageBonus(ctx.level(), ctx.caster()),
+                    net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
         mob.setHealth(mob.getMaxHealth());
     }

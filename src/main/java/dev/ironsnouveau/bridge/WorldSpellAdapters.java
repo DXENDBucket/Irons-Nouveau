@@ -32,7 +32,7 @@ public final class WorldSpellAdapters {
     public static Vec3 center(HitResult hit) {
         return hit instanceof EntityHitResult e ? e.getEntity().position() : hit.getLocation();
     }
-    public static double radius(Resolution ctx, double base) { return Math.clamp(base + AugmentScaling.radius(ctx.stats().getAoeMultiplier()), .1, 48); }
+    public static double radius(Resolution ctx, double base) { return net.minecraft.util.Mth.clamp(base + AugmentScaling.radius(ctx.stats().getAoeMultiplier()), .1, 48); }
     private static int duration(Resolution ctx, int base) { return EffectResources.ticks(base * ctx.duration()); }
     private static LivingEntity target(Resolution ctx, HitResult hit) {
         if (hit instanceof EntityHitResult e && e.getEntity() instanceof LivingEntity living && living.isAlive()
@@ -71,7 +71,7 @@ public final class WorldSpellAdapters {
         var chain = new ChainLightning(ctx.world(), ctx.caster(), target);
         chain.setDamage((float)ctx.power());
         chain.range = (float)radius(ctx, spell.getRange(ctx.level(), ctx.caster()));
-        chain.maxConnections = Math.clamp(spell.getMaxConnections(ctx.level(), ctx.caster()), 1, 64);
+        chain.maxConnections = net.minecraft.util.Mth.clamp(spell.getMaxConnections(ctx.level(), ctx.caster()), 1, 64);
         return EffectResources.spawn(ctx, chain, 300);
     };
     public static final LocationSpellAdapter HEALING_CIRCLE = (ctx, hit) -> {
@@ -124,22 +124,22 @@ public final class WorldSpellAdapters {
     public static final SpellAdapter GREATER_HEAL = (ctx, target) -> {
         if (target.getHealth() >= target.getMaxHealth()) return false;
         float amount = target.getMaxHealth();
-        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new io.redspace.ironsspellbooks.api.events.SpellHealEvent(ctx.caster(), target, amount, ctx.spell().getSchoolType()));
+        net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new io.redspace.ironsspellbooks.api.events.SpellHealEvent(ctx.caster(), target, amount, ctx.spell().getSchoolType()));
         target.heal(amount); return true;
     };
     public static final SpellAdapter CLEANSE = (ctx, target) -> {
         if (!Utils.shouldHealEntity(ctx.caster(), target)) return false;
         boolean any = false;
         for (var effect : java.util.List.copyOf(target.getActiveEffects()))
-            if (effect.getEffect().value().getCategory() == MobEffectCategory.HARMFUL && !effect.getEffect().is(ModTags.CLEANSE_IMMUNE))
+            if (effect.getEffect().getCategory() == MobEffectCategory.HARMFUL && !net.minecraft.core.registries.BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect.getEffect()).is(ModTags.CLEANSE_IMMUNE))
                 any |= target.removeEffect(effect.getEffect());
         return any;
     };
     public static final SpellAdapter THUNDERSTORM = (ctx, target) -> {
         int ticks = duration(ctx, ((io.redspace.ironsspellbooks.spells.lightning.ThunderstormSpell)ctx.spell()).getDurationTicks(ctx.level(), ctx.caster()));
         int amplifier = ((dev.ironsnouveau.mixin.ThunderstormSpellAccess)ctx.spell()).ironsNouveau$amplifier(ctx.level(), ctx.caster());
-        boolean applied = target.addEffect(new MobEffectInstance(MobEffectRegistry.THUNDERSTORM,
-                ticks, Math.clamp(amplifier, 0, 255)), ctx.caster());
+        boolean applied = target.addEffect(new MobEffectInstance(MobEffectRegistry.THUNDERSTORM.get(),
+                ticks, net.minecraft.util.Mth.clamp(amplifier, 0, 255)), ctx.caster());
         if (applied) dev.ironsnouveau.casting.StatusBilling.mark(ctx, target, ticks);
         return applied;
     };

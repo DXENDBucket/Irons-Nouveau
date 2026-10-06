@@ -7,8 +7,8 @@ import net.minecraft.world.phys.*;
 import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = PoisonArrow.class, remap = false)
 public abstract class PoisonImpactMixin {
-    @WrapMethod(method = "onHitEntity")
+    @WrapMethod(method = "onHitEntity", remap = true)
     private void ironsNouveau$entity(EntityHitResult hit, Operation<Void> original) { ComplexImpacts.execute((PoisonArrow)(Object)this, hit, () -> original.call(hit)); }
-    @WrapMethod(method = "onHitBlock")
+    @WrapMethod(method = "onHitBlock", remap = true)
     private void ironsNouveau$block(BlockHitResult hit, Operation<Void> original) { ComplexImpacts.execute((PoisonArrow)(Object)this, hit, () -> original.call(hit)); }
 }

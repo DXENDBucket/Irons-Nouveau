@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /** Fire's ignition runs before the superclass tick; gate it too, using the paid emission origin. */
 @Mixin(value = FireBreathProjectile.class, remap = false)
 public abstract class ManagedFireBreathMixin {
-    @Inject(method = "tick", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "tick", remap = true, at = @At("HEAD"), cancellable = true)
     private void ironsNouveau$managed(CallbackInfo ci) {
         var cone = (FireBreathProjectile)(Object)this;
         if (!((ConeState)cone).ironsNouveau$managed()) return;

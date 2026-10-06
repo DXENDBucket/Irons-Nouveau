@@ -1,0 +1,19 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 27,
+  "output": "irons_nouveau:glyph_sonic_boom",
+  "count": 1,
+  "inputItems": [
+    {
+      "item": {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:sonic_boom"
+      }
+    },
+    {
+      "item": {
+        "item": "ars_nouveau:source_gem"
+      }
+    }
+  ]
+}

@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = ClientPlayerEvents.class, remap = false)
 public abstract class NativeCastingMovementMixin {
     @WrapOperation(method = "onCalculatePlayerSpeed", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;isCasting()Z"))
+            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;isCasting()Z", remap = false))
     private static boolean ironsNouveau$movement(Operation<Boolean> original) {
         return original.call() || CastingMovementState.active();
     }

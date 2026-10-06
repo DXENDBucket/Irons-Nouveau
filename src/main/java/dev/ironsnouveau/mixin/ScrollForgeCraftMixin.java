@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = ScrollForgeMenu.class, remap = false)
 public abstract class ScrollForgeCraftMixin {
     // Iron passes an emptied stack to onTake after shift-moving it. Its return retains the actual crafted result.
-    @Inject(method = "quickMoveStack", at = @At("RETURN"))
+    @Inject(method = "quickMoveStack", remap = true, at = @At("RETURN"))
     private void ironsNouveau$shiftCraft(Player player, int slot, CallbackInfoReturnable<ItemStack> cir) {
         if (slot == ((ScrollForgeMenu)(Object)this).slots.indexOf(((ScrollForgeMenu)(Object)this).getResultSlot()))
             SpellProgress.crafted(player, cir.getReturnValue());

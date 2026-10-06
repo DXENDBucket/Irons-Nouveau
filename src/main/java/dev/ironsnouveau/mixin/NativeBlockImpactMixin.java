@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
         io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile.class,
         io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball.class}, remap = false)
 public abstract class NativeBlockImpactMixin {
-    @Inject(method = "onHitBlock", at = @At("TAIL"))
+    @Inject(method = "onHitBlock", remap = true, at = @At("TAIL"))
     private void ironsNouveau$block(BlockHitResult hit, CallbackInfo ci) {
         var session = ((NativeCastCarrier)this).ironsNouveau$session();
         if (session != null) session.impact(hit);

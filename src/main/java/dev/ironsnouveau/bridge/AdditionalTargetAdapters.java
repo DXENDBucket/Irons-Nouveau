@@ -29,17 +29,17 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.common.MinecraftForge;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
 
 /** Native status formulas use the original caster; Ars only selects the recipient. */
 public final class AdditionalTargetAdapters {
     private AdditionalTargetAdapters() {}
-    private static SpellAdapter status(Holder<MobEffect> effect, ToDoubleFunction<Resolution> ticks, ToIntFunction<Resolution> amp) {
-        return (ctx, target) -> target.addEffect(new MobEffectInstance(effect,
+    private static SpellAdapter status(java.util.function.Supplier<MobEffect> effect, ToDoubleFunction<Resolution> ticks, ToIntFunction<Resolution> amp) {
+        return (ctx, target) -> target.addEffect(new MobEffectInstance(effect.get(),
                 EffectResources.ticks(ticks.applyAsDouble(ctx) * ctx.duration()),
-                Math.clamp(amp.applyAsInt(ctx), 0, 255), false, false, true), ctx.caster());
+                net.minecraft.util.Mth.clamp(amp.applyAsInt(ctx), 0, 255), false, false, true), ctx.caster());
     }
     public static final SpellAdapter HEARTSTOP = status(MobEffectRegistry.HEARTSTOP, Resolution::power, c -> 0);
     public static final SpellAdapter SHROUD = status(MobEffectRegistry.ABYSSAL_SHROUD, c -> (int)c.power() * 20.0, c -> 0);
@@ -78,7 +78,7 @@ public final class AdditionalTargetAdapters {
         return EffectResources.spawnOnce(ctx, jaw, 100);
     };
     public static final SpellAdapter ACUPUNCTURE = (ctx, target) -> {
-        int count = (int)Math.clamp((4.0 + ctx.level()) * ctx.power(), 1, 64);
+        int count = (int)net.minecraft.util.Mth.clamp((4.0 + ctx.level()) * ctx.power(), 1, 64);
         Vec3 center = target.position().add(0, target.getEyeHeight() * .5, 0);
         boolean any = false;
         for (int i = 0; i < count; i++) {
@@ -103,7 +103,7 @@ public final class AdditionalTargetAdapters {
     public static final LocationSpellAdapter COUNTERSPELL = (ctx, hit) -> {
         if (!(hit instanceof EntityHitResult entityHit)) return false;
         var target = entityHit.getEntity();
-        if (!Utils.validAntiMagicTarget(target) || NeoForge.EVENT_BUS.post(new CounterSpellEvent(ctx.caster(), target)).isCanceled()) return false;
+        if (!Utils.validAntiMagicTarget(target) || MinecraftForge.EVENT_BUS.post(new CounterSpellEvent(ctx.caster(), target))) return false;
         if (target instanceof AntiMagicSusceptible susceptible) {
             if (!(target instanceof IMagicSummon summon) || summon.getSummoner() != ctx.caster()
                     || target instanceof Mob mob && mob.getTarget() == null)
@@ -114,7 +114,7 @@ public final class AdditionalTargetAdapters {
         } else if (target instanceof IMagicEntity caster) caster.cancelCast();
         if (target instanceof net.minecraft.world.entity.LivingEntity living)
             for (var effect : java.util.List.copyOf(living.getActiveEffectsMap().keySet()))
-                if (effect.value() instanceof MagicMobEffect) living.removeEffect(effect);
+                if (effect instanceof MagicMobEffect) living.removeEffect(effect);
         return true;
     };
 }

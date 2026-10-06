@@ -45,7 +45,7 @@ public final class AreaSpellAdapters {
         int ticks = EffectResources.ticks(240 * ctx.duration());
         float damage = (float)ctx.power() * .25f;
         field.setRadius((float)WorldSpellAdapters.radius(ctx, 4 + 4 * ctx.spell().getEntityPowerMultiplier(ctx.caster())));
-        field.setDuration(ticks); field.setDamage(damage); field.setSlownessAmplifier(Math.clamp((int)damage - 2, 0, 2));
+        field.setDuration(ticks); field.setDamage(damage); field.setSlownessAmplifier(net.minecraft.util.Mth.clamp((int)damage - 2, 0, 2));
         return EffectResources.spawn(ctx, field, ticks);
     };
     public static final LocationSpellAdapter BLIZZARD = (ctx, hit) -> {
@@ -96,12 +96,12 @@ public final class AreaSpellAdapters {
             ((HeatSurgeSpell)ctx.spell()).getRadius(ctx.level(), ctx.caster()), (c, target) -> {
                 var spell = (HeatSurgeSpell)c.spell();
                 int ticks = EffectResources.ticks(spell.getDuration(c.level(), c.caster()) * c.duration());
-                target.addEffect(new MobEffectInstance(MobEffectRegistry.REND, ticks, Math.clamp(spell.getRendAmplifier(c.level(), c.caster()), 0, 255)), c.caster());
+                target.addEffect(new MobEffectInstance(MobEffectRegistry.REND.get(), ticks, net.minecraft.util.Mth.clamp(spell.getRendAmplifier(c.level(), c.caster()), 0, 255)), c.caster());
                 target.setRemainingFireTicks(Math.min(ticks / 2, 160));
             });
     public static final LocationSpellAdapter FROSTWAVE = (ctx, hit) -> wave(ctx, hit,
             ((FrostwaveSpell)ctx.spell()).getRadius(ctx.level(), ctx.caster()), (c, target) ->
-                target.addEffect(new MobEffectInstance(MobEffectRegistry.CHILLED,
+                target.addEffect(new MobEffectInstance(MobEffectRegistry.CHILLED.get(),
                         EffectResources.ticks(((FrostwaveSpell)c.spell()).getDuration(c.level(), c.caster()) * c.duration())), c.caster()));
     public static final LocationSpellAdapter SHOCKWAVE = (ctx, hit) -> wave(ctx, hit,
             ((ShockwaveSpell)ctx.spell()).getRadius(ctx.level(), ctx.caster()), (c, target) -> {

@@ -14,13 +14,13 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = BallLightning.class, remap = false)
 public abstract class BallLightningImpactMixin {
     @Unique private long ironsNouveau$paidUntil = Long.MIN_VALUE;
-    @org.spongepowered.asm.mixin.injection.Inject(method = "onHitBlock", at = @At("HEAD"))
+    @org.spongepowered.asm.mixin.injection.Inject(method = "onHitBlock", remap = true, at = @At("HEAD"))
     private void ironsNouveau$block(net.minecraft.world.phys.BlockHitResult hit, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
         var session = ((NativeCastCarrier)this).ironsNouveau$session();
         // Resolve with the incoming direction, before the native bounce reverses velocity.
         if (session != null) session.impact(hit);
     }
-    @WrapOperation(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z"))
+    @WrapOperation(method = "onHitEntity", remap = true, at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z", remap = false))
     private boolean ironsNouveau$hit(Entity target, float damage, DamageSource source, Operation<Boolean> original) {
         var session = ((NativeCastCarrier)this).ironsNouveau$session();
         if (session == null) return original.call(target, damage, source);

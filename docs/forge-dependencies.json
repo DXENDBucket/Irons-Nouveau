@@ -1,0 +1,58 @@
+[
+  {
+    "project": "ars-nouveau",
+    "version": "4.12.7",
+    "url": "https://cdn.modrinth.com/data/TKB6INcv/versions/Hw2aD01e/ars_nouveau-1.20.1-4.12.7-all.jar",
+    "sha512": "f3e3abf260fb3ef4c5b6b7324c055802135f82f4c550986f4e93b1a186c9b495cd8b6396ed89ab088b95e6176c0b9e290ccc69a528c521cd1bff19935ac36836",
+    "file": "ars-nouveau-forge1201.jar"
+  },
+  {
+    "project": "irons-spells-n-spellbooks",
+    "version": "1.20.1-3.16.3",
+    "url": "https://cdn.modrinth.com/data/s4OWxYQQ/versions/hZaEegS9/irons_spellbooks-1.20.1-3.16.3.jar",
+    "sha512": "a699631fa56568d39a30773b8fe96d7a49f1cd7f8e243340ce7ad91b09ccf49c9a6802a944f4bd04b2d88d9fc796a70add1d18d8f326bb2be238b02a8c8076da",
+    "file": "irons-spells-n-spellbooks-forge1201.jar"
+  },
+  {
+    "project": "geckolib",
+    "version": "4.8.4",
+    "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/aC5KMoNg/geckolib-forge-1.20.1-4.8.4.jar",
+    "sha512": "443a321a293e3cb92fbbc3c97a38b179a45d1db703cd7bdb123270a9e04e7b7d67d5b06cd8e77a6d4d9139e033e901b9660cccf53ad5f9beaae6d06eae68febf",
+    "file": "geckolib-forge1201.jar"
+  },
+  {
+    "project": "curios",
+    "version": "5.14.1+1.20.1",
+    "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/IPQlZkz1/curios-forge-5.14.1%2B1.20.1.jar",
+    "sha512": "1373f95fd111c977db2f6adcef8e4eb486a2d926a3e17374692dee4ac3d65857de6446c16922b531aa5ace2c23c666a7fcc28c720b2917c1e04808d15648ba87",
+    "file": "curios-forge1201.jar"
+  },
+  {
+    "project": "patchouli",
+    "version": "1.20.1-85-forge",
+    "url": "https://cdn.modrinth.com/data/nU0bVIaL/versions/94dtOLgZ/Patchouli-1.20.1-85-FORGE.jar",
+    "sha512": "15aedda4efcc553d5e3c83aa867b62554bc2fab298b43f55ed324e10507a3605f0ec2c59c01476e6d80b2a49275ef080142e43a6e663f9463b62f520960fc203",
+    "file": "patchouli-forge1201.jar"
+  },
+  {
+    "project": "playeranimator",
+    "version": "1.0.2-rc1+1.20-forge",
+    "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/xe2EVE6q/player-animation-lib-forge-1.0.2-rc1%2B1.20.jar",
+    "sha512": "cb9f6a3aaa943823a85fdd716ddb3c7623af2b3520926c3a98d170c52d31908894808fb61c52bea39bae622dbab59d50b4bad56f7ca0533a9c3350d412c33729",
+    "file": "playeranimator-forge1201.jar"
+  },
+  {
+    "project": "irons-lib",
+    "version": "1.20.1-2.2.0",
+    "url": "https://cdn.modrinth.com/data/9nfaJPtX/versions/6HqXQkgC/irons_lib-1.20.1-2.2.0.jar",
+    "sha512": "5d3ce588f692233672f5059e527fa093a3a3d40f2121a90101aa5c815c1677dc9d5eeca0528a010c0ad6d417b244943fc935bc093e66af72c9a6e1b0b674eeab",
+    "file": "irons-lib-forge1201.jar"
+  },
+  {
+    "project": "jei",
+    "version": "15.56.0.205",
+    "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/9jqubC9n/jei-1.20.1-forge-15.56.0.205.jar",
+    "sha512": "1306fe15c81d54aa9ff8f3d9f04812c0d61ffaaae433c29621f926db8f8e2c898669ccdd99e025849859d38b7a2eac170c466390b467f4dfa77542b5dbdd1678",
+    "file": "jei-forge1201.jar"
+  }
+]

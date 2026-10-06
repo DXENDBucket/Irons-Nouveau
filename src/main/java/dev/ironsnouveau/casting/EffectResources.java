@@ -10,10 +10,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
-import net.neoforged.neoforge.event.server.ServerStoppingEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import java.util.*;
 import java.util.function.BooleanSupplier;
 
@@ -45,12 +45,12 @@ public final class EffectResources {
         var mana = ACCOUNTS.computeIfAbsent(entity, e -> TriggerMana.of(null, living));
         PAYING.add(entity);
         try {
-            boolean applied = mana.trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), action);
+            boolean applied = mana.trigger(new ResourceLocation(tag.getString("spell")), tag.getInt("level"), action);
             if (applied) PAID.put(entity, round);
             return applied;
         } finally { PAYING.remove(entity); }
     }
-    public static int ticks(double ticks) { return (int)Math.clamp(ticks, 1, 96000); }
+    public static int ticks(double ticks) { return (int)net.minecraft.util.Mth.clamp(ticks, 1, 96000); }
     public static boolean scoped(CastSession session, BooleanSupplier action) {
         return scoped(new Origin(session.caster(), session.plan().glyphId(), session.plan().spellId(), session.plan().spellLevel(), 1200, session.billingSource()), action);
     }
@@ -96,7 +96,7 @@ public final class EffectResources {
             var owner = world.getEntity(tag.getUUID("owner"));
             if (owner instanceof LivingEntity living && living.isAlive())
                 ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, living))
-                        .trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), spawn);
+                        .trigger(new ResourceLocation(tag.getString("spell")), tag.getInt("level"), spawn);
         }
     }
     /** Delayed native child creation must inherit the parent attribution and billing account. */
@@ -111,7 +111,7 @@ public final class EffectResources {
                 ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), () -> { action.run(); return true; });
     }
     public static void register(IEventBus bus) {
-        bus.addListener(net.neoforged.bus.api.EventPriority.LOWEST, EffectResources::joined);
+        bus.addListener(net.minecraftforge.eventbus.api.EventPriority.LOWEST, EffectResources::joined);
         bus.addListener(EffectResources::tick);
         bus.addListener((ServerStoppingEvent event) -> { for (var entity : List.copyOf(ACTIVE)) remove(entity); ACTIVE.clear(); });
     }
@@ -138,7 +138,8 @@ public final class EffectResources {
             if (account != null) ACCOUNTS.put(entity, account);
         }
     }
-    private static void tick(ServerTickEvent.Pre event) {
+    private static void tick(ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.START) return;
         for (var entity : List.copyOf(ACTIVE)) {
             if (entity.isRemoved()) { ACTIVE.remove(entity); ACCOUNTS.remove(entity); PAID.remove(entity); continue; }
             var tag = entity.getPersistentData().getCompound(KEY);

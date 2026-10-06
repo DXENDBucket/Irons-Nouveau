@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = AoeEntity.class, remap = false)
 public abstract class AreaPulseMixin {
-    @WrapOperation(method = "checkHits", at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/entity/spells/AoeEntity;applyEffect(Lnet/minecraft/world/entity/LivingEntity;)V"))
+    @WrapOperation(method = "checkHits", at = @At(value = "INVOKE", target = "Lio/redspace/ironsspellbooks/entity/spells/AoeEntity;applyEffect(Lnet/minecraft/world/entity/LivingEntity;)V", remap = false))
     private void ironsNouveau$area(AoeEntity field, LivingEntity target, Operation<Void> original) {
         EffectResources.pulse(field, () -> { original.call(field, target); return true; });
     }

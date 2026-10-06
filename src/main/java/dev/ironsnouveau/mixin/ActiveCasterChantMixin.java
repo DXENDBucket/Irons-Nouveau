@@ -1,8 +1,8 @@
 package dev.ironsnouveau.mixin;
 
-import com.hollingsworth.arsnouveau.api.spell.AbstractCaster;
+import com.hollingsworth.arsnouveau.api.spell.ISpellCaster;
 import com.hollingsworth.arsnouveau.api.spell.Spell;
-import com.hollingsworth.arsnouveau.common.items.data.ScryCasterData;
+import com.hollingsworth.arsnouveau.common.items.ScryCaster;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import dev.ironsnouveau.casting.ActiveChanting;
@@ -16,14 +16,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(value = {AbstractCaster.class, ScryCasterData.class}, remap = false)
-public abstract class ActiveCasterChantMixin {
-    @WrapMethod(method = "castSpell(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/network/chat/Component;Lcom/hollingsworth/arsnouveau/api/spell/Spell;)Lnet/minecraft/world/InteractionResultHolder;")
-    private InteractionResultHolder<ItemStack> ironsNouveau$chant(Level world, LivingEntity caster, InteractionHand hand,
-            Component invalidMessage, Spell spell, Operation<InteractionResultHolder<ItemStack>> original) {
+@Mixin(value = com.hollingsworth.arsnouveau.api.spell.SpellCaster.class, remap = false)
+public abstract class ActiveCasterChantMixin implements ISpellCaster {
+    @Override public InteractionResultHolder<ItemStack> castSpell(Level world, LivingEntity caster, InteractionHand hand,
+            Component invalidMessage, Spell spell) {
         if (!ActiveCooldowns.allowed(spell, caster)) return InteractionResultHolder.fail(caster.getItemInHand(hand));
         java.util.function.Supplier<InteractionResultHolder<ItemStack>> release = () -> ActiveCooldowns.execute(spell, caster,
-                CastSource.SPELLBOOK, () -> original.call(world, caster, hand, invalidMessage, spell),
+                CastSource.SPELLBOOK, () -> ISpellCaster.super.castSpell(world, caster, hand, invalidMessage, spell),
                 InteractionResultHolder.fail(caster.getItemInHand(hand)));
         if (ActiveChanting.defer(spell, caster, hand, () -> release.get()))
             return InteractionResultHolder.consume(caster.getItemInHand(hand));

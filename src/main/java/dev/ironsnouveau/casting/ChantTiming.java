@@ -14,13 +14,13 @@ import net.minecraft.world.entity.LivingEntity;
 public final class ChantTiming {
     private ChantTiming() {}
     public static boolean containsIron(Spell spell) {
-        return spell.unsafeList().stream().anyMatch(p -> p instanceof BridgeGlyph || p instanceof NativeFormAugment);
+        return spell.recipe.stream().anyMatch(p -> p instanceof BridgeGlyph || p instanceof NativeFormAugment);
     }
     public static int ticks(Spell recipe, LivingEntity caster, SpellLevelConfig.ChantMode mode) {
         long total = 0;
         int action = 0;
-        for (int i = 0; i < recipe.size(); i++) {
-            var part = recipe.get(i);
+        for (int i = 0; i < recipe.recipe.size(); i++) {
+            var part = recipe.recipe.get(i);
             if (!(part instanceof AbstractAugment)) action = i;
             ResourceLocation id = part instanceof BridgeGlyph glyph ? glyph.definition().spellId()
                     : part instanceof NativeFormAugment form ? form.spellId() : null;

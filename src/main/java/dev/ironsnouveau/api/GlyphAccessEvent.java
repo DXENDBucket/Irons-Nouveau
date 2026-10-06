@@ -2,12 +2,13 @@ package dev.ironsnouveau.api;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.Event;
-import net.neoforged.bus.api.ICancellableEvent;
-import net.neoforged.neoforge.common.NeoForge;
+import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.common.MinecraftForge;
 
 /** Integration hook after personal mastery checks; addons may impose additional permissions. */
-public final class GlyphAccessEvent extends Event implements ICancellableEvent {
+@Cancelable
+public final class GlyphAccessEvent extends Event {
     public enum Action { LEARN, RESOLVE }
     private final LivingEntity actor;
     private final ResourceLocation glyphId;
@@ -31,6 +32,6 @@ public final class GlyphAccessEvent extends Event implements ICancellableEvent {
     public static boolean allowed(LivingEntity actor, ResourceLocation glyph, ResourceLocation spell,
                                   int level, Action action) {
         if (!dev.ironsnouveau.progression.SpellProgress.canUse(actor, spell)) return false;
-        return !NeoForge.EVENT_BUS.post(new GlyphAccessEvent(actor, glyph, spell, level, action)).isCanceled();
+        return !MinecraftForge.EVENT_BUS.post(new GlyphAccessEvent(actor, glyph, spell, level, action));
     }
 }

@@ -45,11 +45,11 @@ public final class MotionAdapters {
                 && !ctx.caster().isAlliedTo(target);
     }
     private static boolean dash(Resolution ctx, LivingEntity actor, boolean lightning) {
-        if (actor.hasEffect(MobEffectRegistry.BURNING_DASH) || actor.hasEffect(MobEffectRegistry.VOLT_STRIKE)) return false;
+        if (actor.hasEffect(MobEffectRegistry.BURNING_DASH.get()) || actor.hasEffect(MobEffectRegistry.VOLT_STRIKE.get())) return false;
         int ticks = lightning ? 10 : 15;
         float damage = (float)(5 + ctx.power());
-        int amplifier = (int)Math.clamp(damage, 1, 255);
-        var effect = lightning ? MobEffectRegistry.VOLT_STRIKE : MobEffectRegistry.BURNING_DASH;
+        int amplifier = (int)net.minecraft.util.Mth.clamp(damage, 1, 255);
+        var effect = lightning ? MobEffectRegistry.VOLT_STRIKE.get() : MobEffectRegistry.BURNING_DASH.get();
         if (!actor.addEffect(new MobEffectInstance(effect, ticks, amplifier, false, false, false), ctx.caster())) return false;
         MotionEffects.bind(ctx, actor, ticks, damage, amplifier);
         Vec3 look = actor.getLookAngle(), impulse;
@@ -86,7 +86,7 @@ public final class MotionAdapters {
                     projectile.setOwner(ctx.caster());
                     projectile.shoot(forward.x, forward.y, forward.z, (float)projectile.getDeltaMovement().length(), 0);
                 } else if (DamageSources.applyDamage(target, (float)ctx.power() + WeaponStats.damage(ctx.caster()), source)) {
-                    EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);
+                    EnchantmentHelper.doPostDamageEffects(ctx.caster(), target);
                     target.setDeltaMovement(target.getDeltaMovement().add(target.position().subtract(actor.position()).normalize().add(0, .5, 0).normalize()));
                     target.hurtMarked = true;
                 }
@@ -101,7 +101,7 @@ public final class MotionAdapters {
         var visual = end.subtract(direction.scale(3)).add(right.scale(-.3));
         ctx.world().sendParticles(slash, visual.x, visual.y + .3, visual.z, 1, 0, 0, 0, 0);
         actor.setDeltaMovement(actor.getDeltaMovement().scale(.2).add(path.scale(1.0 / 6)).add(0, .1, 0));
-        actor.addEffect(new MobEffectInstance(MobEffectRegistry.FALL_DAMAGE_IMMUNITY, 20), ctx.caster());
+        actor.addEffect(new MobEffectInstance(MobEffectRegistry.FALL_DAMAGE_IMMUNITY.get(), 20), ctx.caster());
         for (int i = 0; i < 15; i++) {
             var pos = start.add(path.scale(i / 15.0));
             ctx.world().sendParticles(ParticleTypes.PORTAL, pos.x, pos.y, pos.z, 2, .2, .2, .2, .1);
@@ -125,7 +125,7 @@ public final class MotionAdapters {
             if (target instanceof Creeper creeper) creeper.thunderHit(ctx.world(), bolt);
             if (target instanceof LivingEntity living) living.knockback(.25 + damage / 10, actor.getX() - target.getX(), actor.getZ() - target.getZ());
         }
-        actor.addEffect(new MobEffectInstance(MobEffectRegistry.ASCENSION, 80), ctx.caster());
+        actor.addEffect(new MobEffectInstance(MobEffectRegistry.ASCENSION.get(), 80), ctx.caster());
         actor.setDeltaMovement(actor.getDeltaMovement().add(actor.getLookAngle().multiply(1, 0, 1).normalize().add(0, 5, 0).scale(.125)));
         sync(actor); return true;
     }

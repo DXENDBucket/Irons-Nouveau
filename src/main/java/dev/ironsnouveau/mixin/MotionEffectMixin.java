@@ -10,9 +10,10 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(value = {BurningDashEffect.class, VoltStrikeEffect.class}, remap = false)
 public abstract class MotionEffectMixin {
-    @WrapMethod(method = "applyEffectTick")
-    private boolean ironsNouveau$owner(LivingEntity actor, int amplifier, Operation<Boolean> original) {
+    @WrapMethod(method = "applyEffectTick", remap = true)
+    private void ironsNouveau$owner(LivingEntity actor, int amplifier, Operation<Void> original) {
         String spell = (Object)this instanceof BurningDashEffect ? "burning_dash" : "volt_strike";
-        return MotionEffects.tick(actor, spell, () -> original.call(actor, amplifier));
+        if (!MotionEffects.tick(actor, spell, () -> { original.call(actor, amplifier); return true; }))
+            actor.removeEffect((net.minecraft.world.effect.MobEffect)(Object)this);
     }
 }

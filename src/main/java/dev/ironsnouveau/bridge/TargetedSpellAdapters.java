@@ -22,12 +22,12 @@ public final class TargetedSpellAdapters {
     public static final SpellAdapter BLIGHT = status(MobEffectRegistry.BLIGHT,
             ctx -> ((BlightSpell)ctx.spell()).getDuration(ctx.level(), ctx.caster()),
             ctx -> ((BlightSpell)ctx.spell()).getAmplifier(ctx.level(), ctx.caster()));
-    private static SpellAdapter status(Holder<MobEffect> effect, ToIntFunction<Resolution> ticks,
+    private static SpellAdapter status(java.util.function.Supplier<MobEffect> effect, ToIntFunction<Resolution> ticks,
                                        ToIntFunction<Resolution> amplifier) {
         return (ctx, target) -> {
-            int duration = (int)Math.clamp(ticks.applyAsInt(ctx) * ctx.duration(), 0, Integer.MAX_VALUE);
+            int duration = (int)net.minecraft.util.Mth.clamp(ticks.applyAsInt(ctx) * ctx.duration(), 0, Integer.MAX_VALUE);
             if (duration == 0) return false;
-            return target.addEffect(new MobEffectInstance(effect, duration, Math.clamp(amplifier.applyAsInt(ctx), 0, 255),
+            return target.addEffect(new MobEffectInstance(effect.get(), duration, net.minecraft.util.Mth.clamp(amplifier.applyAsInt(ctx), 0, 255),
                     false, false, true), ctx.caster());
         };
     }

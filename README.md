@@ -1,6 +1,10 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.3**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+> 本分支为 **Minecraft 1.20.1 / Forge 47.4.x 移植测试版**，版本 `0.15.3-forge1201-alpha.1`。使用 Java 17、Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3。保留 95 个魔符；本次验证范围及待验证内容见 [移植记录](docs/forge-1.20.1-port.md)。下方历史版本说明来自 1.21.1 基线。
+
+构建：先运行 `python tools/fetch_forge_dependencies.py` 获取锁定依赖，再用 Java 17 运行 `gradlew.bat jarJar`。安装 `build/libs/*-all.jar`，其中包含所需的 MixinExtras；Ars、Iron 及其前置仍需单独安装。
+
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。本分支版本 **0.15.3-forge1201-alpha.1**，Minecraft 1.20.1 / Forge 47.4.x。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
 原名 Iron's Nouveau，现更名为 Iron & Nouveau（Iron 与新生魔艺）。Mod ID 仍为 `irons_nouveau`，物品、魔符和配置 ID 保持兼容。
 
@@ -18,7 +22,7 @@
 
 `NativeSpellLevelEvent` 允许可选集成为非玩家提供每种法术的基础等级，然后统一计算增幅。未处理时使用所选等级策略：个人卷轴模式为 1 级，固定模式读取配置。Path-To-Zero 的咒法师使用此入口保留抽取到的原生稀有度等级，无须伪造玩家或临时修改法术注册对象。
 
-必需 Ars Nouveau 5.13.1、Iron's Spells 'n Spellbooks 1.21.1-3.16.3 及各自依赖。Ars 'n' Spells 3.3.2、Not Enough Glyphs 4.6.1 为可选联动，不打包上游模组或贴图，不依赖万途归零。
+必需 Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3 及各自依赖。Ars 'n Spells、Not Enough Glyphs 不是硬前置；其 Forge 1.20.1 联动尚未实测。不打包上游模组或贴图，不依赖万途归零。
 
 ## 已接入魔符
 
@@ -118,6 +122,8 @@
 
 ## 构建与验证
 
+Forge 分支使用 Java 17；构建与本轮测试说明见 [移植记录](docs/forge-1.20.1-port.md)。以下 0.15.0 及以前的报告属于 1.21.1 基线，列出的 NeoForge 命令和参数不适用于此分支。
+
 0.15.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_movement assemble`，2 项针对性 GameTest 通过：吟唱中断与重叠限制清理、开关隔离、自动到期、纯 Ars 与非玩家排除、实际远程吐息的玩家宿主选择及最后一组吐息结束后的恢复。客户端挂钩已核对 Iron 实际方法签名，未启动客户端实测移动手感。日志 `build/movement-validation.log`。
 
 0.14.0 执行 `runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_cooldown assemble`，3 项针对性 GameTest 通过：真实主动施法写入 Iron 冷却、重复魔符去重、跨配方共享、原生冷却缩减／事件／到期、关闭配置与纯 Ars 隔离、创造规则、三发散射、后续效果继续付费生效、预装填弩保留弹药与射击冷却、吟唱中断及验证失败不写冷却。日志 `build/cooldown-validation.log`。未启动客户端或重跑历史全量测试。
@@ -152,7 +158,7 @@ Java 21；本地 `libs/` 提供上游依赖，首次克隆须按 [构建说明�
 
 撰写台实际取出成品后记录该法术等级，默认通过 Ars 原生能力解锁对应魔符、同步客户端。奥术铁砧消耗墨水升级卷轴后更新记录，捡来的卷轴经本人升级也算。配方预览、背包已满导致取出失败、拾取／交换卷轴、使用卷轴、向法术书刻录和创造制作均不产生记录。普通点击和 Shift 点击走同一规则；较低等级的新成品不会覆盖较高记录。0.11.0 另提供仅在 Ars 学习模式可用的抄写台魔符配方；该模式的制作记录不直接解锁魔符。
 
-`CraftedSpells` 是不可变的“法术 ID → 最高等级”表，NeoForge attachment 负责保存、同步和死亡复制。物品移动或销毁不影响已掌握等级；不同玩家各自独立。创造模式切换只改变当前基础等级，退出后恢复个人生存记录。魔符物品说明显示是否掌握和当前基础等级。
+`CraftedSpells` 是不可变的“法术 ID → 最高等级”表，Forge 分支通过玩家持久化 NBT、死亡复制事件和 SimpleChannel 同步保存。物品移动或销毁不影响已掌握等级；不同玩家各自独立。创造模式切换只改变当前基础等级，退出后恢复个人生存记录。魔符物品说明显示是否掌握和当前基础等级。
 
 旧版本没有记录制作行为，无法从现有背包或已学魔符可靠区分制作和搜刮，因此不据此补历史。已有存档从更新后首次亲自撰写／升级开始积累。暂未适配的 Iron 法术也会记住制作成果，将来加入对应魔符后可在登录时自动解锁。
 

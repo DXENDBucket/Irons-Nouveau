@@ -44,7 +44,7 @@ public final class ComplexProjectilePayload extends ProjectilePayload {
             case "poison_arrow" -> { var s = (PoisonArrowSpell)spell; p.setDamage(s.getArrowDamage(level, caster)); ((PoisonArrow)p).setAoeDamage(s.getAOEDamage(level, caster)); }
             case "magma_bomb" -> { var s = (MagmaBombSpell)spell; p.setDamage(s.getDamage(level, caster)); p.setExplosionRadius(Math.min(48, s.getRadius(level, caster))); ((FireBomb)p).setAoeDamage(s.getAoeDamage(level, caster)); }
             case "snowball" -> { var s = (SnowballSpell)spell; p.setDamage(s.getDuration(level, caster)); p.setExplosionRadius(Math.min(48, s.getRadius(level, caster))); }
-            case "acid_orb" -> { var s = (AcidOrbSpell)spell; p.setExplosionRadius(Math.min(48, s.getRadius(level, caster))); ((AcidOrb)p).setRendLevel(Math.clamp(s.getRendAmplifier(level, caster), 0, 255)); ((AcidOrb)p).setRendDuration(s.getRendDuration(level, caster)); }
+            case "acid_orb" -> { var s = (AcidOrbSpell)spell; p.setExplosionRadius(Math.min(48, s.getRadius(level, caster))); ((AcidOrb)p).setRendLevel(net.minecraft.util.Mth.clamp(s.getRendAmplifier(level, caster), 0, 255)); ((AcidOrb)p).setRendDuration(s.getRendDuration(level, caster)); }
         }
     }
     public boolean detonate(CastSession session, AbstractMagicProjectile visual, HitResult hit) {

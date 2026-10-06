@@ -8,11 +8,11 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.network.PacketDistributor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +30,7 @@ public final class ActiveChanting {
         }
         void sync(int remaining) {
             if (caster instanceof ServerPlayer player && !player.hasDisconnected())
-                PacketDistributor.sendToPlayer(player, new ChantStatePayload(token, ticks, remaining));
+                dev.ironsnouveau.network.ForgeNetwork.sendToPlayer(player, new ChantStatePayload(token, ticks, remaining));
         }
         void progress(long now) {
             sync((int)Math.max(0, ticks - (now - start)));
@@ -72,7 +72,8 @@ public final class ActiveChanting {
         return true;
     }
     public static boolean isChanting(LivingEntity caster) { return ACTIVE.containsKey(caster.getUUID()); }
-    private static void tick(ServerTickEvent.Post event) {
+    private static void tick(ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         for (var pending : List.copyOf(ACTIVE.values())) {
             if (!pending.valid() || !SpellLevelConfig.chantingEnabled()) {
                 ACTIVE.remove(pending.caster.getUUID());

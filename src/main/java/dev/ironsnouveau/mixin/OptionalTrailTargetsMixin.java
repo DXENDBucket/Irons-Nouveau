@@ -20,7 +20,7 @@ public abstract class OptionalTrailTargetsMixin implements dev.ironsnouveau.cast
     @Shadow public int maxProcs;
     @Override public void ironsNouveau$budget(int value) { maxProcs = value; }
     @WrapOperation(method = "castSpells", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"))
+            target = "Lnet/minecraft/world/level/Level;getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;", remap = true))
     private List<Entity> ironsNouveau$excludeOwnVisual(Level world, Entity except, AABB box, Operation<List<Entity>> original) {
         return original.call(world, except, box).stream().filter(entity -> {
             if (entity instanceof NativeCastCarrier carrier) {

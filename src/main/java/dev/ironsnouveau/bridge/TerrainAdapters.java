@@ -15,7 +15,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.*;
-import net.neoforged.neoforge.common.CommonHooks;
+import net.minecraftforge.common.ForgeHooks;
 
 public final class TerrainAdapters {
     private TerrainAdapters() {}
@@ -63,7 +63,7 @@ public final class TerrainAdapters {
         var source = ctx.spell().getDamageSource(ctx.caster());
         for (var target : AreaSpellAdapters.targets(ctx, start, radius)) {
             if (target.getBoundingBox().getCenter().subtract(start).dot(forward) < 0) continue;
-            if (DamageSources.applyDamage(target, damage, source)) EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);
+            if (DamageSources.applyDamage(target, damage, source)) EnchantmentHelper.doPostDamageEffects(ctx.caster(), target);
         }
         var particle = new io.redspace.ironsspellbooks.particle.FlameStrikeParticleOptions((float)forward.x, (float)forward.y, (float)forward.z, false, false, 1);
         var pos = start.add(forward.scale(1.9)).add(0, .5, 0);
@@ -83,7 +83,7 @@ public final class TerrainAdapters {
         var pos = block.getBlockPos(); var state = ctx.world().getBlockState(pos);
         if (state.isAir() || !((TouchDigAccess)ctx.spell()).ironsNouveau$canBreak(ctx.world(), pos, ctx.power())) return false;
         var player = (ServerPlayer)ctx.caster();
-        if (CommonHooks.fireBlockBreak(ctx.world(), player.gameMode.getGameModeForPlayer(), player, pos, state).isCanceled()) return false;
+        if (ForgeHooks.onBlockBreakEvent(ctx.world(), player.gameMode.getGameModeForPlayer(), player, pos) == -1) return false;
         ((TouchDigAccess)ctx.spell()).ironsNouveau$destroy(ctx.world(), pos, ctx.caster());
         ctx.world().sendParticles(ParticleTypes.CRIT, pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, 15, .2, .2, .2, .1);
         return !ctx.world().getBlockState(pos).equals(state);
@@ -91,8 +91,8 @@ public final class TerrainAdapters {
     public static final LocationSpellAdapter HAMMER = (ctx, hit) -> {
         if (!(hit instanceof BlockHitResult block) || hit.getType() != HitResult.Type.BLOCK || !canMine(ctx, block.getBlockPos())) return false;
         if (!ctx.world().getBlockState(block.getBlockPos()).is(ModTags.SPECTRAL_HAMMER_MINEABLE)) return false;
-        int depth = (int)Math.clamp(ctx.power(), 0, 16);
-        int radius = (int)Math.clamp(WorldSpellAdapters.radius(ctx, Math.max(ctx.power() * .5, 1)), 1, 8);
+        int depth = (int)net.minecraft.util.Mth.clamp(ctx.power(), 0, 16);
+        int radius = (int)net.minecraft.util.Mth.clamp(WorldSpellAdapters.radius(ctx, Math.max(ctx.power() * .5, 1)), 1, 8);
         int bound = Math.max(depth, radius);
         for (var pos : BlockPos.betweenClosed(block.getBlockPos().offset(-bound, -bound, -bound), block.getBlockPos().offset(bound, bound, bound)))
             if (!canMine(ctx, pos)) return false;

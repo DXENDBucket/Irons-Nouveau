@@ -62,7 +62,7 @@ public final class EmissionAdapters {
             for (var target : ctx.world().getEntitiesOfClass(LivingEntity.class, new AABB(pos, pos).inflate(radius),
                     e -> e.isAlive() && e.distanceToSqr(pos) <= radius * radius && Utils.shouldHealEntity(ctx.caster(), e))) {
                 float healing = session.plan().nativePower() * .5f;
-                net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new io.redspace.ironsspellbooks.api.events.SpellHealEvent(
+                net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new io.redspace.ironsspellbooks.api.events.SpellHealEvent(
                         ctx.caster(), target, healing, ctx.spell().getSchoolType()));
                 target.heal(healing);
                 ctx.world().sendParticles(ParticleTypes.HAPPY_VILLAGER, target.getX(), target.getY() + 1, target.getZ(), 4, .3, .3, .3, 0);

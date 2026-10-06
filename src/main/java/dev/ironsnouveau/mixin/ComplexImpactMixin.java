@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Mixin;
         io.redspace.ironsspellbooks.entity.spells.WitherSkullProjectile.class,
         io.redspace.ironsspellbooks.entity.spells.creeper_head.CreeperHeadProjectile.class}, remap = false)
 public abstract class ComplexImpactMixin {
-    @WrapMethod(method = "onHit")
+    @WrapMethod(method = "onHit", remap = true)
     private void ironsNouveau$impact(HitResult hit, Operation<Void> original) {
         ComplexImpacts.execute((AbstractMagicProjectile)(Object)this, hit, () -> original.call(hit));
     }

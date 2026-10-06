@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = SpellBow.class, remap = false)
 public abstract class BowCooldownSpawnMixin {
     @WrapOperation(method = "addArrow", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+            target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z", remap = true))
     private boolean ironsNouveau$spawn(Level world, Entity entity, Operation<Boolean> original) {
         boolean spawned = original.call(world, entity);
         ActiveCooldowns.arrowSpawned(entity, spawned);

@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "dev.ironsnouveau.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ActiveCooldownDispatchMixin",
     "ScryCooldownMixin",
@@ -54,14 +54,16 @@
     "TouchDigAccess",
     "MotionEffectMixin",
     "BallLightningImpactMixin",
-    "GlyphRegistryOrderMixin"
+    "GlyphRegistryOrderMixin",
+    "ScryCasterChantMixin",
+    "KnowledgeOwnerMixin"
   ],
   "client": [
     "NativeCastingMovementMixin",
-    "NativeChantBarMixin",
-    "GlyphFormatterOrderMixin"
+    "NativeChantBarMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "refmap": "irons_nouveau.refmap.json"
 }

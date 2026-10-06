@@ -16,7 +16,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.neoforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.FakePlayer;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -32,8 +32,8 @@ public final class ActiveCooldowns {
     }
     private ActiveCooldowns() {}
     public static void arrowSpawned(net.minecraft.world.entity.Entity entity, boolean success) {
-        if (success && CURRENT.get() != null && entity instanceof EntitySpellArrow arrow && arrow.resolver() != null)
-            dispatched(arrow.resolver(), true);
+        if (success && CURRENT.get() != null && entity instanceof EntitySpellArrow arrow && arrow.spellResolver != null)
+            dispatched(arrow.spellResolver, true);
     }
     private static boolean applies(LivingEntity caster, Spell spell) {
         return SpellLevelConfig.cooldownsEnabled() && caster instanceof ServerPlayer player && !(player instanceof FakePlayer)
@@ -41,7 +41,7 @@ public final class ActiveCooldowns {
     }
     private static Set<AbstractSpell> spells(Spell spell) {
         var result = new LinkedHashSet<AbstractSpell>();
-        for (var part : spell.recipe()) {
+        for (var part : spell.recipe) {
             var id = part instanceof BridgeGlyph glyph ? glyph.definition().spellId()
                     : part instanceof NativeFormAugment form ? form.spellId() : null;
             if (id != null) {

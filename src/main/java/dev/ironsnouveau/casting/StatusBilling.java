@@ -27,8 +27,8 @@ public final class StatusBilling {
         }
         if (!(world.getEntity(tag.getUUID("owner")) instanceof LivingEntity caster) || !caster.isAlive()) return false;
         int level = Math.max(1, tag.getInt("level")); // Pre-0.7 statuses were always level one.
-        var spell = ResourceLocation.parse("irons_spellbooks:thunderstorm");
-        if (!GlyphAccessEvent.allowed(caster, ResourceLocation.parse("irons_nouveau:glyph_thunderstorm"), spell, level, GlyphAccessEvent.Action.RESOLVE)) return false;
+        var spell = new ResourceLocation("irons_spellbooks:thunderstorm");
+        if (!GlyphAccessEvent.allowed(caster, new ResourceLocation("irons_nouveau:glyph_thunderstorm"), spell, level, GlyphAccessEvent.Action.RESOLVE)) return false;
         ACCOUNTS.computeIfAbsent(target, e -> TriggerMana.of(null, caster)).trigger(spell, level, action);
         return true;
     }

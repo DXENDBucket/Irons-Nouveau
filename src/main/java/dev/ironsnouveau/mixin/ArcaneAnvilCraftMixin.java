@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(value = ArcaneAnvilMenu.class, remap = false)
 public abstract class ArcaneAnvilCraftMixin {
-    @WrapMethod(method = "onTake")
+    @WrapMethod(method = "onTake", remap = true)
     private void ironsNouveau$upgrade(Player player, ItemStack taken, Operation<Void> original) {
         var menu = (ArcaneAnvilMenu)(Object)this;
         var base = menu.getSlot(0).getItem(); var modifier = menu.getSlot(1).getItem();

@@ -1,7 +1,7 @@
 package dev.ironsnouveau.config;
 
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,21 +11,21 @@ public final class SpellLevelConfig {
     public enum Mode { PERSONAL_SCROLL, FIXED }
     public enum LearningMode { SCROLL_CRAFTING, ARS }
     public enum ChantMode { MAXIMUM, SUM }
-    public static final ModConfigSpec SPEC;
-    public static final ModConfigSpec.EnumValue<Mode> MODE;
-    public static final ModConfigSpec.IntValue DEFAULT_LEVEL;
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> SPELL_LEVELS;
-    public static final ModConfigSpec.BooleanValue CREATIVE_NATIVE_MAX;
-    public static final ModConfigSpec.EnumValue<LearningMode> LEARNING_MODE;
-    public static final ModConfigSpec.BooleanValue CHANTING_ENABLED;
-    public static final ModConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
-    public static final ModConfigSpec.BooleanValue COOLDOWNS_ENABLED;
-    public static final ModConfigSpec.BooleanValue MOVEMENT_ENABLED;
+    public static final ForgeConfigSpec SPEC;
+    public static final ForgeConfigSpec.EnumValue<Mode> MODE;
+    public static final ForgeConfigSpec.IntValue DEFAULT_LEVEL;
+    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SPELL_LEVELS;
+    public static final ForgeConfigSpec.BooleanValue CREATIVE_NATIVE_MAX;
+    public static final ForgeConfigSpec.EnumValue<LearningMode> LEARNING_MODE;
+    public static final ForgeConfigSpec.BooleanValue CHANTING_ENABLED;
+    public static final ForgeConfigSpec.EnumValue<ChantMode> CHANTING_MODE;
+    public static final ForgeConfigSpec.BooleanValue COOLDOWNS_ENABLED;
+    public static final ForgeConfigSpec.BooleanValue MOVEMENT_ENABLED;
     private static List<? extends String> cachedEntries = List.of();
     private static Map<ResourceLocation, Integer> cachedLevels = Map.of();
 
     static {
-        var builder = new ModConfigSpec.Builder();
+        var builder = new ForgeConfigSpec.Builder();
         builder.comment("Iron spell base levels used by Ars glyphs. Amplify/Dampen apply after this policy.").push("spell_levels");
         MODE = builder.comment("PERSONAL_SCROLL: highest native scroll personally crafted/upgraded (existing behavior).",
                 "FIXED: configured default level, with optional overrides for individual Iron spell IDs.")
@@ -35,7 +35,7 @@ public final class SpellLevelConfig {
         SPELL_LEVELS = builder.comment("Used only in FIXED mode. Format: namespace:spell_id=positive_integer.",
                 "Example: [\"irons_spellbooks:firebolt=3\", \"irons_spellbooks:heal=2\"]. Last duplicate wins.",
                 "Use Iron spell IDs, not irons_nouveau:glyph_* IDs. Unknown but well-formed IDs are harmless.")
-                .defineListAllowEmpty("overrides", List::of, () -> "irons_spellbooks:firebolt=1", SpellLevelConfig::validEntry);
+                .defineListAllowEmpty("overrides", List.of(), SpellLevelConfig::validEntry);
         CREATIVE_NATIVE_MAX = builder.comment("Keep the existing creative-mode native maximum. Set false to use the selected level policy in creative too.")
                 .define("creative_native_max", true);
         builder.pop();
@@ -74,7 +74,7 @@ public final class SpellLevelConfig {
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
-    private static <T> T read(ModConfigSpec.ConfigValue<T> value) {
+    private static <T> T read(ForgeConfigSpec.ConfigValue<T> value) {
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
     public static boolean requiresCrafting() { return read(LEARNING_MODE) == LearningMode.SCROLL_CRAFTING; }
@@ -92,7 +92,7 @@ public final class SpellLevelConfig {
                 var levels = new HashMap<ResourceLocation, Integer>();
                 for (var entry : entries) if (validEntry(entry)) {
                     int separator = entry.lastIndexOf('=');
-                    levels.put(ResourceLocation.parse(entry.substring(0, separator).trim()),
+                    levels.put(new ResourceLocation(entry.substring(0, separator).trim()),
                             Integer.parseInt(entry.substring(separator + 1).trim()));
                 }
                 cachedEntries = List.copyOf(entries);

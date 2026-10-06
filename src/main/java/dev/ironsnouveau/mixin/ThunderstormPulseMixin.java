@@ -7,8 +7,9 @@ import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 @Mixin(value = ThunderstormEffect.class, remap = false)
 public abstract class ThunderstormPulseMixin {
-    @WrapMethod(method = "applyEffectTick")
-    private boolean ironsNouveau$storm(LivingEntity entity, int amplifier, Operation<Boolean> original) {
-        return StatusBilling.pulse(entity, () -> original.call(entity, amplifier));
+    @WrapMethod(method = "applyEffectTick", remap = true)
+    private void ironsNouveau$storm(LivingEntity entity, int amplifier, Operation<Void> original) {
+        if (!StatusBilling.pulse(entity, () -> { original.call(entity, amplifier); return true; }))
+            entity.removeEffect((net.minecraft.world.effect.MobEffect)(Object)this);
     }
 }

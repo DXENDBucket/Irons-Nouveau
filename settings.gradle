@@ -1,2 +1,2 @@
-pluginManagement { repositories { gradlePluginPortal() } }
-rootProject.name = 'irons-nouveau'
+pluginManagement { repositories { gradlePluginPortal(); maven { url = 'https://maven.minecraftforge.net' }; maven { url = 'https://repo.spongepowered.org/repository/maven-public/' } } }
+rootProject.name = 'irons-nouveau-forge'

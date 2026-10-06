@@ -14,8 +14,9 @@ import java.util.Collection;
 
 /** Enforce survival crafting history while leaving creative knowledge to Ars. */
 @Mixin(value = ANPlayerDataCap.class, remap = false)
-public abstract class IronGlyphKnowledgeMixin {
-    @Shadow LivingEntity entity;
+public abstract class IronGlyphKnowledgeMixin implements dev.ironsnouveau.progression.KnowledgeOwner {
+    @org.spongepowered.asm.mixin.Unique private LivingEntity entity;
+    @Override public void ironsNouveau$owner(LivingEntity owner) { entity = owner; }
     @Inject(method = "getKnownGlyphs", at = @At("RETURN"), cancellable = true)
     private void ironsNouveau$visible(CallbackInfoReturnable<Collection<AbstractSpellPart>> cir) {
         if (entity instanceof Player player) cir.setReturnValue(SpellProgress.visibleKnowledge(player, cir.getReturnValue()));

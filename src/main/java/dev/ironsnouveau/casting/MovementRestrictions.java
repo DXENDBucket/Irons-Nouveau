@@ -5,11 +5,11 @@ import dev.ironsnouveau.network.CastingMovementPayload;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.level.LevelEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.network.PacketDistributor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,12 +25,12 @@ public final class MovementRestrictions {
         long lastSync;
         State(ServerPlayer entity, ServerLevel world) { this.entity = entity; this.world = world; }
         int remaining() {
-            return (int)Math.clamp(leases.values().stream().mapToLong(Long::longValue).max().orElse(0) - world.getGameTime(), 0, Integer.MAX_VALUE);
+            return (int)net.minecraft.util.Mth.clamp(leases.values().stream().mapToLong(Long::longValue).max().orElse(0) - world.getGameTime(), 0, Integer.MAX_VALUE);
         }
         void sync() {
             lastSync = world.getGameTime();
             if (!entity.hasDisconnected())
-                PacketDistributor.sendToPlayer(entity, new CastingMovementPayload(entity.getId(), world.dimension().location(), remaining()));
+                dev.ironsnouveau.network.ForgeNetwork.sendToPlayer(entity, new CastingMovementPayload(entity.getId(), world.dimension().location(), remaining()));
         }
         void clear() {
             leases.clear(); sync();
@@ -45,7 +45,7 @@ public final class MovementRestrictions {
         });
     }
     public static void begin(LivingEntity entity, UUID token, int ticks) {
-        if (!(entity instanceof ServerPlayer player) || player instanceof net.neoforged.neoforge.common.util.FakePlayer
+        if (!(entity instanceof ServerPlayer player) || player instanceof net.minecraftforge.common.util.FakePlayer
                 || !entity.isAlive() || !(entity.level() instanceof ServerLevel world) || ticks <= 0) return;
         var state = ACTIVE.get(entity.getUUID());
         if (state != null && (state.entity != entity || state.world != world)) { remove(state); state = null; }
@@ -68,7 +68,8 @@ public final class MovementRestrictions {
         return SpellLevelConfig.movementEnabled() && state != null && state.entity == entity && state.remaining() > 0;
     }
     private static void remove(State state) { ACTIVE.remove(state.entity.getUUID(), state); state.clear(); }
-    private static void tick(ServerTickEvent.Post event) {
+    private static void tick(ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         for (var state : List.copyOf(ACTIVE.values())) {
             if (!state.entity.isAlive() || state.entity.isRemoved() || state.entity.level() != state.world
                     || state.entity.hasDisconnected()) { remove(state); continue; }

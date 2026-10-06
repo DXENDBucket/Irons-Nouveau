@@ -26,7 +26,7 @@ public final class PointEntityAdapters {
         int height = 4 + (target == null ? 0 : (int)(target.getBbHeight() * .5));
         for (int i = 0; i < height && ctx.world().getBlockState(BlockPos.containing(pos.add(0, 1, 0))).isAir(); i++) pos = pos.add(0, 1, 0);
         var ice = new IceBlockProjectile(ctx.world(), ctx.caster(), target); ice.moveTo(pos);
-        if (!ctx.world().noBlockCollision(ice, ice.getBoundingBox())) ice.noPhysics = true;
+        if (ctx.world().getBlockCollisions(ice, ice.getBoundingBox()).iterator().hasNext()) ice.noPhysics = true;
         ice.setAirTime(target == null ? 25 : 35); ice.setDamage((float)ctx.power());
         return EffectResources.spawnOnce(ctx, ice, 400);
     };
@@ -52,7 +52,7 @@ public final class PointEntityAdapters {
     public static final LocationSpellAdapter STOMP = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         Vec3 pos = WorldSpellAdapters.center(hit);
-        int range = (int)Math.clamp(4 + ctx.level() * (double)ctx.spell().getEntityPowerMultiplier(ctx.caster()), 1, 48);
+        int range = (int)net.minecraft.util.Mth.clamp(4 + ctx.level() * (double)ctx.spell().getEntityPowerMultiplier(ctx.caster()), 1, 48);
         var stomp = new StompAoe(ctx.world(), range, Utils.rotationFromDirection(AreaSpellAdapters.direction(ctx, hit)).y);
         stomp.moveTo(pos); stomp.setDamage((float)ctx.power()); stomp.setExplosionRadius(ctx.spell().getEntityPowerMultiplier(ctx.caster())); stomp.setOwner(ctx.caster());
         return EffectResources.spawn(ctx, stomp, 300);
@@ -108,7 +108,7 @@ public final class PointEntityAdapters {
         var source = ctx.spell().getDamageSource(ctx.caster());
         for (var target : AreaSpellAdapters.targets(ctx, pos, WorldSpellAdapters.radius(ctx, 2.2)))
             if (DamageSources.applyDamage(target, damage, source))
-                net.minecraft.world.item.enchantment.EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);
+                net.minecraft.world.item.enchantment.EnchantmentHelper.doPostDamageEffects(ctx.caster(), target);
         ctx.world().sendParticles(ParticleTypes.ELECTRIC_SPARK, pos.x, pos.y, pos.z, 50, .4, .2, .4, 1); return true;
     };
     public static final SpellAdapter ENDER_CHEST = (ctx, target) -> {

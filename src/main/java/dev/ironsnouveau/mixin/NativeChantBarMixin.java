@@ -12,22 +12,22 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = CastBarOverlay.class, remap = false)
 public abstract class NativeChantBarMixin {
     @WrapOperation(method = "render", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;isCasting()Z"))
+            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;isCasting()Z", remap = false))
     private boolean ironsNouveau$active(Operation<Boolean> original) {
         return original.call() || ChantHudState.visible();
     }
     @WrapOperation(method = "render", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastType()Lio/redspace/ironsspellbooks/api/spells/CastType;"))
+            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastType()Lio/redspace/ironsspellbooks/api/spells/CastType;", remap = false))
     private CastType ironsNouveau$type(Operation<CastType> original) {
         return ChantHudState.visible() ? CastType.LONG : original.call();
     }
     @WrapOperation(method = "render", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastCompletionPercent()F"))
+            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastCompletionPercent()F", remap = false))
     private float ironsNouveau$progress(Operation<Float> original) {
         return ChantHudState.visible() ? ChantHudState.progress() : original.call();
     }
     @WrapOperation(method = "render", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastDuration()I"))
+            target = "Lio/redspace/ironsspellbooks/player/ClientMagicData;getCastDuration()I", remap = false))
     private int ironsNouveau$duration(Operation<Integer> original) {
         return ChantHudState.visible() ? ChantHudState.duration() : original.call();
     }

@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
         GuidingBoltProjectile.class, LightningLanceProjectile.class, MagicArrowProjectile.class, BloodNeedle.class,
         io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball.class}, remap = false)
 public abstract class NativeProjectileImpactMixin {
-    @WrapOperation(method = "onHitEntity", at = @At(value = "INVOKE",
-            target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z"))
+    @WrapOperation(method = "onHitEntity", remap = true, at = @At(value = "INVOKE",
+            target = "Lio/redspace/ironsspellbooks/damage/DamageSources;applyDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)Z", remap = false))
     private boolean ironsNouveau$impact(Entity target, float damage, DamageSource source, Operation<Boolean> original) {
         var session = ((NativeCastCarrier) this).ironsNouveau$session();
         if (session != null && !session.permitted()) return false;

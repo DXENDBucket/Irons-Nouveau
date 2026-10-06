@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = MethodProjectile.class, remap = false)
 public abstract class ProjectileConversionMixin {
     @WrapOperation(method = "summonProjectiles", at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
+            target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z", remap = true))
     private boolean ironsNouveau$convert(Level world, Entity entity, Operation<Boolean> original) {
         return NativeCasting.convert(entity) || original.call(world, entity);
     }

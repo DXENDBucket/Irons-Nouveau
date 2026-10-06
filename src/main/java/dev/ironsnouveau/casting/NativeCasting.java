@@ -17,7 +17,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import java.util.ArrayList;
 import java.util.List;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 
 public final class NativeCasting {
     private NativeCasting() {}
@@ -62,10 +62,10 @@ public final class NativeCasting {
     public static void beforeCast(SpellCastEvent event) {
         var caster = event.context.getUnwrappedCaster();
         if (caster == null || caster.level().isClientSide) return;
-        var error = validate(event.spell.unsafeList());
+        var error = validate(event.spell.recipe);
         boolean allowed = error.isEmpty();
         boolean hasForm = false;
-        for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(event.spell.unsafeList())) {
+        for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(event.spell.recipe)) {
             for (var augment : phrase.getAugments()) if (augment instanceof NativeFormAugment form) {
                 hasForm = true;
                 allowed &= SpellRegistry.getSpell(form.spellId()).isEnabled()
@@ -74,7 +74,7 @@ public final class NativeCasting {
             }
         }
         // Effects use their own phrase augments, independently of a preceding projectile form.
-        for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(event.spell.unsafeList())) {
+        for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(event.spell.recipe)) {
             if (phrase.getAction() instanceof dev.ironsnouveau.glyph.BridgeGlyph glyph) {
                 hasForm = true;
                 allowed &= glyph.permitted(caster, SpellLevels.resolve(caster, glyph.definition().spellId(), phrase.getAugments()), GlyphAccessEvent.Action.RESOLVE);
@@ -84,19 +84,19 @@ public final class NativeCasting {
         if (!allowed) {
             event.setCanceled(true);
             if (caster instanceof Player player && !caster.level().isClientSide)
-                player.displayClientMessage(error.isEmpty() ? Component.translatable("irons_nouveau.cast.denied") : error.getFirst().makeTextComponentExisting(), true);
+                player.displayClientMessage(error.isEmpty() ? Component.translatable("irons_nouveau.cast.denied") : error.get(0).makeTextComponentExisting(), true);
         }
     }
     public static void joined(EntityJoinLevelEvent event) {
-        if (event.getEntity() instanceof EntityProjectileSpell ars && ars.resolver() != null) {
+        if (event.getEntity() instanceof EntityProjectileSpell ars && ars.spellResolver != null) {
             var profile = CarrierProfiles.of(ars);
             if (profile != null && profile.driven() && convert(ars)) event.setCanceled(true);
         }
     }
     /** Runs at Ars' addFreshEntity call, after velocity, spread and split count have been calculated. */
     public static boolean convert(Entity entity) {
-        if (!(entity instanceof EntityProjectileSpell ars) || ars.resolver() == null) return false;
-        var resolver = ars.resolver();
+        if (!(entity instanceof EntityProjectileSpell ars) || ars.spellResolver == null) return false;
+        var resolver = ars.spellResolver;
         var caster = resolver.spellContext.getUnwrappedCaster();
         var form = form(resolver.spell, caster);
         if (form == null) return false;

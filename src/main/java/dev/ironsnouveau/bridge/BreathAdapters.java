@@ -18,15 +18,13 @@ public final class BreathAdapters {
             case "cone_of_cold" -> new ConeOfColdProjectile(ctx.world(), ctx.caster());
             default -> throw new IllegalArgumentException(id);
         };
-        float damage = switch (ctx.spell()) {
-            case io.redspace.ironsspellbooks.spells.fire.FireBreathSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
-            case io.redspace.ironsspellbooks.spells.nature.PoisonBreathSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
-            case io.redspace.ironsspellbooks.spells.ender.DragonBreathSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
-            case io.redspace.ironsspellbooks.spells.ice.ConeOfColdSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
-            default -> throw new IllegalArgumentException(id);
-        };
+        float damage = ctx.spell() instanceof io.redspace.ironsspellbooks.spells.fire.FireBreathSpell spell ? spell.getDamage(ctx.level(), ctx.caster()) :
+                ctx.spell() instanceof io.redspace.ironsspellbooks.spells.nature.PoisonBreathSpell spell ? spell.getDamage(ctx.level(), ctx.caster()) :
+                ctx.spell() instanceof io.redspace.ironsspellbooks.spells.ender.DragonBreathSpell spell ? spell.getDamage(ctx.level(), ctx.caster()) :
+                ctx.spell() instanceof io.redspace.ironsspellbooks.spells.ice.ConeOfColdSpell spell ? spell.getDamage(ctx.level(), ctx.caster()) :
+                0;
         int duration = EffectResources.ticks(ctx.spell().getCastTime(ctx.level()) * ctx.duration());
-        float scale = (float)Math.clamp(1 + Math.max(0, ctx.stats().getAoeMultiplier()) * .25, 1, 3);
+        float scale = (float)net.minecraft.util.Mth.clamp(1 + Math.max(0, ctx.stats().getAoeMultiplier()) * .25, 1, 3);
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), damage, new CastModifiers(0, 1), duration);
         var account = TriggerMana.current() == null ? TriggerMana.of(null, ctx.caster()) : TriggerMana.current();
         return CastSessions.start(new CastSession(ctx.world(), ctx.caster(), plan, pose, new BreathExecution(cone, pose, scale), ignored -> {})

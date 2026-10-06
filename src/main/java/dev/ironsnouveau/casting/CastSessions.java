@@ -1,9 +1,9 @@
 package dev.ironsnouveau.casting;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.event.server.ServerStoppedEvent;
-import net.neoforged.neoforge.event.level.LevelEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,7 +25,8 @@ public final class CastSessions {
         ACTIVE.put(session.id(), session);
         return true;
     }
-    private static void tick(ServerTickEvent.Post event) {
+    private static void tick(ServerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         // Continuations can start new sessions; do not iterate a live mutable map.
         for (var session : List.copyOf(ACTIVE.values())) {
             session.tick();
