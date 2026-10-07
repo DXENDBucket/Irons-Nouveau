@@ -48,6 +48,7 @@ public final class IronsNouveau {
     public IronsNouveau(IEventBus bus, net.neoforged.fml.ModContainer container) {
         dev.ironsnouveau.casting.BoundSpellWeapons.register(bus);
         bus.addListener(dev.ironsnouveau.network.ChantStatePayload::register);
+        bus.addListener(dev.ironsnouveau.network.SiphonRayVisualPayload::register);
         bus.addListener(dev.ironsnouveau.network.CastingMovementPayload::register);
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER,
                 dev.ironsnouveau.config.SpellLevelConfig.SPEC, "irons_nouveau-server.toml");

@@ -14,11 +14,14 @@ import net.neoforged.neoforge.network.PacketDistributor;
 public final class SiphonRayExecution implements CastExecution {
     private final BreathPose pose;
     private long nextPulse;
+    private long nextVisual;
     public SiphonRayExecution(BreathPose pose) { this.pose = pose; }
     @Override public boolean start(CastSession session) {
         if (!pose.valid(session)) return false;
         pulse(session); // The enclosing BridgeGlyph reserved and bills this first pulse.
         nextPulse = session.world().getGameTime() + 10;
+        syncVisual(session, session.remainingTicks());
+        nextVisual = session.world().getGameTime() + 5;
         MovementRestrictions.begin(pose.anchor(), session.id(), session.remainingTicks());
         return true;
     }
@@ -29,7 +32,16 @@ public final class SiphonRayExecution implements CastExecution {
             if (!session.activate(() -> { pulse(session); return true; })) return true;
             nextPulse = session.world().getGameTime() + 10;
         }
+        if (session.world().getGameTime() >= nextVisual) {
+            syncVisual(session, session.remainingTicks());
+            nextVisual = session.world().getGameTime() + 5;
+        }
         return false;
+    }
+    private void syncVisual(CastSession session, int remaining) {
+        var data = dev.ironsnouveau.network.SiphonRayVisualPayload.of(session, pose, remaining);
+        PacketDistributor.sendToPlayersNear(session.world(), null, data.origin().x, data.origin().y, data.origin().z,
+                96, data);
     }
     private void pulse(CastSession session) {
         var aim = pose.sample();
@@ -49,6 +61,7 @@ public final class SiphonRayExecution implements CastExecution {
                 aim.origin().z, sound, SoundSource.PLAYERS, .7f, 1f));
     }
     @Override public void close(CastSession session, CastSession.EndReason reason) {
+        syncVisual(session, 0);
         MovementRestrictions.end(pose.anchor(), session.id());
     }
 }

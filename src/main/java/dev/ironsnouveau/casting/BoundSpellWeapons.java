@@ -50,6 +50,23 @@ public final class BoundSpellWeapons {
         // Consume the active use before Iron or Ars 'n Spells can dispatch a second spell.
         NeoForge.EVENT_BUS.addListener(EventPriority.HIGHEST, BoundSpellWeapons::rightClick);
         NeoForge.EVENT_BUS.addListener(BoundSpellWeapons::commands);
+        NeoForge.EVENT_BUS.addListener(BoundSpellWeapons::tooltip);
+    }
+    private static void tooltip(net.neoforged.neoforge.event.entity.player.ItemTooltipEvent event) {
+        var stack = event.getItemStack(); var spell = program(stack);
+        if (spell == null) return;
+        var lines = event.getToolTip();
+        var spells = ironSpells(spell);
+        if (!spell.name().isBlank()) lines.add(Component.translatable("irons_nouveau.bound_weapon.contains", spell.name())
+                .withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE));
+        else if (spells.isEmpty()) lines.add(Component.translatable("irons_nouveau.bound_weapon.unnamed")
+                .withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE));
+        for (var id : spells) {
+            var nativeSpell = SpellRegistry.getSpell(id);
+            if (nativeSpell != SpellRegistry.none()) lines.add(Component.translatable("irons_nouveau.bound_weapon.contains",
+                    new io.redspace.ironsspellbooks.api.spells.SpellData(nativeSpell, presetLevel(stack, id)).getDisplayName())
+                    .withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE));
+        }
     }
     public static boolean hasBinding(ItemStack stack) { return stack.has(BINDING.get()); }
     public static Spell program(ItemStack stack) {

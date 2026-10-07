@@ -1,6 +1,8 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.6**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.7**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.15.7 补齐血吸光束的光束本体渲染。原有吸血命中粒子不等同于光束；现在将联动会话的位置、锚点及方向同步给附近客户端，调用 Iron 的光束绘制方法并引用原生材质。自身、目标生物及固定位置触发均可显示；光束跟随锚点，结束／空蓝时停止，离开维度或失联时清理。视觉状态不接管 Iron 原生施法状态，也不参与伤害或计费。绑定武器的描述显示封存法术名称与固定基础等级，不显示完整 Ars 编排。
 
 0.15.6 新增血吸光束效果魔符（`glyph_ray_of_siphoning`），使用与吐息一致的触发位置、朝向和持续会话。原生范围、伤害、吸血及粒子保持一致；每 10 tick 按原生费用支付，空蓝或固定时长结束后停止。
 

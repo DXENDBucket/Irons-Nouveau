@@ -206,5 +206,7 @@
   "irons_nouveau.glyph_name.glyph_volt_strike": "Volt Strike",
   "irons_nouveau.glyph_desc.glyph_volt_strike": "Entity targets only: the recipient performs Volt Strike in its own facing direction. Self selects the caster; contact and burst damage belong to the original caster. Each Amplify adds one spell level.",
   "irons_nouveau.bound_weapon.invalid_source": "Hold the destination item in your main hand and a readable spellbook in your off hand.",
-  "irons_nouveau.bound_weapon.bound": "Bound the selected spell to your main-hand item."
+  "irons_nouveau.bound_weapon.bound": "Bound the selected spell to your main-hand item.",
+  "irons_nouveau.bound_weapon.contains": "Stored spell: %s",
+  "irons_nouveau.bound_weapon.unnamed": "Contains a sealed spell"
 }
