@@ -1,6 +1,18 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.5**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.15.6**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.15.6 新增血吸光束效果魔符（`glyph_ray_of_siphoning`），使用与吐息一致的触发位置、朝向和持续会话。原生范围、伤害、吸血及粒子保持一致；每 10 tick 按原生费用支付，空蓝或固定时长结束后停止。
+
+### 武器绑定 Ars 术式
+
+`BoundSpellWeapons.bind(stack, spell, levels)` 将完整 Ars 术式绑定到物品；`levels` 是各 Iron 法术的固定基础等级，可用整数重载统一指定。适用于 Iron 紫水晶刺剑、普通物品及自定义武器，也允许纯 Ars 或混合术式。绑定后右键替代原来的主动使用法术，保留物品的近战属性。未绑定物品仍沿用原行为。
+
+绑定数据在 `irons_nouveau:bound_weapon_spell` 组件中持久保存、同步，保留原生术式的顺序、增强、颜色、声音及粒子设置，不使用 Ars 可编辑的 `SPELL_CASTER` 组件，不提供转写或提取入口。成品物品只授权自身配方内的 Iron 法术，不记录制作进度或解锁魔符；固定基础等级之后仍统一计算编排中的增幅。`PresetSpellTool` 接口也支持由物品内部生成固定配方，授权随延迟弹射物、持续会话和生成效果传递。
+
+主动施法复用现有耗蓝、吟唱、玩家冷却及创造模式规则；生物与测试玩家另存每种 Iron 法术的原生冷却时间。只预检首个 Iron 触发是否付得起，不要求整条编排或所有散射一次性付清；后续费用仍在实际触发时扣除。失败时不会落回原本的 Iron 右键法术。纯 Ars 术式不会新增 Iron 吟唱或冷却。
+
+开发／管理命令（权限等级 2）：主手拿目标武器，副手拿 Ars 法术书，选择要复制的法术后使用 `/ironsnouveau bind_weapon <基础等级>`。`/ironsnouveau clear_weapon_binding` 移除主手绑定。此命令是开发绑定入口，未增加生存制作配方或编辑界面；已封存的绑定武器不能作为命令的术式来源。
 
 0.15.5 新增默认开启的 `mana.use_iron_mana`：玩家 Iron 魔符的触发与持续费用改扣 Iron 蓝量，关闭后恢复 Ars 资源来源。普通 Ars 魔符和 Hex 媒质的费用保持原规则，详见 [配置说明](docs/configuration.md#魔力来源)。
 
@@ -18,7 +30,7 @@
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
-现有 95 个魔符：18 个弹射物形态强化、77 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
+现有 96 个魔符：18 个弹射物形态强化、78 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
 
 `NativeSpellLevelEvent` 允许可选集成为非玩家提供每种法术的基础等级，然后统一计算增幅。未处理时使用所选等级策略：个人卷轴模式为 1 级，固定模式读取配置。Path-To-Zero 的咒法师使用此入口保留抽取到的原生稀有度等级，无须伪造玩家或临时修改法术注册对象。
 
@@ -42,6 +54,7 @@
 | 爆炸／附带区域的弹射物形态 | `fireball`, `fire_arrow`, `poison_arrow`, `magma_bomb`, `snowball`, `acid_orb` |
 | 增益／减益／恢复效果 | `heal`, `fortify`, `oakskin`, `haste`, `slow`, `blight`, `greater_heal`, `cleanse`, `root` |
 | 目标／位置攻击效果 | `lightning_bolt`, `eldritch_blast`, `chain_lightning`, `wisp`, `firefly_swarm` |
+| 持续射线效果 | `ray_of_siphoning` |
 | 持续区域／雷暴效果 | `healing_circle`, `black_hole`, `sculk_tentacles`, `thunderstorm` |
 | 召唤效果 | `summon_vex`, `raise_dead`, `summon_horse`, `summon_swords`, `summon_polar_bear` |
 | 吐息效果 | `fire_breath`, `poison_breath`, `dragon_breath`, `cone_of_cold` |

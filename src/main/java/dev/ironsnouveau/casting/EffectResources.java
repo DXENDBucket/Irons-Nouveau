@@ -45,7 +45,8 @@ public final class EffectResources {
         var mana = ACCOUNTS.computeIfAbsent(entity, e -> TriggerMana.of(null, living));
         PAYING.add(entity);
         try {
-            boolean applied = mana.trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), action);
+            boolean applied = PresetTools.scoped(preset(entity, living), () ->
+                    mana.trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), action));
             if (applied) PAID.put(entity, round);
             return applied;
         } finally { PAYING.remove(entity); }
@@ -107,8 +108,8 @@ public final class EffectResources {
         var spell = ResourceLocation.tryParse(tag.getString("spell"));
         var glyph = ResourceLocation.tryParse(tag.getString("glyph"));
         if (spell == null || glyph == null) return;
-        scoped(new Origin(owner, glyph, spell, tag.getInt("level"), ticks(duration),
-                ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), () -> { action.run(); return true; });
+        PresetTools.scoped(preset(parent, owner), () -> scoped(new Origin(owner, glyph, spell, tag.getInt("level"), ticks(duration),
+                ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), () -> { action.run(); return true; }));
     }
     public static void register(IEventBus bus) {
         bus.addListener(net.neoforged.bus.api.EventPriority.LOWEST, EffectResources::joined);
@@ -129,6 +130,10 @@ public final class EffectResources {
             tag.putUUID("owner", origin.owner().getUUID()); tag.putString("glyph", origin.glyph().toString());
             tag.putString("spell", origin.spell().toString()); tag.putInt("level", origin.level());
             tag.putLong("expires", world.getGameTime() + origin.ticks());
+            var preset = PresetTools.current();
+            if (preset != null && preset.caster() == origin.owner()
+                    && PresetTools.level(origin.owner(), origin.spell()) > 0)
+                tag.put("preset_tool", preset.stack().save(event.getLevel().registryAccess()));
             if (PAID_CHILDREN.get()) tag.putBoolean("one_shot", true);
             entity.getPersistentData().put(KEY, tag);
         }
@@ -151,11 +156,18 @@ public final class EffectResources {
                 var spell = ResourceLocation.tryParse(tag.getString("spell"));
                 var glyph = ResourceLocation.tryParse(tag.getString("glyph"));
                 if (spell == null || glyph == null || !SpellRegistry.getSpell(spell).isEnabled()
-                        || !GlyphAccessEvent.allowed(caster, glyph, spell, tag.getInt("level"), GlyphAccessEvent.Action.RESOLVE)) remove(entity);
+                        || !PresetTools.scoped(preset(entity, caster), () -> GlyphAccessEvent.allowed(caster, glyph, spell,
+                                tag.getInt("level"), GlyphAccessEvent.Action.RESOLVE))) remove(entity);
             }
         }
     }
     private static void remove(Entity entity) {
         SummonManager.removeSummon(entity); entity.discard(); ACTIVE.remove(entity); ACCOUNTS.remove(entity); PAID.remove(entity);
+    }
+    private static PresetTools.Token preset(Entity entity, LivingEntity owner) {
+        var tag = entity.getPersistentData().getCompound(KEY);
+        if (!tag.contains("preset_tool")) return null;
+        var stack = net.minecraft.world.item.ItemStack.parseOptional(entity.level().registryAccess(), tag.getCompound("preset_tool"));
+        return PresetTools.isPreset(stack) ? new PresetTools.Token(owner, stack) : null;
     }
 }

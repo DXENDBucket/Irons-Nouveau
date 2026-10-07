@@ -12,6 +12,10 @@ import java.util.List;
 public final class CastSessions {
     private static final Map<UUID, CastSession> ACTIVE = new LinkedHashMap<>();
     private CastSessions() {}
+    public static boolean isCasting(net.minecraft.world.entity.LivingEntity caster) {
+        return ACTIVE.values().stream().anyMatch(session -> session.active() && session.caster() == caster
+                && (session.execution() instanceof BreathExecution || session.execution() instanceof SiphonRayExecution));
+    }
     public static void register(IEventBus bus) {
         bus.addListener(CastSessions::tick);
         bus.addListener(CastSessions::stop);

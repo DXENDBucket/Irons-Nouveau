@@ -40,6 +40,8 @@ public final class SpellProgress {
     }
     public static int craftedLevel(Player player, ResourceLocation spell) { return player.getData(CRAFTED).level(spell); }
     public static int baseLevel(LivingEntity caster, ResourceLocation spell) {
+        int preset = dev.ironsnouveau.casting.PresetTools.level(caster, spell);
+        if (preset > 0) return preset;
         int configured = SpellLevelConfig.mode() == SpellLevelConfig.Mode.FIXED ? SpellLevelConfig.configuredLevel(spell) : 1;
         if (!(caster instanceof Player player)) return net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(
                 new dev.ironsnouveau.api.NativeSpellLevelEvent(caster, spell, configured)).level();
@@ -49,6 +51,7 @@ public final class SpellProgress {
         return SpellLevelConfig.mode() == SpellLevelConfig.Mode.FIXED ? configured : Math.max(1, craftedLevel(player, spell));
     }
     public static boolean canUse(LivingEntity caster, ResourceLocation spell) {
+        if (dev.ironsnouveau.casting.PresetTools.level(caster, spell) > 0) return true;
         return !SpellLevelConfig.requiresCrafting() || !(caster instanceof Player player) || player.isCreative() || craftedLevel(player, spell) > 0;
     }
     public static ResourceLocation spellId(AbstractSpellPart part) {

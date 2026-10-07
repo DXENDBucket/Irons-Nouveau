@@ -60,6 +60,9 @@ public final class NativeCasting {
         return modifiers.resolveLevel(dev.ironsnouveau.progression.SpellProgress.baseLevel(caster, form.spellId()));
     }
     public static void beforeCast(SpellCastEvent event) {
+        PresetTools.scoped(event.context, () -> { beforeCastScoped(event); return null; });
+    }
+    private static void beforeCastScoped(SpellCastEvent event) {
         var caster = event.context.getUnwrappedCaster();
         if (caster == null || caster.level().isClientSide) return;
         var error = validate(event.spell.unsafeList());

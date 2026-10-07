@@ -84,6 +84,8 @@
   "irons_nouveau.glyph_desc.glyph_eldritch_blast": "邪术能量冲击命中的敌人。 触发时消耗魔力；持续作用逐轮消耗魔力。",
   "irons_nouveau.glyph_name.glyph_fire_breath": "火焰吐息",
   "irons_nouveau.glyph_desc.glyph_fire_breath": "持续喷吐火焰，点燃前方的敌人。 命中生物时由其朝自身方向喷吐，魔力由施法者承担。持续消耗魔力，魔力不足或时间结束时停止。延时延长持续时间，每个增幅提高一级，范围扩大吐息。",
+  "irons_nouveau.glyph_name.glyph_ray_of_siphoning": "血吸光束",
+  "irons_nouveau.glyph_desc.glyph_ray_of_siphoning": "持续射出吸取生命的光束。自身触发时从眼前发出；命中其他生物时从其眼前沿其朝向发出；位置触发时沿传入的方向发出。伤害与吸血归属于施法者。持续消耗魔力，魔力不足或时间结束时停止。延时延长持续时间，每个增幅提高一级。",
   "irons_nouveau.glyph_name.glyph_poison_breath": "毒雾喷射",
   "irons_nouveau.glyph_desc.glyph_poison_breath": "持续喷吐毒雾，使前方的敌人中毒。 命中生物时由其朝自身方向喷吐，魔力由施法者承担。持续消耗魔力，魔力不足或时间结束时停止。延时延长持续时间，每个增幅提高一级，范围扩大吐息。",
   "irons_nouveau.glyph_name.glyph_dragon_breath": "龙息",
@@ -202,5 +204,7 @@
   "irons_nouveau.glyph_name.glyph_ascension": "飞升",
   "irons_nouveau.glyph_desc.glyph_ascension": "仅对实体目标生效：目标踏雷飞升。自身触发选中施法者；雷击伤害归原施法者。 增幅每个增加一级法术等级。",
   "irons_nouveau.glyph_name.glyph_volt_strike": "伏特打击",
-  "irons_nouveau.glyph_desc.glyph_volt_strike": "仅对实体目标生效：目标沿自身朝向执行伏特打击。自身触发选中施法者；接触与爆发伤害归原施法者。 增幅每个增加一级法术等级。"
+  "irons_nouveau.glyph_desc.glyph_volt_strike": "仅对实体目标生效：目标沿自身朝向执行伏特打击。自身触发选中施法者；接触与爆发伤害归原施法者。 增幅每个增加一级法术等级。",
+  "irons_nouveau.bound_weapon.invalid_source": "主手持待绑定物品，副手持有可读取的法术书。",
+  "irons_nouveau.bound_weapon.bound": "已将当前术式绑定到主手物品。"
 }

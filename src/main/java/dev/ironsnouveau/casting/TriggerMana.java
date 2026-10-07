@@ -18,6 +18,14 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
     public static TriggerMana of(SpellContext context, LivingEntity caster) {
         return new TriggerMana(caster, context == null ? LivingCaster.from(caster) : context.getCaster());
     }
+    /** Check one first trigger, allowing for Ars's upfront cost when both draw on this pool. */
+    public boolean canBegin(ResourceLocation spell, int level, int arsUpfrontCost) {
+        if (caster instanceof Player player && player.isCreative()) return true;
+        long needed = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level))
+                + RESERVED.get().getOrDefault(caster, 0L);
+        if (!usesIronMana()) needed += Math.max(0, arsUpfrontCost);
+        return needed <= Integer.MAX_VALUE && enoughMana((int)needed);
+    }
     public int affordableCount(ResourceLocation spell, int level, int requested) {
         if (caster instanceof Player player && player.isCreative()) return requested;
         int cost = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level));

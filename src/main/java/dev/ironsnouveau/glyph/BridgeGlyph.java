@@ -72,6 +72,12 @@ public final class BridgeGlyph extends AbstractEffect {
     }
     @Override public void onResolve(HitResult hit, Level world, LivingEntity caster, SpellStats stats,
                                     SpellContext context, SpellResolver resolver) {
+        dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
+            resolve(hit, world, caster, stats, context, resolver); return null;
+        });
+    }
+    private void resolve(HitResult hit, Level world, LivingEntity caster, SpellStats stats,
+                         SpellContext context, SpellResolver resolver) {
         if (!(world instanceof ServerLevel server) || !isEnabled() || !caster.isAlive()) return;
         var spell = SpellRegistry.getSpell(definition.spellId());
         var resolution = new Resolution(server, caster, spell, definition, stats, dev.ironsnouveau.casting.TriggerGeometry.read(context));

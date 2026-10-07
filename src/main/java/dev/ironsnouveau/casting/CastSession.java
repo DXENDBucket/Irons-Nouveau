@@ -22,6 +22,7 @@ public final class CastSession {
     private boolean repeatPayments;
     private State state = State.PREPARED;
     private final long started;
+    private final PresetTools.Token preset = PresetTools.current();
 
     public CastSession(ServerLevel world, LivingEntity caster, CastPlan plan, AimSource aim,
                        CastExecution execution, ImpactContinuation continuation) {
@@ -39,18 +40,25 @@ public final class CastSession {
         this.mana = mana; this.repeatPayments = repeatPayments; return this;
     }
     public boolean activate(java.util.function.BooleanSupplier action) {
-        return !repeatPayments || mana == null ? action.getAsBoolean() : mana.trigger(plan.spellId(), plan.spellLevel(), action);
+        return PresetTools.scoped(preset, () -> !repeatPayments || mana == null ? action.getAsBoolean()
+                : mana.trigger(plan.spellId(), plan.spellLevel(), action));
     }
     public CastAim aim() { return aim.sample(); }
     public State state() { return state; }
     public boolean active() { return state == State.ACTIVE; }
     public int remainingTicks() { return (int)Math.clamp(plan.maxTicks() - (world.getGameTime() - started), 0, Integer.MAX_VALUE); }
     public boolean permitted() {
+        return PresetTools.scoped(preset, this::permittedScoped);
+    }
+    private boolean permittedScoped() {
         return caster.isAlive() && !caster.isRemoved() && caster.level() == world
                 && SpellRegistry.getSpell(plan.spellId()).isEnabled()
                 && GlyphAccessEvent.allowed(caster, plan.glyphId(), plan.spellId(), plan.spellLevel(), GlyphAccessEvent.Action.RESOLVE);
     }
     public boolean start() {
+        return PresetTools.scoped(preset, this::startScoped);
+    }
+    private boolean startScoped() {
         if (state != State.PREPARED) return false;
         if (!permitted()) { finish(EndReason.DENIED); return false; }
         state = State.ACTIVE;
@@ -60,6 +68,9 @@ public final class CastSession {
         return true;
     }
     public void tick() {
+        PresetTools.scoped(preset, () -> { tickScoped(); return null; });
+    }
+    private void tickScoped() {
         if (!active()) return;
         if (!caster.isAlive() || caster.isRemoved() || caster.level() != world) { finish(EndReason.OWNER_GONE); return; }
         long age = world.getGameTime() - started;
@@ -70,7 +81,9 @@ public final class CastSession {
     /** Called only after successful native damage, or a real block collision. Never charges mana. */
     public void impact(HitResult hit) {
         if (!active() || !permitted()) return;
-        TriggerGeometry.scoped(execution.incomingDirection(), () -> continuation.resolve(hit));
+        PresetTools.scoped(preset, () -> {
+            TriggerGeometry.scoped(execution.incomingDirection(), () -> continuation.resolve(hit)); return null;
+        });
     }
     public void finish(EndReason reason) {
         if (state == State.COMPLETED || state == State.CANCELLED) return;

@@ -46,6 +46,7 @@ public final class IronsNouveau {
     private static final List<BridgeGlyph> GLYPHS = new ArrayList<>();
     private static final List<NativeFormAugment> FORMS = new ArrayList<>();
     public IronsNouveau(IEventBus bus, net.neoforged.fml.ModContainer container) {
+        dev.ironsnouveau.casting.BoundSpellWeapons.register(bus);
         bus.addListener(dev.ironsnouveau.network.ChantStatePayload::register);
         bus.addListener(dev.ironsnouveau.network.CastingMovementPayload::register);
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER,
@@ -61,6 +62,7 @@ public final class IronsNouveau {
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball::new, ProjectilePayload.FLAMING_BARRAGE), 0, SpellTier.ONE));
         add("fire_breath", "Fire Breath", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_FIRE, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("fire_breath"));
         add("poison_breath", "Poison Breath", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_EARTH, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("poison_breath"));
+        add("ray_of_siphoning", "Ray of Siphoning", 0, SpellTier.ONE, SpellSchools.NECROMANCY, true, true, dev.ironsnouveau.bridge.RayAdapters.SIPHON);
         add("dragon_breath", "Dragon Breath", 0, SpellTier.ONE, SpellSchools.MANIPULATION, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("dragon_breath"));
         add("cone_of_cold", "Cone of Cold", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_WATER, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("cone_of_cold"));
         add("heal", "Heal", 30, SpellTier.ONE, SpellSchools.ABJURATION, false, false, NativeAdapters.HEAL);

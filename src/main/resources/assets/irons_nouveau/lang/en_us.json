@@ -84,6 +84,8 @@
   "irons_nouveau.glyph_desc.glyph_eldritch_blast": "Strikes the target with eldritch energy. Costs mana when triggered; ongoing effects pay each round.",
   "irons_nouveau.glyph_name.glyph_fire_breath": "Fire Breath",
   "irons_nouveau.glyph_desc.glyph_fire_breath": "Breathes fire continuously, burning enemies ahead. Struck creatures emit the breath in their own direction; the caster pays its mana. Ends when its duration expires or mana is insufficient. Extend Time increases duration, each Amplify adds one spell level, and AoE enlarges it.",
+  "irons_nouveau.glyph_name.glyph_ray_of_siphoning": "Ray of Siphoning",
+  "irons_nouveau.glyph_desc.glyph_ray_of_siphoning": "Channels a life-draining ray. Self casts originate at your eyes; struck creatures emit from their eyes in their own direction; point triggers use the incoming direction. Damage and healing belong to the caster. Pays mana continuously until its duration expires or mana runs out. Extend Time increases duration and each Amplify adds one native level.",
   "irons_nouveau.glyph_name.glyph_poison_breath": "Poison Spray",
   "irons_nouveau.glyph_desc.glyph_poison_breath": "Breathes poison continuously, poisoning enemies ahead. Struck creatures emit the breath in their own direction; the caster pays its mana. Ends when its duration expires or mana is insufficient. Extend Time increases duration, each Amplify adds one spell level, and AoE enlarges it.",
   "irons_nouveau.glyph_name.glyph_dragon_breath": "Dragon's Breath",
@@ -202,5 +204,7 @@
   "irons_nouveau.glyph_name.glyph_ascension": "Ascension",
   "irons_nouveau.glyph_desc.glyph_ascension": "Entity targets only: the recipient ascends with a lightning strike. Self selects the caster; damage belongs to the original caster. Each Amplify adds one spell level.",
   "irons_nouveau.glyph_name.glyph_volt_strike": "Volt Strike",
-  "irons_nouveau.glyph_desc.glyph_volt_strike": "Entity targets only: the recipient performs Volt Strike in its own facing direction. Self selects the caster; contact and burst damage belong to the original caster. Each Amplify adds one spell level."
+  "irons_nouveau.glyph_desc.glyph_volt_strike": "Entity targets only: the recipient performs Volt Strike in its own facing direction. Self selects the caster; contact and burst damage belong to the original caster. Each Amplify adds one spell level.",
+  "irons_nouveau.bound_weapon.invalid_source": "Hold the destination item in your main hand and a readable spellbook in your off hand.",
+  "irons_nouveau.bound_weapon.bound": "Bound the selected spell to your main-hand item."
 }
