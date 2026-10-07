@@ -57,6 +57,7 @@
     "GlyphRegistryOrderMixin"
   ],
   "client": [
+    "NativeSiphonRenderingMixin",
     "NativeCastingMovementMixin",
     "NativeChantBarMixin",
     "GlyphFormatterOrderMixin"
