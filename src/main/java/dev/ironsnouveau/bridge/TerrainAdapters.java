@@ -21,11 +21,16 @@ public final class TerrainAdapters {
     private TerrainAdapters() {}
     public static final LocationSpellAdapter FIRECRACKER = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
-        var pos = hit.getLocation();
+        // Keep a block-triggered explosion outside the hit surface, as Iron does with its raycast.
+        var pos = hit instanceof BlockHitResult block ? hit.getLocation().add(Vec3.atLowerCornerOf(block.getDirection().getNormal()).scale(.25)) : hit.getLocation();
         var rocket = new ExtendedFireworkRocket(ctx.world(), ((FirecrackerAccess)ctx.spell()).ironsNouveau$rocket(),
                 ctx.caster(), pos.x, pos.y, pos.z, true, (float)ctx.power());
-        rocket.setDeltaMovement(Vec3.ZERO);
-        return EffectResources.spawnOnce(ctx, rocket, 100);
+        if (!EffectResources.spawnOnce(ctx, rocket, 100)) return false;
+        // ExtendedFireworkRocket.tick() is empty. Iron's shoot() performs the native explosion,
+        // including damage, attribution, the client fireworks event and entity disposal.
+        var direction = AreaSpellAdapters.direction(ctx, hit);
+        rocket.shoot(direction.x, direction.y, direction.z, 0, 0);
+        return true;
     };
     public static final LocationSpellAdapter RAISE_HELL = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;

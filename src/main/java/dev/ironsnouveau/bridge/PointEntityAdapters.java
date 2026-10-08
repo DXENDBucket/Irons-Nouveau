@@ -32,7 +32,13 @@ public final class PointEntityAdapters {
     };
     public static final LocationSpellAdapter SHIELD = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
-        var shield = new ShieldEntity(ctx.world(), 10 + (float)ctx.power()); shield.setPos(hit.getLocation());
+        Vec3 position = hit.getLocation();
+        // Ars Self reports the caster's feet. Native Shield uses an eye-origin, block-clipped
+        // three-block ray. Explicit remote/block positions remain under Ars's control.
+        if (hit instanceof EntityHitResult entity && entity.getEntity() == ctx.caster())
+            position = io.redspace.ironsspellbooks.api.util.RaycastBuilder.begin(ctx.world(), ctx.caster())
+                    .range(3).checkForBlocks(true).build().getLocation();
+        var shield = new ShieldEntity(ctx.world(), 10 + (float)ctx.power()); shield.setPos(position);
         var rot = Utils.rotationFromDirection(AreaSpellAdapters.direction(ctx, hit)); shield.setRotation(rot.x, rot.y);
         return EffectResources.spawn(ctx, shield, EffectResources.ticks(400 * ctx.duration()));
     };

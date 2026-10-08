@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 group = 'dev.ironsnouveau'
-version = '0.15.5-forge1201-alpha.3'
+version = '0.15.5-forge1201-alpha.4'
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
 repositories { flatDir { dirs 'libs', 'build/hex-dependencies' }; mavenCentral { content { excludeGroup 'local' } } }
@@ -16,7 +16,7 @@ minecraft {
     copyIdeResources = true
     runs {
         configureEach { property 'mixin.env.remapRefMap', 'true'; property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg" }
-        gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', 'irons_nouveau'; mods { irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
+        gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
         client { workingDirectory project.file('run/client'); mods { irons_nouveau { source sourceSets.main } } }
         server { workingDirectory project.file('run/server'); args '--nogui'; mods { irons_nouveau { source sourceSets.main } } }
     }
