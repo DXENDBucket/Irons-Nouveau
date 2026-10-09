@@ -1,0 +1,17 @@
+{
+  "type": "ars_nouveau:glyph",
+  "exp": 40,
+  "inputs": [
+    {
+      "type": "irons_nouveau:spell_scroll",
+      "spell": "irons_spellbooks:electrocute"
+    },
+    {
+      "item": "ars_nouveau:source_gem"
+    }
+  ],
+  "output": {
+    "id": "irons_nouveau:glyph_electrocute",
+    "count": 1
+  }
+}

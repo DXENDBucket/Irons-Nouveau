@@ -208,5 +208,11 @@
   "irons_nouveau.bound_weapon.invalid_source": "主手持待绑定物品，副手持有可读取的法术书。",
   "irons_nouveau.bound_weapon.bound": "已将当前术式绑定到主手物品。",
   "irons_nouveau.bound_weapon.contains": "封存法术：%s",
-  "irons_nouveau.bound_weapon.unnamed": "封存着一道术式"
+  "irons_nouveau.bound_weapon.unnamed": "封存着一道术式",
+  "irons_nouveau.glyph_name.glyph_ray_of_frost": "冰霜射线",
+  "irons_nouveau.glyph_desc.glyph_ray_of_frost": "发射一道冻结目标的射线。自身或目标生物触发时从其眼前沿朝向发出；位置触发时沿传入方向发出。射线会被方块阻挡。每个增幅提高一级。",
+  "irons_nouveau.glyph_name.glyph_electrocute": "电刑",
+  "irons_nouveau.glyph_desc.glyph_electrocute": "持续向前释放分支电弧。目标生物按自身朝向释放；位置触发时沿传入方向释放。施法者持续支付魔力，时间结束或魔力不足时停止。延时延长持续时间，每个增幅提高一级，范围扩大电弧。",
+  "irons_nouveau.glyph_name.glyph_sunbeam": "烈阳射线",
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "在触发位置召来阳光之柱，短暂蓄势后爆发。触发时消耗一次魔力，延迟命中不重复收费。每个增幅提高一级。"
 }

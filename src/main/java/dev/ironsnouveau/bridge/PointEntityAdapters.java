@@ -19,6 +19,19 @@ import net.minecraft.world.phys.*;
 /** Native delayed entities with explicit owner, placement and bounded lifetime. */
 public final class PointEntityAdapters {
     private PointEntityAdapters() {}
+    public static final LocationSpellAdapter SUNBEAM = (ctx, hit) -> {
+        if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
+        var beam = new io.redspace.ironsspellbooks.entity.spells.sunbeam.SunbeamEntity(ctx.world());
+        beam.setOwner(ctx.caster()); beam.moveTo(WorldSpellAdapters.center(hit));
+        if (hit instanceof EntityHitResult entity && entity.getEntity() instanceof LivingEntity living) beam.setTarget(living);
+        beam.setDamage(((dev.ironsnouveau.mixin.SunbeamAccess)ctx.spell()).ironsNouveau$damage(ctx.level(), ctx.caster()));
+        // Native 15-tick windup, column renderer, impact damage/particles/sound and removal.
+        // The delayed hit was paid on activation, and is not a second mana charge.
+        if (!EffectResources.spawnOnce(ctx, beam, 40)) return false;
+        ctx.world().playSound(null, beam.blockPosition(), io.redspace.ironsspellbooks.registries.SoundRegistry.SUNBEAM_WINDUP.get(),
+                net.minecraft.sounds.SoundSource.NEUTRAL, 3.5f, 1f);
+        return true;
+    };
     public static final LocationSpellAdapter ICE_BLOCK = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         LivingEntity target = hit instanceof EntityHitResult e && e.getEntity() instanceof LivingEntity living ? living : null;

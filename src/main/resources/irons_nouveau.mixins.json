@@ -54,13 +54,16 @@
     "TouchDigAccess",
     "MotionEffectMixin",
     "BallLightningImpactMixin",
-    "GlyphRegistryOrderMixin"
+    "GlyphRegistryOrderMixin",
+    "NativeFrostRayMixin",
+    "SunbeamAccess"
   ],
   "client": [
     "NativeSiphonRenderingMixin",
     "NativeCastingMovementMixin",
     "NativeChantBarMixin",
-    "GlyphFormatterOrderMixin"
+    "GlyphFormatterOrderMixin",
+    "NativeElectrocuteRenderingMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -16,6 +16,7 @@ public final class BreathAdapters {
             case "poison_breath" -> new PoisonBreathProjectile(ctx.world(), ctx.caster());
             case "dragon_breath" -> new DragonBreathProjectile(ctx.world(), ctx.caster());
             case "cone_of_cold" -> new ConeOfColdProjectile(ctx.world(), ctx.caster());
+            case "electrocute" -> new io.redspace.ironsspellbooks.entity.spells.electrocute.ElectrocuteProjectile(ctx.world(), ctx.caster());
             default -> throw new IllegalArgumentException(id);
         };
         float damage = switch (ctx.spell()) {
@@ -23,6 +24,7 @@ public final class BreathAdapters {
             case io.redspace.ironsspellbooks.spells.nature.PoisonBreathSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
             case io.redspace.ironsspellbooks.spells.ender.DragonBreathSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
             case io.redspace.ironsspellbooks.spells.ice.ConeOfColdSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
+            case io.redspace.ironsspellbooks.spells.lightning.ElectrocuteSpell spell -> spell.getDamage(ctx.level(), ctx.caster());
             default -> throw new IllegalArgumentException(id);
         };
         int duration = EffectResources.ticks(ctx.spell().getCastTime(ctx.level()) * ctx.duration());

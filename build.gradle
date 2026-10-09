@@ -3,7 +3,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.146'
 }
 group = 'dev.ironsnouveau'
-version = '0.15.9'
+version = '0.16.0'
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
 repositories { mavenCentral() }
@@ -46,5 +46,5 @@ processResources {
     filesMatching('META-INF/neoforge.mods.toml') { expand(version: project.version) }
 }
 
-tasks.named('jar') { from('LICENSE') }
+tasks.named('jar') { from('LICENSE'); archiveFileName = "irons-nouveau-${project.version}-mc1.21.1-neoforge.jar" }
 tasks.named('sourcesJar') { from('LICENSE') }

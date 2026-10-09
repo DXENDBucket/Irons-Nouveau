@@ -18,6 +18,7 @@ public abstract class NativeConeMixin implements ConeState {
     @Unique private static final EntityDataAccessor<Float> ironsNouveau$SCALE = SynchedEntityData.defineId(AbstractConeProjectile.class, EntityDataSerializers.FLOAT);
     @Shadow protected abstract void onHitEntity(EntityHitResult hit);
     @Shadow protected abstract Set<Entity> getSubEntityCollisions();
+    @Shadow protected int age;
     @Unique private SynchedEntityData ironsNouveau$data() { return ((AbstractConeProjectile)(Object)this).getEntityData(); }
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
     private void ironsNouveau$define(SynchedEntityData.Builder builder, CallbackInfo ci) {
@@ -38,6 +39,7 @@ public abstract class NativeConeMixin implements ConeState {
     private void ironsNouveau$tick(CallbackInfo ci) {
         if (!ironsNouveau$managed()) return;
         var cone = (AbstractConeProjectile)(Object)this;
+        age++;
         if (cone.level().isClientSide) BreathVisuals.tick(cone);
         ci.cancel();
     }

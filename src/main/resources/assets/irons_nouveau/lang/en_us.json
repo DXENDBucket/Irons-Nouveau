@@ -208,5 +208,11 @@
   "irons_nouveau.bound_weapon.invalid_source": "Hold the destination item in your main hand and a readable spellbook in your off hand.",
   "irons_nouveau.bound_weapon.bound": "Bound the selected spell to your main-hand item.",
   "irons_nouveau.bound_weapon.contains": "Stored spell: %s",
-  "irons_nouveau.bound_weapon.unnamed": "Contains a sealed spell"
+  "irons_nouveau.bound_weapon.unnamed": "Contains a sealed spell",
+  "irons_nouveau.glyph_name.glyph_ray_of_frost": "Ray of Frost",
+  "irons_nouveau.glyph_desc.glyph_ray_of_frost": "Fires a single freezing ray. Entity triggers emit from the struck creature’s eyes in its facing direction; point triggers use the incoming direction. Blocks stop the ray. Each Amplify adds one native level.",
+  "irons_nouveau.glyph_name.glyph_electrocute": "Electrocute",
+  "irons_nouveau.glyph_desc.glyph_electrocute": "Channels branching lightning ahead. Struck creatures emit in their own direction; point triggers use the incoming direction. The caster pays ongoing mana until the duration ends or mana runs out. Extend Time increases duration, each Amplify adds one native level, and AoE enlarges the lightning.",
+  "irons_nouveau.glyph_name.glyph_sunbeam": "Sunbeam",
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level."
 }
