@@ -1,14 +1,23 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-> 本分支为 **Minecraft 1.20.1 / Forge 47.4.x 移植测试版**，版本 `0.15.5-forge1201-alpha.3`。使用 Java 17、Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3。保留 95 个魔符；本次验证范围及待验证内容见 [移植记录](docs/forge-1.20.1-port.md)。下方历史版本说明来自 1.21.1 基线。
+两个平台统一采用版本号 **0.16.0**；游戏版本与加载器只写入发行文件名，不再作为模组版本号的 alpha 后缀。
+
+| 游戏版本 | 加载器 | 安装文件 |
+| --- | --- | --- |
+| 1.21.1 | NeoForge | `irons-nouveau-0.16.0-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.16.0-mc1.20.1-forge.jar` |
+
+> 本分支为 **Minecraft 1.20.1 / Forge 47.4.x 移植测试版**，版本 `0.16.0`。使用 Java 17、Ars Nouveau 4.12.7、Iron's Spells 'n Spellbooks 1.20.1-3.16.3。支持 99 个魔符；本次验证范围及待验证内容见 [移植记录](docs/forge-1.20.1-port.md)。下方历史版本说明来自 1.21.1 基线。
+
+0.16.0 同步血吸光束、冰霜射线、电刑及烈阳射线，补齐对应原生视觉接口、持续计费和生命周期。保留烟火引爆及自身护盾位置修复。两个平台的 99 个魔符 ID 一致；Ars ’n Spells、Hex-Ars Linker 和魔符附属仍是可选联动。
 
 新增默认开启的 `mana.use_iron_mana`：玩家 Iron 魔符的触发与持续费用改扣 Iron 蓝量，关闭后恢复 Ars 资源来源。普通 Ars 魔符和 Hex 媒质的费用保持原规则，详见 [配置说明](docs/configuration.md#魔力来源)。
 
 新增 [Hex-Ars Linker 可选联动](docs/hex-ars-linker.md)：支持其指定位置发射入口将普通 Ars 弹射物替换为 Iron 弹射物。不要求安装 Hex 或 Linker。
 
-构建：先运行 `python tools/fetch_forge_dependencies.py` 获取锁定依赖，再用 Java 17 运行 `gradlew.bat jarJar`。安装 `build/libs/*-all.jar`，其中包含所需的 MixinExtras；Ars、Iron 及其前置仍需单独安装。
+构建：先运行 `python tools/fetch_forge_dependencies.py` 获取锁定依赖，再用 Java 17 运行 `gradlew.bat jarJar`。安装 `build/libs/irons-nouveau-0.16.0-mc1.20.1-forge.jar`，其中包含所需的 MixinExtras；Ars、Iron 及其前置仍需单独安装。
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。本分支版本 **0.15.3-forge1201-alpha.1**，Minecraft 1.20.1 / Forge 47.4.x。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。本分支版本 **0.16.0**，Minecraft 1.20.1 / Forge 47.4.x。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
 原名 Iron's Nouveau，现更名为 Iron & Nouveau（Iron 与新生魔艺）。Mod ID 仍为 `irons_nouveau`，物品、魔符和配置 ID 保持兼容。
 
@@ -22,7 +31,7 @@
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
-现有 95 个魔符：18 个弹射物形态强化、77 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
+现有 99 个魔符：18 个弹射物形态强化、81 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
 
 `NativeSpellLevelEvent` 允许可选集成为非玩家提供每种法术的基础等级，然后统一计算增幅。未处理时使用所选等级策略：个人卷轴模式为 1 级，固定模式读取配置。Path-To-Zero 的咒法师使用此入口保留抽取到的原生稀有度等级，无须伪造玩家或临时修改法术注册对象。
 

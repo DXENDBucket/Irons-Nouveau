@@ -1,6 +1,6 @@
 # Forge 1.20.1 移植记录
 
-当前版本为 `0.15.5-forge1201-alpha.3`，包含 [Hex-Ars Linker 可选弹射物联动](hex-ars-linker.md)及默认开启的 [Iron 蓝池配置](configuration.md#魔力来源)。安装产物为 `build/libs/irons-nouveau-0.15.5-forge1201-alpha.3-all.jar`。下文保留初始 alpha.1 的移植和验证记录。
+当前版本为 `0.16.0`，与 1.21.1 主线统一版本号。发行文件为 `build/libs/irons-nouveau-0.16.0-mc1.20.1-forge.jar`，包含 MixinExtras。当前支持 99 个魔符（18 个弹射物转换、81 个效果），本次同步主线血吸光束和三个射线／光柱法术，保留烟火与护盾修复。下文保留初始 alpha.1 的移植和验证记录。
 
 日期：2026-10-06。分支：`1.20.1-forge`。基于 `5eb95ad`（0.15.3），测试版版本号 `0.15.3-forge1201-alpha.1`。1.21.1 主工作目录和 `main` 不受影响。
 
@@ -40,3 +40,7 @@
 
 - [Ars Nouveau 1.20](https://github.com/baileyholl/Ars-Nouveau/tree/2c74064bc753600d9b6600f102f8163e2d6764dd)
 - [Iron 当前 1.20.1 分支](https://github.com/iron431/Irons-Spells-n-Spellbooks/tree/cae63a6999e24ed3deaa012ecb8c262e0e377816)，分支名为 `not-1.20.1`；旧的 `1.20.1-legacy` 并非本次目标。
+
+## 0.16.0 同步更新验证
+
+五项射线／光柱服务端 GameTest 通过，日志为 `build/ray-port-tests.log`。覆盖冰霜远程几何和原生施法不受影响、电刑锚点与持续耗蓝、烈阳光柱原生延迟伤害及一次计费，以及血吸光束耗蓝和视觉包往返。新客户端 Mixins 的 Minecraft 方法引用已生成 SRG 映射，发行 JAR 包含 refmap；本轮没有启动客户端逐项验证视觉或使用正式存档。

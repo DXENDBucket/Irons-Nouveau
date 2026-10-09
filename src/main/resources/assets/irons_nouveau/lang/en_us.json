@@ -202,5 +202,13 @@
   "irons_nouveau.glyph_name.glyph_ascension": "Ascension",
   "irons_nouveau.glyph_desc.glyph_ascension": "Entity targets only: the recipient ascends with a lightning strike. Self selects the caster; damage belongs to the original caster. Each Amplify adds one spell level.",
   "irons_nouveau.glyph_name.glyph_volt_strike": "Volt Strike",
-  "irons_nouveau.glyph_desc.glyph_volt_strike": "Entity targets only: the recipient performs Volt Strike in its own facing direction. Self selects the caster; contact and burst damage belong to the original caster. Each Amplify adds one spell level."
+  "irons_nouveau.glyph_desc.glyph_volt_strike": "Entity targets only: the recipient performs Volt Strike in its own facing direction. Self selects the caster; contact and burst damage belong to the original caster. Each Amplify adds one spell level.",
+  "irons_nouveau.glyph_name.glyph_ray_of_siphoning": "Ray of Siphoning",
+  "irons_nouveau.glyph_desc.glyph_ray_of_siphoning": "Channels a life-draining ray. Self casts originate at your eyes; struck creatures emit from their eyes in their own direction; point triggers use the incoming direction. Damage and healing belong to the caster. Pays mana continuously until its duration expires or mana runs out. Extend Time increases duration and each Amplify adds one native level.",
+  "irons_nouveau.glyph_name.glyph_ray_of_frost": "Ray of Frost",
+  "irons_nouveau.glyph_desc.glyph_ray_of_frost": "Fires a single freezing ray. Entity triggers emit from the struck creature’s eyes in its facing direction; point triggers use the incoming direction. Blocks stop the ray. Each Amplify adds one native level.",
+  "irons_nouveau.glyph_name.glyph_electrocute": "Electrocute",
+  "irons_nouveau.glyph_desc.glyph_electrocute": "Channels branching lightning ahead. Struck creatures emit in their own direction; point triggers use the incoming direction. The caster pays ongoing mana until the duration ends or mana runs out. Extend Time increases duration, each Amplify adds one native level, and AoE enlarges the lightning.",
+  "irons_nouveau.glyph_name.glyph_sunbeam": "Sunbeam",
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level."
 }

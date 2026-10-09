@@ -27,6 +27,9 @@ public final class BreathVisuals {
     public static void tick(AbstractConeProjectile cone) {
         var state = (ConeState)cone; var anchor = cone.level().getEntity(state.ironsNouveau$anchor());
         if (anchor != null) place(cone, anchor.getEyePosition().add(state.ironsNouveau$offset()), anchor.getLookAngle());
+        // Electrocute's subclass refreshes its native beam cache after this base tick.
+        // It renders geometry, not breath particles; do not add the dragon fallback.
+        if (cone instanceof io.redspace.ironsspellbooks.entity.spells.electrocute.ElectrocuteProjectile) return;
         var direction = cone.getLookAngle(); var pos = particleOrigin(cone);
         var random = cone.level().random;
         int count = cone instanceof PoisonBreathProjectile ? 20 : 12;

@@ -61,6 +61,10 @@ public final class IronsNouveau {
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball::new, ProjectilePayload.FLAMING_BARRAGE), 0, SpellTier.ONE));
         add("fire_breath", "Fire Breath", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_FIRE, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("fire_breath"));
         add("poison_breath", "Poison Breath", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_EARTH, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("poison_breath"));
+        add("ray_of_siphoning", "Ray of Siphoning", 0, SpellTier.ONE, SpellSchools.CONJURATION, true, true, dev.ironsnouveau.bridge.RayAdapters.SIPHON);
+        add("ray_of_frost", "Ray of Frost", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_WATER, true, false, dev.ironsnouveau.bridge.RayAdapters.FROST);
+        add("electrocute", "Electrocute", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_AIR, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("electrocute"));
+        add("sunbeam", "Sunbeam", 0, SpellTier.ONE, SpellSchools.ABJURATION, true, false, dev.ironsnouveau.bridge.PointEntityAdapters.SUNBEAM);
         add("dragon_breath", "Dragon Breath", 0, SpellTier.ONE, SpellSchools.MANIPULATION, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("dragon_breath"));
         add("cone_of_cold", "Cone of Cold", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_WATER, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("cone_of_cold"));
         add("heal", "Heal", 30, SpellTier.ONE, SpellSchools.ABJURATION, false, false, NativeAdapters.HEAL);

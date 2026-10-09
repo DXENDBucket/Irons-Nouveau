@@ -4,7 +4,7 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.38'
 }
 group = 'dev.ironsnouveau'
-version = '0.15.5-forge1201-alpha.4'
+version = '0.16.0'
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
 repositories { flatDir { dirs 'libs', 'build/hex-dependencies' }; mavenCentral { content { excludeGroup 'local' } } }
@@ -47,6 +47,7 @@ tasks.withType(Test).configureEach { useJUnitPlatform() }
 processResources { inputs.property 'version', project.version; filesMatching('META-INF/mods.toml') { expand(version: project.version) } }
 tasks.named('jar') { from('LICENSE'); manifest { attributes 'MixinConfigs': 'irons_nouveau.mixins.json' }; finalizedBy 'reobfJar' }
 tasks.named('jarJar') {
+    archiveFileName = "irons-nouveau-${project.version}-mc1.20.1-forge.jar"
     archiveClassifier = 'all'
     from('LICENSE')
     from('THIRD_PARTY_NOTICES.md')

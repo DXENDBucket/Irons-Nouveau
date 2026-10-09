@@ -202,5 +202,13 @@
   "irons_nouveau.glyph_name.glyph_ascension": "飞升",
   "irons_nouveau.glyph_desc.glyph_ascension": "仅对实体目标生效：目标踏雷飞升。自身触发选中施法者；雷击伤害归原施法者。 增幅每个增加一级法术等级。",
   "irons_nouveau.glyph_name.glyph_volt_strike": "伏特打击",
-  "irons_nouveau.glyph_desc.glyph_volt_strike": "仅对实体目标生效：目标沿自身朝向执行伏特打击。自身触发选中施法者；接触与爆发伤害归原施法者。 增幅每个增加一级法术等级。"
+  "irons_nouveau.glyph_desc.glyph_volt_strike": "仅对实体目标生效：目标沿自身朝向执行伏特打击。自身触发选中施法者；接触与爆发伤害归原施法者。 增幅每个增加一级法术等级。",
+  "irons_nouveau.glyph_name.glyph_ray_of_siphoning": "血吸光束",
+  "irons_nouveau.glyph_desc.glyph_ray_of_siphoning": "持续射出吸取生命的光束。自身触发时从眼前发出；命中其他生物时从其眼前沿其朝向发出；位置触发时沿传入的方向发出。伤害与吸血归属于施法者。持续消耗魔力，魔力不足或时间结束时停止。延时延长持续时间，每个增幅提高一级。",
+  "irons_nouveau.glyph_name.glyph_ray_of_frost": "冰霜射线",
+  "irons_nouveau.glyph_desc.glyph_ray_of_frost": "发射一道冻结目标的射线。自身或目标生物触发时从其眼前沿朝向发出；位置触发时沿传入方向发出。射线会被方块阻挡。每个增幅提高一级。",
+  "irons_nouveau.glyph_name.glyph_electrocute": "电刑",
+  "irons_nouveau.glyph_desc.glyph_electrocute": "持续向前释放分支电弧。目标生物按自身朝向释放；位置触发时沿传入方向释放。施法者持续支付魔力，时间结束或魔力不足时停止。延时延长持续时间，每个增幅提高一级，范围扩大电弧。",
+  "irons_nouveau.glyph_name.glyph_sunbeam": "烈阳射线",
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "在触发位置召来阳光之柱，短暂蓄势后爆发。触发时消耗一次魔力，延迟命中不重复收费。每个增幅提高一级。"
 }

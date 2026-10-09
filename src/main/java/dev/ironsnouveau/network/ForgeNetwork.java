@@ -9,7 +9,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 public final class ForgeNetwork {
     private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation("irons_nouveau", "main"), () -> "1", "1"::equals, "1"::equals);
+            new ResourceLocation("irons_nouveau", "main"), () -> "2", "2"::equals, "2"::equals);
     private ForgeNetwork() {}
     public static void register() {
         CHANNEL.messageBuilder(ChantStatePayload.class, 0, NetworkDirection.PLAY_TO_CLIENT)
@@ -24,12 +24,21 @@ public final class ForgeNetwork {
                 .encoder((p,b) -> b.writeNbt(p.data().save()))
                 .decoder(b -> new ProgressPayload(dev.ironsnouveau.progression.CraftedSpells.load(java.util.Objects.requireNonNull(b.readNbt()))))
                 .consumerMainThread((p,c) -> ClientReceiver.progress(p)).add();
+        CHANNEL.messageBuilder(SiphonRayVisualPayload.class, 3, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(SiphonRayVisualPayload::encode).decoder(SiphonRayVisualPayload::decode)
+                .consumerMainThread((p,c) -> ClientReceiver.siphon(p)).add();
+    }
+    public static void sendNear(net.minecraft.server.level.ServerLevel world, net.minecraft.world.phys.Vec3 pos,
+                                double radius, Object message) {
+        CHANNEL.send(PacketDistributor.NEAR.with(() -> new PacketDistributor.TargetPoint(
+                pos.x, pos.y, pos.z, radius, world.dimension())), message);
     }
     public static void sendToPlayer(ServerPlayer player, Object message) {
         CHANNEL.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
     // This class is referenced only by client-bound handlers, never loaded on a dedicated server.
     private static final class ClientReceiver {
+        static void siphon(SiphonRayVisualPayload p) { dev.ironsnouveau.client.SiphonRayVisuals.accept(p); }
         static void chant(ChantStatePayload p) { dev.ironsnouveau.client.ChantHudState.accept(p); }
         static void movement(CastingMovementPayload p) { dev.ironsnouveau.client.CastingMovementState.accept(p); }
         static void progress(ProgressPayload p) {

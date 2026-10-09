@@ -56,11 +56,15 @@
     "BallLightningImpactMixin",
     "GlyphRegistryOrderMixin",
     "ScryCasterChantMixin",
-    "KnowledgeOwnerMixin"
+    "KnowledgeOwnerMixin",
+    "NativeFrostRayMixin",
+    "SunbeamAccess"
   ],
   "client": [
     "NativeCastingMovementMixin",
-    "NativeChantBarMixin"
+    "NativeChantBarMixin",
+    "NativeSiphonRenderingMixin",
+    "NativeElectrocuteRenderingMixin"
   ],
   "injectors": {
     "defaultRequire": 1
