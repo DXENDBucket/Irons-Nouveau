@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.16.1**；游戏版本与加载器只写入发行文件名，不再作为模组版本号的 alpha 后缀。
+两个平台统一采用版本号 **0.16.2**；游戏版本与加载器只写入发行文件名，不再作为模组版本号的 alpha 后缀。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.16.1-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.16.1-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.16.2-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.16.2-mc1.20.1-forge.jar` |
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.16.1**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.16.2**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.16.2 接入 NEG 的普通、弹跳、追踪与溅射弹调态。Iron 弹射物强化可以跟在这些节点后，生成的新弹射物保留调态的方向、运动、碰撞和剩余编排，费用在每次实际生成时支付。原生 Iron 弹射物命中后也能再次调态发射；附属仍为可选联动。
 
 0.16.1 补充普通生物获得超负荷后的电光外观。目标状态和属性原本已正常生效，但 Iron 的原生电光层仅安装于玩家及其自带施法生物；现在标准生物模型也复用 Iron 的电光材质，保留原有玩家／Iron 模型显示，不新增状态或属性结算。自带 GeckoLib 等独立渲染器的第三方生物仍由其自身渲染层决定。两个平台已构建；客户端视觉尚需游戏内观察。
 

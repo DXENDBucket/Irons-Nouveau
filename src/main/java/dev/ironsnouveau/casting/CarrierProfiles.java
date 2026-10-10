@@ -17,12 +17,21 @@ public enum CarrierProfiles {
     ARC("ars_elemental:glyph_arc_projectile", true),
     HOMING("ars_elemental:glyph_homing_projectile", true),
     SPLASH("arsomega:glyph_missile", true),
-    TRAIL("not_enough_glyphs:glyph_trail", true);
+    TRAIL("not_enough_glyphs:glyph_trail", true),
+    PROPAGATE_STRAIGHT("arsomega:glyph_propagate_projectile", STRAIGHT),
+    PROPAGATE_ARC("ars_elemental:glyph_propagator_arc", ARC),
+    PROPAGATE_HOMING("ars_elemental:glyph_propagator_homing", HOMING),
+    PROPAGATE_SPLASH("arsomega:glyph_propagate_missile", SPLASH);
 
     private final ResourceLocation glyphId;
     private final boolean driven;
+    private final CarrierProfiles emitted;
     private Set<AbstractAugment> originalAugments = Set.of();
-    CarrierProfiles(String glyphId, boolean driven) { this.glyphId = ResourceLocation.parse(glyphId); this.driven = driven; }
+    CarrierProfiles(String glyphId, boolean driven) { this.glyphId = ResourceLocation.parse(glyphId); this.driven = driven; this.emitted = null; }
+    CarrierProfiles(String glyphId, CarrierProfiles emitted) {
+        this.glyphId = ResourceLocation.parse(glyphId); this.driven = true; this.emitted = emitted;
+    }
+    public boolean propagator() { return emitted != null; }
     public boolean driven() { return driven; }
     public AbstractSpellPart glyph() { return GlyphRegistry.getSpellPart(glyphId); }
     public void rememberOriginalAugments(AbstractSpellPart glyph) { originalAugments = Set.copyOf(glyph.compatibleAugments); }
@@ -35,13 +44,22 @@ public enum CarrierProfiles {
         return null;
     }
     public static CarrierProfiles of(EntityProjectileSpell carrier) {
-        return carrier instanceof EntityOrbitProjectile ? ORBIT : of(carrier.resolver().castType);
+        if (carrier instanceof EntityOrbitProjectile) return ORBIT;
+        var resolver = carrier.resolver();
+        var profile = of(resolver.castType);
+        // NEG child resolvers prepend a dummy augment to the remaining recipe, and set
+        // castType to the emitted form. Keep that carrier's movement/collision controller.
+        if (!resolver.spell.isEmpty() && resolver.spell.get(0) instanceof AbstractAugment)
+            for (var candidate : values()) if (candidate.emitted != null && candidate.emitted == profile) return candidate;
+        return profile;
     }
     public Set<AbstractAugment> augments() {
         var result = new HashSet<AbstractAugment>(Set.of(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE,
                 AugmentAccelerate.INSTANCE, AugmentDecelerate.INSTANCE, AugmentSplit.INSTANCE));
         if (driven) result.addAll(Set.of(AugmentPierce.INSTANCE, AugmentSensitive.INSTANCE));
-        if (this == ORBIT || this == SPLASH || this == TRAIL) result.addAll(Set.of(AugmentAOE.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE));
+        if (this == ORBIT || this == SPLASH || this == TRAIL || emitted == SPLASH)
+            result.addAll(Set.of(AugmentAOE.INSTANCE, AugmentExtendTime.INSTANCE, AugmentDurationDown.INSTANCE));
+        if (propagator()) result.add(AugmentExtract.INSTANCE);
         return Set.copyOf(result);
     }
 }

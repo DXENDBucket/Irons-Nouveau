@@ -30,8 +30,8 @@ public final class ArsTrajectoryExecution implements CastExecution {
         var carrier = (NativeCastCarrier) projectile;
         carrier.ironsNouveau$session(session);
         carrier.ironsNouveau$arsDriven(true);
-        var context = trajectory.resolver().spellContext.clone();
-        trajectory.setResolver(new ImpactResolver(context, hit -> impact(session, hit)));
+        var original = trajectory.resolver();
+        trajectory.setResolver(new ImpactResolver(original.spellContext.clone(), original.castType, hit -> impact(session, hit)));
         return session.world().addFreshEntity(projectile);
     }
     private void impact(CastSession session, HitResult hit) {
@@ -81,8 +81,11 @@ public final class ArsTrajectoryExecution implements CastExecution {
     }
     private static final class ImpactResolver extends SpellResolver {
         private final Consumer<HitResult> impact;
-        private ImpactResolver(SpellContext context, Consumer<HitResult> impact) { super(context); this.impact = impact; }
+        private ImpactResolver(SpellContext context, com.hollingsworth.arsnouveau.api.spell.AbstractCastMethod castType,
+                               Consumer<HitResult> impact) {
+            super(context); this.castType = castType; this.impact = impact;
+        }
         @Override public void onResolveEffect(Level level, HitResult hit) { if (!level.isClientSide) impact.accept(hit); }
-        @Override public SpellResolver getNewResolver(SpellContext context) { return new ImpactResolver(context, impact); }
+        @Override public SpellResolver getNewResolver(SpellContext context) { return new ImpactResolver(context, castType, impact); }
     }
 }

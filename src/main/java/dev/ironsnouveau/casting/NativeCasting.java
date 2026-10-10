@@ -36,7 +36,7 @@ public final class NativeCasting {
             var form = (NativeFormAugment) phrase.getAugments().stream().filter(NativeFormAugment.class::isInstance).findFirst().orElseThrow();
             var profile = CarrierProfiles.of(phrase.getAction());
             String reason = !form.adapter().supportsMethod(phrase.getAction()) || profile == null
-                    || (phrase.getFirstPosition() != 0 && profile != CarrierProfiles.ORBIT)
+                    || (phrase.getFirstPosition() != 0 && profile != CarrierProfiles.ORBIT && !profile.propagator())
                     ? "requires_projectile" : forms != 1 ? "one_form" : null;
             if (reason == null && phrase.getAugments().stream().anyMatch(a -> !(a instanceof NativeFormAugment) && !profile.augments().contains(a)))
                 reason = "unsupported_modifier";
@@ -92,11 +92,9 @@ public final class NativeCasting {
     }
     public static void joined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof EntityProjectileSpell ars && ars.resolver() != null) {
-            var profile = CarrierProfiles.of(ars);
-            // Linker's positioned cast constructs its carrier directly, bypassing Ars' spawn hook.
-            boolean linkerShot = profile == CarrierProfiles.STRAIGHT
-                    && dev.ironsnouveau.compat.HexArsLinkCompat.isResolver(ars.resolver());
-            if (profile != null && (profile.driven() || linkerShot) && convert(ars)) event.setCanceled(true);
+            // Propagators and positioned casts may construct a straight carrier directly,
+            // bypassing MethodProjectile's spawn hook. Unmodified Ars shots pass through.
+            if (convert(ars)) event.setCanceled(true);
         }
     }
     /** Runs at Ars' addFreshEntity call, after velocity, spread and split count have been calculated. */

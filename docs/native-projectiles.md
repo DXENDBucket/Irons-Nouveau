@@ -1,5 +1,13 @@
 # 原生弹射物专项设计
 
+## 0.16.2：编排中间的调态节点
+
+NEG 的 `arsomega:glyph_propagate_projectile`、`ars_elemental:glyph_propagator_arc`、`ars_elemental:glyph_propagator_homing`、`arsomega:glyph_propagate_missile` 按各自出射能力注册，允许在中间节点后选择 Iron 弹射物强化。例如 `弹射物 → 火焰箭 → 弹射物调态 → 冰锥 → 伤害`。
+
+实体入场事件作为直接出射的补充入口，只转换确实带有 Iron 强化的载体。NEG 的子解析器以占位增强开头；转换保留其真正的出射形态，并交由原载体计算运动和碰撞，避免丢失提取朝向、弹跳、追踪或溅射。占位增强不参与 Iron 等级计算。转接命中解析器及其子解析器时也保留 `castType`，不从占位编排重新猜测形态。
+
+调态本身仍按附属规则触发，原 Ars 费用保留；每次实际生成 Iron 弹射物时另按现有资源配置付费，后续效果继续在实际触发时计费。回响轨迹可作为外层触发方式，沿轨迹执行调态；只有需要对方块／空位置触发时才添加原附属的“敏感”增强。
+
 本文件作为弹射物适配的专项笔记。顶层架构以 [通用原生施法框架](native-casting.md) 为准：下文 ProjectilePlan / ProjectileContinuation 的职责分别合并到 CastPlan / ContinuationPolicy，ProjectileAdapter 属于具体执行适配。持续法术的耗蓝、时间和接续策略以通用方案为准，不能套用单次弹射物规则。
 
 0.2.0 已实现三种形态强化，在 Ars 完成速度／分裂处理后、实体入场前转换为真正的 Iron 弹射物。每个增幅累计 +1 级，转换时计算最终等级与伤害；不限制在原生最高等级内。后续穿透修饰、追踪与复合载荷仍未实现。实际行为与检查记录见 README。
