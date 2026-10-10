@@ -161,7 +161,7 @@ public final class EmitterMotionGameTests {
     }
     @GameTest(template = "empty", batch = "new_forms", timeoutTicks = 50)
     public static void newProjectileFormsContinueArsEffects(GameTestHelper h) {
-        h.assertTrue(IronsNouveau.forms().size() == 18 && IronsNouveau.glyphs().size() == 77, "All 95 glyphs register");
+        h.assertTrue(IronsNouveau.forms().size() == 19 && IronsNouveau.glyphs().size() == 84, "All 103 glyphs register");
         var victims = new ArrayList<LivingEntity>(); var casters = new ArrayList<LivingEntity>();
         for (int i = 0; i < 2; i++) {
             String id = i == 0 ? "ball_lightning" : "flaming_barrage";

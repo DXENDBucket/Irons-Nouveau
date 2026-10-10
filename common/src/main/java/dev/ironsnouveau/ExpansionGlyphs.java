@@ -9,6 +9,9 @@ import dev.ironsnouveau.bridge.*;
 final class ExpansionGlyphs {
     private ExpansionGlyphs() {}
     static void register() {
+        add("blood_step", "Blood Step", dev.ironsnouveau.platform.GlyphSchools.NECROMANCY, false, true, EntitySelectionAdapters.BLOOD_STEP);
+        add("frost_step", "Frost Step", SpellSchools.ELEMENTAL_WATER, false, true, EntitySelectionAdapters.FROST_STEP);
+        add("telekinesis", "Telekinesis", dev.ironsnouveau.platform.GlyphSchools.NECROMANCY, true, true, EntitySelectionAdapters.TELEKINESIS);
         add("starfall", "Starfall", SpellSchools.MANIPULATION, true, true, EmissionAdapters.STARFALL);
         add("arrow_volley", "Arrow Volley", SpellSchools.CONJURATION, true, false, EmissionAdapters.ARROWS);
         add("chain_creeper", "Chain Creeper", SpellSchools.CONJURATION, true, false, EmissionAdapters.CREEPERS);

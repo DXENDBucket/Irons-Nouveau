@@ -91,6 +91,7 @@ public final class GlyphCatalog {
         complex("acid_orb", "Acid Orb", SpellSchools.ELEMENTAL_EARTH, SpellTier.ONE);
         complex("wither_skull", "Wither Skull", dev.ironsnouveau.platform.GlyphSchools.NECROMANCY, SpellTier.ONE);
         complex("lob_creeper", "Lob Creeper", SpellSchools.ELEMENTAL_AIR, SpellTier.ONE);
+        complex("arcane_shackle", "Arcane Shackle", SpellSchools.MANIPULATION, SpellTier.ONE);
         addForm(new NativeFormAugment("blood_slash", "Blood Slash", dev.ironsnouveau.platform.GlyphSchools.NECROMANCY,
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile::new, ProjectilePayload.FULL_POWER), 0, SpellTier.ONE));
     }

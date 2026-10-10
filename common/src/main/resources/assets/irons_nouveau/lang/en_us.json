@@ -214,5 +214,13 @@
   "irons_nouveau.glyph_name.glyph_electrocute": "Electrocute",
   "irons_nouveau.glyph_desc.glyph_electrocute": "Channels branching lightning ahead. Struck creatures emit in their own direction; point triggers use the incoming direction. The caster pays ongoing mana until the duration ends or mana runs out. Extend Time increases duration, each Amplify adds one native level, and AoE enlarges the lightning.",
   "irons_nouveau.glyph_name.glyph_sunbeam": "Sunbeam",
-  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level."
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level.",
+  "irons_nouveau.glyph_name.glyph_blood_step": "Blood Step",
+  "irons_nouveau.glyph_desc.glyph_blood_step": "Teleport the original caster beside a selected living entity and briefly become invisible. Requires a safe destination; self and block targets do nothing.",
+  "irons_nouveau.glyph_name.glyph_frost_step": "Frost Step",
+  "irons_nouveau.glyph_desc.glyph_frost_step": "Teleport the original caster beside a selected living entity, leaving a native frozen decoy at the origin. Requires a safe destination.",
+  "irons_nouveau.glyph_name.glyph_telekinesis": "Telekinesis",
+  "irons_nouveau.glyph_desc.glyph_telekinesis": "Hold a selected living entity along the original caster's live aim using native telekinesis. Runs for a fixed duration, paying mana every half second; a new controller replaces the old one.",
+  "irons_nouveau.glyph_name.glyph_arcane_shackle": "Arcane Shackle",
+  "irons_nouveau.glyph_desc.glyph_arcane_shackle": "Replace an Ars projectile with a native Arcane Shackle projectile. Entity or block impacts create breakable native chains and continue the remaining Ars effects."
 }

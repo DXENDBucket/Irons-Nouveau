@@ -1681,5 +1681,73 @@
       "id": "irons_nouveau:glyph_wololo",
       "count": 1
     }
+  },
+  "glyph_blood_step": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blood_step"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blood_step",
+      "count": 1
+    }
+  },
+  "glyph_frost_step": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:frost_step"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_frost_step",
+      "count": 1
+    }
+  },
+  "glyph_telekinesis": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:telekinesis"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_telekinesis",
+      "count": 1
+    }
+  },
+  "glyph_arcane_shackle": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:arcane_shackle"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_arcane_shackle",
+      "count": 1
+    }
   }
 }

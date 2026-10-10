@@ -34,7 +34,7 @@ public final class ForgeSmokeTests {
     }
     @GameTest(template = "empty", timeoutTicks = 80)
     public static void registrationHealingAndMana(GameTestHelper h) {
-        h.assertTrue(IronsNouveau.glyphs().size() == 81 && IronsNouveau.forms().size() == 18, "All 99 glyphs register");
+        h.assertTrue(IronsNouveau.glyphs().size() == 84 && IronsNouveau.forms().size() == 19, "All 103 glyphs register");
         var cow = player(h); cow.setHealth(2);
         var mana = CapabilityRegistry.getMana(cow).orElseThrow(IllegalStateException::new); mana.setMana(1000);
         var heal = IronsNouveau.glyphs().stream().filter(g -> g.definition().spellId().getPath().equals("heal")).findFirst().orElseThrow();

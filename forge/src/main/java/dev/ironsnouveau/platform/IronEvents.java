@@ -6,6 +6,9 @@ import io.redspace.ironsspellbooks.api.events.SpellSummonEvent;
 
 public final class IronEvents {
     private IronEvents() {}
+    public static boolean teleport(io.redspace.ironsspellbooks.api.events.SpellTeleportEvent event) {
+        return net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);
+    }
     public static void heal(SpellHealEvent event) { net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event); }
     public static boolean counterspell(CounterSpellEvent event) {
         return net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(event);

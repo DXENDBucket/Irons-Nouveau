@@ -48,7 +48,10 @@
     "MotionEffectMixin",
     "BallLightningImpactMixin",
     "NativeFrostRayMixin",
-    "SunbeamAccess"
+    "SunbeamAccess",
+    "TelekinesisAccess",
+    "ArcaneShackleAccess",
+    "ArcaneShackleImpactMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",

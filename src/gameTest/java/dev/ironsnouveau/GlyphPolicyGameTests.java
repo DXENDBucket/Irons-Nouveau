@@ -25,7 +25,7 @@ public final class GlyphPolicyGameTests {
     }
     @GameTest(template = "empty")
     public static void tierOneOverridesLegacyConfiguration(GameTestHelper h) {
-        h.assertTrue(glyphs().size() == 95, "Every registered Iron glyph is covered");
+        h.assertTrue(glyphs().size() == 103, "Every registered Iron glyph is covered");
         for (var glyph : glyphs()) {
             int saved = glyph.GLYPH_TIER.get();
             try {

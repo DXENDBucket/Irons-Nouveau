@@ -57,7 +57,7 @@ public final class BridgeGameTests {
     public static void registrationAndContextualValidation(GameTestHelper h) {
         var all = new ArrayList<AbstractSpellPart>();
         all.addAll(IronsNouveau.forms()); all.addAll(IronsNouveau.glyphs());
-        h.assertTrue(all.size() == 95 && IronsNouveau.forms().size() == 18, "Eighteen forms and seventy-seven effects");
+        h.assertTrue(all.size() == 103 && IronsNouveau.forms().size() == 19, "Nineteen forms and eighty-four effects");
         for (var glyph : all) {
             h.assertTrue(BuiltInRegistries.ITEM.getKey(glyph.getGlyph()).equals(glyph.getRegistryName()), "Registered glyph");
             h.assertTrue(h.getLevel().getRecipeManager().byKey(glyph.getRegistryName()).isEmpty(), "Scroll crafting replaces standalone glyph recipes");

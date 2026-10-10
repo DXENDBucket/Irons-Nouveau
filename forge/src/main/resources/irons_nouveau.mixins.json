@@ -50,7 +50,10 @@
     "ScryCasterChantMixin",
     "KnowledgeOwnerMixin",
     "NativeFrostRayMixin",
-    "SunbeamAccess"
+    "SunbeamAccess",
+    "TelekinesisAccess",
+    "ArcaneShackleAccess",
+    "ArcaneShackleImpactMixin"
   ],
   "client": [
     "NativeCastingMovementMixin",

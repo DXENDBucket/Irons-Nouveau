@@ -22,6 +22,7 @@ public final class ComplexProjectilePayload extends ProjectilePayload {
     public ComplexProjectilePayload(String id) { super(1, (s, e) -> {}); this.id = id; }
     public AbstractMagicProjectile create(Level level, LivingEntity caster) {
         return switch (id) {
+            case "arcane_shackle" -> new io.redspace.ironsspellbooks.entity.spells.ender_chain.ArcaneShackleProjectile(level, caster);
             case "fireball" -> new MagicFireball(level, caster);
             case "fire_arrow" -> new FireArrowProjectile(level, caster);
             case "poison_arrow" -> new PoisonArrow(level, caster);
@@ -37,6 +38,14 @@ public final class ComplexProjectilePayload extends ProjectilePayload {
         int level = session.plan().spellLevel(); var caster = session.caster();
         var spell = SpellRegistry.getSpell(session.plan().spellId());
         switch (id) {
+            case "arcane_shackle" -> {
+                var nativeSpell = (dev.ironsnouveau.mixin.ArcaneShackleAccess)spell;
+                var shackle = (io.redspace.ironsspellbooks.entity.spells.ender_chain.ArcaneShackleProjectile)p;
+                shackle.setChainHealth(nativeSpell.ironsNouveau$health(level, caster));
+                shackle.setChainLifetime(nativeSpell.ironsNouveau$duration(level, caster));
+                shackle.setLashRadius(nativeSpell.ironsNouveau$radius(level, caster));
+                shackle.setRestraintStrength(.015f);
+            }
             case "lob_creeper" -> { p.setDamage(session.plan().nativePower() * .5f); ((dev.ironsnouveau.mixin.CreeperHeadAccess)p).ironsNouveau$setSpeed((10 + level) * .08f); }
             case "wither_skull" -> { p.setDamage(session.plan().nativePower() * .5f); ((io.redspace.ironsspellbooks.entity.spells.WitherSkullProjectile)p).speed = (float)(6.0 + level) * .08f; }
             case "fireball" -> { var s = (FireballSpell)spell; p.setDamage(s.getDamage(level, caster)); p.setExplosionRadius(Math.min(48, s.getRadius(level, caster))); }
@@ -50,7 +59,8 @@ public final class ComplexProjectilePayload extends ProjectilePayload {
     public boolean detonate(CastSession session, AbstractMagicProjectile visual, HitResult hit) {
         if (hit.getType() == HitResult.Type.MISS) return false;
         var impact = create(session.world(), session.caster()); configure(session, impact);
-        impact.setOwner(session.damageOwner()); impact.setPos(hit.getLocation()); impact.setOldPosAndRot();
+        impact.setOwner(session.damageOwner()); impact.setPos(hit.getLocation());
+        impact.setYRot(visual.getYRot()); impact.setXRot(visual.getXRot()); impact.setOldPosAndRot();
         impact.setDeltaMovement(visual.getDeltaMovement()); ((NativeCastCarrier)impact).ironsNouveau$session(session);
         if (!session.world().addFreshEntity(impact)) return false;
         try { ((NativeProjectileHitAccess)impact).ironsNouveau$hit(hit); return true; }
