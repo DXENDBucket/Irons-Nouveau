@@ -4,6 +4,7 @@
   "package": "dev.ironsnouveau.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "WallOfFireAccess",
     "ActiveCooldownDispatchMixin",
     "ScryCooldownMixin",
     "CrossbowCooldownMixin",

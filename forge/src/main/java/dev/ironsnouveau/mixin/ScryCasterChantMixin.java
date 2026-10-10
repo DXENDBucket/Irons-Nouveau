@@ -21,6 +21,8 @@ public abstract class ScryCasterChantMixin {
     @WrapMethod(method = "castSpell(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/InteractionHand;Lnet/minecraft/network/chat/Component;Lcom/hollingsworth/arsnouveau/api/spell/Spell;)Lnet/minecraft/world/InteractionResultHolder;")
     private InteractionResultHolder<ItemStack> ironsNouveau$chant(Level world, LivingEntity caster, InteractionHand hand,
             Component invalidMessage, Spell spell, Operation<InteractionResultHolder<ItemStack>> original) {
+        if (dev.arsconflux.api.interaction.InputSessions.route(caster, hand, spell))
+            return InteractionResultHolder.consume(caster.getItemInHand(hand));
         if (!ActiveCooldowns.allowed(spell, caster)) return InteractionResultHolder.fail(caster.getItemInHand(hand));
         java.util.function.Supplier<InteractionResultHolder<ItemStack>> release = () -> ActiveCooldowns.execute(spell, caster,
                 CastSource.SPELLBOOK, () -> original.call(world, caster, hand, invalidMessage, spell),

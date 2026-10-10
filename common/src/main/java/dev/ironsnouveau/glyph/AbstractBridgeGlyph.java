@@ -87,12 +87,14 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
         var spell = SpellRegistry.getSpell(definition.spellId());
         var resolution = new Resolution(server, frame, spell, definition, stats);
         if (!permitted(frame.caster(), resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;
-        boolean applied = CastContexts.scoped(frame, () -> mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit)));
+        boolean applied = CastContexts.scoped(frame, () -> mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit, resolver)));
         if (applied) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
                 hit.getLocation().x, hit.getLocation().y, hit.getLocation().z, sound, SoundSource.PLAYERS, .7f, 1f));
     }
-    private boolean apply(Resolution resolution, HitResult hit) {
+    private boolean apply(Resolution resolution, HitResult hit, SpellResolver resolver) {
         var server = resolution.world(); var caster = resolution.caster(); var stats = resolution.stats();
+        if (definition.adapter() instanceof dev.ironsnouveau.api.InteractiveSpellAdapter interactive)
+            return interactive.begin(resolution, hit, resolver);
         if (definition.adapter() instanceof dev.ironsnouveau.api.LocationSpellAdapter location) return location.applyAt(resolution, hit);
         boolean applied = false;
         for (var target : Targeting.select(server, caster, hit, AugmentScaling.radius(stats.getAoeMultiplier()), definition.harmful())) {

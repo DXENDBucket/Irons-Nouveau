@@ -2,7 +2,7 @@
 
 Both Minecraft targets now build from **one checkout and one main branch**. The root build targets 1.21.1 NeoForge; `forge/` targets 1.20.1 Forge. Both read the root `VERSION`, shared Java sources, assets and recipe definitions. The old `1.20.1-forge` branch is a historical snapshot, not a second development line.
 
-Prepare Ars Conflux **0.1.8 or newer within 0.1.x** beside this checkout:
+Prepare Ars Conflux **0.1.9 or newer within 0.1.x** beside this checkout:
 
 ```text
 MinecraftDev/
@@ -44,12 +44,12 @@ For explicit Java and Core paths:
 
 This runs both builds, their unit tests, compilation of the focused runtime checks, both Core release builds, and shared-source / generated-recipe validation. It does not start Minecraft by default. `-RuntimeChecks` additionally runs only `irons_nouveau_shared` and `irons_nouveau_context` in disposable development worlds.
 
-Release files for 0.17.7:
+Release files for 0.17.8:
 
 | Target | Iron & Nouveau | Ars Conflux |
 | --- | --- | --- |
-| NeoForge | `build/libs/irons-nouveau-0.17.7-mc1.21.1-neoforge.jar` | `../Ars-Conflux/build/libs/ars-conflux-0.1.8-mc1.21.1-neoforge.jar` |
-| Forge | `forge/build/libs/irons-nouveau-0.17.7-mc1.20.1-forge.jar` | `../Ars-Conflux/forge/build/libs/ars-conflux-0.1.8-mc1.20.1-forge.jar` |
+| NeoForge | `build/libs/irons-nouveau-0.17.8-mc1.21.1-neoforge.jar` | `../Ars-Conflux/build/libs/ars-conflux-0.1.9-mc1.21.1-neoforge.jar` |
+| Forge | `forge/build/libs/irons-nouveau-0.17.8-mc1.20.1-forge.jar` | `../Ars-Conflux/forge/build/libs/ars-conflux-0.1.9-mc1.20.1-forge.jar` |
 
 Install the full release JAR, not `-sources.jar` or Forge's `-thin.jar`. Forge's full `jarJar` output includes MixinExtras and is reobfuscated. Both releases contain the MIT license and third-party notices.
 

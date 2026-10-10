@@ -112,6 +112,8 @@ public abstract class BoundSpellSupport {
         });
     }
     public static boolean cast(LivingEntity caster, ItemStack stack, InteractionHand hand) {
+        if (!caster.level().isClientSide && caster.getItemInHand(hand) == stack && hasBinding(stack)
+                && dev.arsconflux.api.interaction.InputSessions.route(caster, hand, program(stack))) return true;
         if (caster.level().isClientSide || caster.getItemInHand(hand) != stack || !available(caster, stack)) return false;
         var spell = program(stack);
         var snapshot = stack.copy();

@@ -1,6 +1,6 @@
-# Ars Conflux 接入（0.17.7）
+# Ars Conflux 接入（0.17.8）
 
-Iron & Nouveau 0.17.7 需要独立安装 Ars Conflux 0.1.8 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.8 需要独立安装 Ars Conflux 0.1.9 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
 
 0.17.5 在自身转换入口、Core 0.1.6 在公共分派入口增加服务端世界检查。客户端接收原生或 Ars 弹射物的生成包时保留正常加入行为，不读取服务器专用的施法者上下文。这处理了 0.16.2 用户报告中的 `ClientLevel` 强转 `ServerLevel` 异常。
 
@@ -14,7 +14,7 @@ Iron & Nouveau 0.17.7 需要独立安装 Ars Conflux 0.1.8 或更新的 0.1.x（
 
 | 归属 | 内容 |
 | --- | --- |
-| Conflux | 载体注册、Ars／Hex-Ars Linker 生成入口、共享轨迹与碰撞、对称散射预算、组合验证入口、触发方向、资源预留／提交、临时执行会话及清理 |
+| Conflux | 载体注册、Ars／Hex-Ars Linker 生成入口、共享轨迹与碰撞、对称散射预算、组合验证入口、触发方向、资源预留／提交、临时执行会话及清理、通用输入快照／路由、来源绑定、等待续期、Ars 游标续接 |
 | Iron & Nouveau | 魔符和具体效果、Iron 实体钩子、输出及等级公式、权限与学习进度、价格及支付接口、吟唱／冷却／移动限制、长期召唤物及领域存档 |
 
 `CastSession`、`CastSessions`、`TriggerGeometry`、`ProjectileVolley` 和旧 `CarrierProfiles` 保留为兼容入口，公共实现已经委托 Core。新载体可向 Core 注册，不必修改旧枚举。
@@ -72,3 +72,7 @@ Core 的 `SpellResourceQuotes` 只预估每个魔符一次可能发生的首次�
 Core 0.1.5 独立完成来源解析器传递、Linker Mana／媒质倍率、回调深度和真实 Ars → Hex VM → Ars 往返的双版本验证。Iron 没有增加 Hex 类型引用、专用检测或运行时依赖；具体等级、权限、吟唱和冷却继续由本模组负责。
 
 Iron 两端各通过一项定向工具验证：物品存储保留封存等级，效果报价读取实际工具及增幅，替换弹射物报价读取前后增强，报价后恢复作用域且不修改个人学习进度。两端发行构建、测试源码编译与 99 份共享配方一致性检查通过。
+
+## 交互施法（0.17.8）
+
+火墙使用 Core 0.1.9 的公开输入会话。Core 不识别火墙 ID、节点数量、选点距离、费用和 CD；这些均由 Iron 的 `WallOfFireAdapter` 提供。暂停与续接从当前 Ars 游标开始，输入沿现有主动工具入口传递，生命周期复用同一执行会话。见 [具体操作与边界](interactive-spells.md)。

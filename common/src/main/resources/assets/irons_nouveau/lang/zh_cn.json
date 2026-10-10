@@ -214,5 +214,8 @@
   "irons_nouveau.glyph_name.glyph_electrocute": "电刑",
   "irons_nouveau.glyph_desc.glyph_electrocute": "持续向前释放分支电弧。目标生物按自身朝向释放；位置触发时沿传入方向释放。施法者持续支付魔力，时间结束或魔力不足时停止。延时延长持续时间，每个增幅提高一级，范围扩大电弧。",
   "irons_nouveau.glyph_name.glyph_sunbeam": "烈阳射线",
-  "irons_nouveau.glyph_desc.glyph_sunbeam": "在触发位置召来阳光之柱，短暂蓄势后爆发。触发时消耗一次魔力，延迟命中不重复收费。每个增幅提高一级。"
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "在触发位置召来阳光之柱，短暂蓄势后爆发。触发时消耗一次魔力，延迟命中不重复收费。每个增幅提高一级。",
+  "irons_nouveau.glyph_name.glyph_wall_of_fire": "火墙术",
+  "irons_nouveau.glyph_desc.glyph_wall_of_fire": "以命中位置记录第一个火墙节点。继续使用同一术式追加节点，最多三个；等待两秒后完成。潜行使用取消。完成后继续后面的魔符。增幅每个增加一级法术等级。",
+  "irons_nouveau.cast.wall_select": "继续施法选择火墙节点（还可选 %s 个）；潜行施法取消"
 }
