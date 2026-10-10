@@ -51,13 +51,16 @@
     "SunbeamAccess",
     "TelekinesisAccess",
     "ArcaneShackleAccess",
-    "ArcaneShackleImpactMixin"
+    "ArcaneShackleImpactMixin",
+    "StepDistanceAccess",
+    "StepLandingDirectionMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",
     "NativeCastingMovementMixin",
     "NativeChantBarMixin",
-    "NativeElectrocuteRenderingMixin"
+    "NativeElectrocuteRenderingMixin",
+    "TelekinesisTargetColorMixin"
   ],
   "injectors": {
     "defaultRequire": 1

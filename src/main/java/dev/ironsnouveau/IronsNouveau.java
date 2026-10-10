@@ -23,6 +23,7 @@ public final class IronsNouveau {
         dev.ironsnouveau.platform.BoundSpellData.register(bus);
         bus.addListener(dev.ironsnouveau.network.ChantStatePayload::register);
         bus.addListener(dev.ironsnouveau.network.SiphonRayVisualPayload::register);
+        bus.addListener(dev.ironsnouveau.network.TelekinesisVisualPayload::register);
         bus.addListener(dev.ironsnouveau.network.CastingMovementPayload::register);
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER,
                 dev.ironsnouveau.config.SpellLevelConfig.SPEC, "irons_nouveau-server.toml");

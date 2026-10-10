@@ -216,11 +216,11 @@
   "irons_nouveau.glyph_name.glyph_sunbeam": "烈阳射线",
   "irons_nouveau.glyph_desc.glyph_sunbeam": "在触发位置召来阳光之柱，短暂蓄势后爆发。触发时消耗一次魔力，延迟命中不重复收费。每个增幅提高一级。",
   "irons_nouveau.glyph_name.glyph_blood_step": "血步",
-  "irons_nouveau.glyph_desc.glyph_blood_step": "将原施法者传送至选中的生物附近，并短暂隐身。需要安全的落点；选中自己或方块时无效。",
+  "irons_nouveau.glyph_desc.glyph_blood_step": "使原施法者移至选中生物附近。选中自身时向前执行，方块或其他落点决定步进方向。保留短暂隐身与烟雾；无法安全移动时不消耗魔力。",
   "irons_nouveau.glyph_name.glyph_frost_step": "霜步",
-  "irons_nouveau.glyph_desc.glyph_frost_step": "将原施法者传送至选中的生物附近，在原地留下原生冰霜替身。需要安全的落点。",
+  "irons_nouveau.glyph_desc.glyph_frost_step": "使原施法者移至选中生物附近，或沿自身／选点方向执行霜步。在原位置留下冰霜替身；无法安全移动时不消耗魔力。",
   "irons_nouveau.glyph_name.glyph_telekinesis": "念力",
-  "irons_nouveau.glyph_desc.glyph_telekinesis": "以原施法者的实时朝向牵引选中的生物。持续固定时长，每半秒消耗魔力；新的念力控制会替换旧控制。",
+  "irons_nouveau.glyph_desc.glyph_telekinesis": "以原施法者的实时朝向牵引选中的生物，显现念力包围效果。持续固定时长，每半秒消耗魔力；新的控制会替换旧控制，施法期间移动受限。",
   "irons_nouveau.glyph_name.glyph_arcane_shackle": "奥术镣铐",
   "irons_nouveau.glyph_desc.glyph_arcane_shackle": "将 Ars 弹射物替换为原生奥术镣铐弹射物。命中实体或方块后生成可破坏的原生锁链，并继续后续 Ars 效果。"
 }

@@ -3,11 +3,15 @@ package dev.ironsnouveau.bridge;
 import dev.ironsnouveau.api.LocationSpellAdapter;
 import dev.ironsnouveau.casting.EffectResources;
 import dev.ironsnouveau.casting.TelekinesisExecution;
+import dev.ironsnouveau.casting.StepAimGeometry;
+import dev.ironsnouveau.mixin.StepDistanceAccess;
 import dev.ironsnouveau.platform.Casters;
 import dev.ironsnouveau.platform.IronEvents;
 import dev.ironsnouveau.platform.StepParticles;
 import io.redspace.ironsspellbooks.api.events.SpellTeleportEvent;
 import io.redspace.ironsspellbooks.api.util.Utils;
+import io.redspace.ironsspellbooks.api.util.RaycastBuilder;
+import io.redspace.ironsspellbooks.spells.ender.TeleportSpell;
 import io.redspace.ironsspellbooks.entity.mobs.frozen_humanoid.FrozenHumanoid;
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import net.minecraft.core.BlockPos;
@@ -48,9 +52,7 @@ public final class EntitySelectionAdapters {
                         BlockPos.containing(box.maxX, box.maxY, box.maxZ))
                 && ctx.world().noCollision(ctx.caster(), box);
     }
-    private static boolean step(Resolution ctx, HitResult hit, boolean frost) {
-        var target = target(ctx, hit);
-        if (target == null) return false;
+    private static Vec3 beside(Resolution ctx, LivingEntity target) {
         var caster = ctx.caster();
         Vec3 destination = null;
         double separation = Math.max(1.5, (target.getBbWidth() + caster.getBbWidth()) / 2 + .5);
@@ -61,7 +63,42 @@ public final class EntitySelectionAdapters {
                 if (safe(ctx, candidate.add(0, dy, 0))) { destination = candidate.add(0, dy, 0); break; }
             }
         }
-        if (destination == null) return false;
+        return destination;
+    }
+    private static boolean step(Resolution ctx, HitResult hit, boolean frost) {
+        var caster = ctx.caster();
+        if (caster == null || Casters.isFake(caster) || !valid(ctx, caster)) return false;
+        LivingEntity target = null;
+        Vec3 destination;
+        if (hit instanceof EntityHitResult selected && selected.getEntity() instanceof LivingEntity living && living != caster) {
+            if (!valid(ctx, living)) return false;
+            target = living;
+            destination = beside(ctx, target);
+        } else {
+            float range = ((StepDistanceAccess)ctx.spell()).ironsNouveau$distance(ctx.level(), caster);
+            if (!Float.isFinite(range) || range <= 0) return false;
+            if (hit instanceof EntityHitResult selected && selected.getEntity() == caster) {
+                var end = caster.getEyePosition().add(caster.getLookAngle().scale(range));
+                if (!ctx.world().hasChunksAt(caster.blockPosition(), BlockPos.containing(end))) return false;
+                // Native Blood Step can select the creature under the caster's crosshair; Frost Step casts toward terrain.
+                if (!frost) {
+                    var aimed = RaycastBuilder.begin(ctx.world(), caster).range(range).checkForBlocks(true).build();
+                    if (aimed instanceof EntityHitResult entity && entity.getEntity() instanceof LivingEntity living && living != caster) {
+                        if (!valid(ctx, living)) return false;
+                        target = living;
+                    }
+                }
+                destination = target != null ? beside(ctx, target) : TeleportSpell.findTeleportLocation(ctx.world(), caster, range);
+            } else {
+                if (hit instanceof EntityHitResult selected) {
+                    var entity = selected.getEntity();
+                    if (!entity.isAlive() || entity.isRemoved() || entity.isSpectator() || entity.level() != ctx.world()
+                            || !ctx.world().hasChunkAt(entity.blockPosition())) return false;
+                }
+                destination = StepAimGeometry.towards(ctx, hit.getLocation(), range);
+            }
+        }
+        if (destination == null || !safe(ctx, destination) || destination.distanceToSqr(caster.position()) < .0001) return false;
         var event = new SpellTeleportEvent(ctx.spell(), caster, destination.x, destination.y, destination.z);
         if (IronEvents.teleport(event)) return false;
         destination = new Vec3(event.getTargetX(), event.getTargetY(), event.getTargetZ());
@@ -72,7 +109,7 @@ public final class EntitySelectionAdapters {
         if (caster.isPassenger()) caster.stopRiding();
         caster.teleportTo(destination.x, destination.y, destination.z);
         caster.fallDistance = 0;
-        caster.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition().add(0, -.15, 0));
+        if (target != null) caster.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition().add(0, -.15, 0));
         if (frost) {
             shadow.setShatterDamage((float)ctx.power());
             shadow.setDeathTimer(EffectResources.ticks(100 * ctx.duration()));

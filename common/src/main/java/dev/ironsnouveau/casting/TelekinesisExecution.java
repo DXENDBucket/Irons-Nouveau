@@ -38,12 +38,25 @@ public final class TelekinesisExecution implements CastExecution {
                 new TelekinesisExecution(ctx, target, ticks), ignored -> {}).billing(TriggerMana.of(frame), true));
     }
     private boolean valid() { return EntitySelectionAdapters.target(resolution, new EntityHitResult(target)) != null; }
+    @Override public boolean occupiesCaster() { return true; }
     @Override public boolean start(CastSession session) {
         if (!valid()) return false;
         var previous = CONTROLLERS.put(target.getUUID(), session);
         if (previous != null) previous.finish(CastSession.EndReason.COMPLETED);
         force();
+        MovementRestrictions.begin(session.caster(), session.id(), session.remainingTicks());
+        syncVisual(session, session.remainingTicks());
+        resolution.spell().getCastStartSound().ifPresent(sound -> session.world().playSound(null,
+                session.caster().getX(), session.caster().getY(), session.caster().getZ(), sound,
+                net.minecraft.sounds.SoundSource.PLAYERS, .7f, 1));
         return true;
+    }
+    private void syncVisual(CastSession session, int remaining) {
+        var state = dev.ironsnouveau.network.TelekinesisVisualState.of(session, target, remaining);
+        dev.ironsnouveau.platform.ClientPackets.telekinesis(session.world(), target.position(), state);
+        // The caster may be outside the target's tracking range and still needs animation/cleanup.
+        if (session.caster().distanceToSqr(target) > 48 * 48)
+            dev.ironsnouveau.platform.ClientPackets.telekinesis(session.world(), session.caster().position(), state);
     }
     private void force() {
         ((TelekinesisAccess)resolution.spell()).ironsNouveau$handle(resolution.world(), resolution.caster(), data, .6f);
@@ -56,11 +69,19 @@ public final class TelekinesisExecution implements CastExecution {
         // First activation was paid by the glyph. Further half-second pulses use the same original account.
         if (elapsed % 10 == 0) {
             if (!session.activate(() -> { force(); return true; })) return true;
+            resolution.spell().getCastFinishSound().ifPresent(sound -> session.world().playSound(null,
+                    session.caster().getX(), session.caster().getY(), session.caster().getZ(), sound,
+                    net.minecraft.sounds.SoundSource.PLAYERS, .7f, 1));
         } else if (elapsed % 2 == 0) force();
+        if (elapsed % 5 == 0) syncVisual(session, session.remainingTicks());
         return false;
     }
     @Override public void close(CastSession session, CastSession.EndReason reason) {
         CONTROLLERS.remove(target.getUUID(), session);
-        data.resetAdditionalCastData();
+        try { syncVisual(session, 0); }
+        finally {
+            MovementRestrictions.end(session.caster(), session.id());
+            data.resetAdditionalCastData();
+        }
     }
 }

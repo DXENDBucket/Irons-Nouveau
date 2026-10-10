@@ -8,7 +8,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 
 public final class ForgeNetwork {
     private static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(
-            dev.ironsnouveau.platform.Locations.id("irons_nouveau", "main"), () -> "2", "2"::equals, "2"::equals);
+            dev.ironsnouveau.platform.Locations.id("irons_nouveau", "main"), () -> "3", "3"::equals, "3"::equals);
     private ForgeNetwork() {}
     public static void register() {
         CHANNEL.messageBuilder(ChantStatePayload.class, 0, NetworkDirection.PLAY_TO_CLIENT)
@@ -26,6 +26,9 @@ public final class ForgeNetwork {
         CHANNEL.messageBuilder(SiphonRayVisualPayload.class, 3, NetworkDirection.PLAY_TO_CLIENT)
                 .encoder(SiphonRayVisualPayload::encode).decoder(SiphonRayVisualPayload::decode)
                 .consumerMainThread((p,c) -> ClientReceiver.siphon(p)).add();
+        CHANNEL.messageBuilder(TelekinesisVisualPayload.class, 4, NetworkDirection.PLAY_TO_CLIENT)
+                .encoder(TelekinesisVisualPayload::encode).decoder(TelekinesisVisualPayload::decode)
+                .consumerMainThread((p,c) -> ClientReceiver.telekinesis(p)).add();
     }
     public static void sendNear(net.minecraft.server.level.ServerLevel world, net.minecraft.world.phys.Vec3 pos,
                                 double radius, Object message) {
@@ -37,6 +40,7 @@ public final class ForgeNetwork {
     }
     // This class is referenced only by client-bound handlers, never loaded on a dedicated server.
     private static final class ClientReceiver {
+        static void telekinesis(TelekinesisVisualPayload p) { dev.ironsnouveau.client.TelekinesisVisuals.accept(p.data()); }
         static void siphon(SiphonRayVisualPayload p) { dev.ironsnouveau.client.SiphonRayVisuals.accept(p); }
         static void chant(ChantStatePayload p) { dev.ironsnouveau.client.ChantHudState.accept(p); }
         static void movement(CastingMovementPayload p) { dev.ironsnouveau.client.CastingMovementState.accept(p); }

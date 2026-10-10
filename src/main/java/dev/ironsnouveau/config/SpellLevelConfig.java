@@ -66,7 +66,7 @@ public final class SpellLevelConfig {
                 .define("enabled", true);
         builder.pop();
         builder.push("movement");
-        MOVEMENT_ENABLED = builder.comment("Use native Iron player movement restrictions during bridge chanting and player-anchored breaths.",
+        MOVEMENT_ENABLED = builder.comment("Use native Iron player movement restrictions during bridge chanting, player-anchored breaths and telekinesis.",
                 "Restricts the actual breathing player, not a remote caster. Mob- and block-position breaths restrict nobody.",
                 "Reuses Iron input scaling and CASTING_MOVESPEED. Non-player entities receive no additional restriction.",
                 "Multiple bridge casts never multiply this penalty. False disables only bridge restrictions, not native Iron casting.")
