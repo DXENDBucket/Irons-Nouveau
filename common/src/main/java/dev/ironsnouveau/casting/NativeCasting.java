@@ -94,6 +94,7 @@ public final class NativeCasting {
     }
     /** Runs at Ars' addFreshEntity call, after velocity, spread and split count have been calculated. */
     public static boolean convert(Entity entity) {
+        if (!(entity.level() instanceof ServerLevel world)) return false;
         if (!(entity instanceof EntityProjectileSpell ars) || dev.arsconflux.api.glyph.ArsSpellAccess.resolver(ars) == null) return false;
         var resolver = dev.arsconflux.api.glyph.ArsSpellAccess.resolver(ars);
         var context = CastContext.of(resolver.spellContext, null, null);
@@ -103,7 +104,6 @@ public final class NativeCasting {
         if (form == null) return false;
         var profile = dev.arsconflux.api.projectile.CarrierRegistry.of(ars);
         if (profile == null) return false;
-        if (!(ars.level() instanceof ServerLevel world)) return true;
         var augments = resolver.spell.getAugments(0, caster);
         if (augments.stream().filter(NativeFormAugment.class::isInstance).count() != 1
                 || augments.stream().anyMatch(a -> !(a instanceof NativeFormAugment) && !profile.augments().contains(a))) return true;

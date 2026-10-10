@@ -1,6 +1,8 @@
-# Ars Conflux 接入（0.17.4）
+# Ars Conflux 接入（0.17.5）
 
-Iron & Nouveau 0.17.4 需要独立安装 Ars Conflux 0.1.5 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；未来 Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.5 需要独立安装 Ars Conflux 0.1.6 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
+
+0.17.5 在自身转换入口、Core 0.1.6 在公共分派入口增加服务端世界检查。客户端接收原生或 Ars 弹射物的生成包时保留正常加入行为，不读取服务器专用的施法者上下文。这处理了 0.16.2 用户报告中的 `ClientLevel` 强转 `ServerLevel` 异常。
 
 ## 实际边界
 
