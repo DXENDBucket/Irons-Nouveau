@@ -47,7 +47,6 @@
     "TouchDigAccess",
     "MotionEffectMixin",
     "BallLightningImpactMixin",
-    "GlyphRegistryOrderMixin",
     "ScryCasterChantMixin",
     "KnowledgeOwnerMixin",
     "NativeFrostRayMixin",

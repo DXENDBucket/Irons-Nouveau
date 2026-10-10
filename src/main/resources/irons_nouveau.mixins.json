@@ -47,7 +47,6 @@
     "TouchDigAccess",
     "MotionEffectMixin",
     "BallLightningImpactMixin",
-    "GlyphRegistryOrderMixin",
     "NativeFrostRayMixin",
     "SunbeamAccess"
   ],
@@ -55,7 +54,6 @@
     "NativeSiphonRenderingMixin",
     "NativeCastingMovementMixin",
     "NativeChantBarMixin",
-    "GlyphFormatterOrderMixin",
     "NativeElectrocuteRenderingMixin"
   ],
   "injectors": {

@@ -1,12 +1,14 @@
-# Ars Conflux 接入（0.17.6）
+# Ars Conflux 接入（0.17.7）
 
-Iron & Nouveau 0.17.6 需要独立安装 Ars Conflux 0.1.7 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.7 需要独立安装 Ars Conflux 0.1.8 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
 
 0.17.5 在自身转换入口、Core 0.1.6 在公共分派入口增加服务端世界检查。客户端接收原生或 Ars 弹射物的生成包时保留正常加入行为，不读取服务器专用的施法者上下文。这处理了 0.16.2 用户报告中的 `ClientLevel` 强转 `ServerLevel` 异常。
 
 0.17.6 进一步使用 Core 0.1.7 的 `ArsSpellAccess.level/caster` 读取上下文，覆盖预设工具、附魔剑触发及冷却归属；施法前及效果解析先检查服务端。缺少 caster 的费用报价返回未知，避免制造客户端假玩家。持续效果发射同样先检查服务端，并拒绝缺少 owner UUID 的租约。
 
 两端各通过 6 项定向上下文／工具验证；本次没有重复完整套件，也未启动真实客户端重现生成包。Forge 开发启动额外指定 Core 的 Mixin 配置，确保源目录运行与发行包的 manifest 加载一致。发行包仍只声明自身的 Mixin 配置。
+
+0.17.7 将 Ars 展示排序钩子及类别回归检查移到 Core，使用 `GlyphPresentation.register` 提供本模组的原生学派键；不再与 Goety 各自包装同一个 Ars 比较器。
 
 ## 实际边界
 

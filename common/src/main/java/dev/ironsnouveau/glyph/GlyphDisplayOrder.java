@@ -4,20 +4,10 @@ import com.hollingsworth.arsnouveau.api.spell.AbstractSpellPart;
 import dev.ironsnouveau.progression.SpellProgress;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import java.util.Comparator;
-import java.util.function.Function;
-import java.util.function.ToIntFunction;
 
-/** Presentation only: category, source, native Iron school, then upstream ordering. */
+/** Provider-specific native school key; shared cross-provider sorting belongs to Conflux. */
 public final class GlyphDisplayOrder {
     private GlyphDisplayOrder() {}
-
-    public static <T> Comparator<T> ironLast(Comparator<T> original, Function<T, AbstractSpellPart> part,
-                                            ToIntFunction<AbstractSpellPart> category) {
-        return Comparator.<T>comparingInt(value -> category.applyAsInt(part.apply(value)))
-                .thenComparingInt(value -> part.apply(value).getRegistryName().getNamespace().equals("irons_nouveau") ? 1 : 0)
-                .thenComparing(value -> schoolKey(part.apply(value)))
-                .thenComparing(original);
-    }
 
     /** Use the native Iron school, not Ars' broader mapped schools. Non-Iron ordering is unchanged. */
     public static String schoolKey(AbstractSpellPart part) {
