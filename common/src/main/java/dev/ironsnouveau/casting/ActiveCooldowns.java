@@ -81,12 +81,12 @@ public final class ActiveCooldowns {
     /** Check the resolved recipe too, in case the casting tool adds glyphs before dispatch. */
     public static boolean allowDispatch(SpellResolver resolver) {
         var attempt = CURRENT.get();
-        return attempt == null || resolver.spellContext.getUnwrappedCaster() != attempt.player
+        return attempt == null || dev.arsconflux.api.glyph.ArsSpellAccess.caster(resolver.spellContext) != attempt.player
                 || allowed(resolver.spell, attempt.player);
     }
     public static void dispatched(SpellResolver resolver, boolean success) {
         var attempt = CURRENT.get();
-        if (!success || attempt == null || resolver.spellContext.getUnwrappedCaster() != attempt.player
+        if (!success || attempt == null || dev.arsconflux.api.glyph.ArsSpellAccess.caster(resolver.spellContext) != attempt.player
                 || !ChantTiming.containsIron(resolver.spell)) return;
         attempt.spells.addAll(spells(resolver.spell));
         attempt.released = true;

@@ -62,10 +62,11 @@ public final class NativeCasting {
         return modifiers.resolveLevel(dev.ironsnouveau.progression.SpellProgress.baseLevel(caster, form.spellId()));
     }
     public static void beforeCast(SpellCastEvent event) {
+        if (!(dev.arsconflux.api.glyph.ArsSpellAccess.level(event.context) instanceof ServerLevel)) return;
         PresetTools.scoped(event.context, () -> { beforeCastScoped(event); return null; });
     }
     private static void beforeCastScoped(SpellCastEvent event) {
-        var caster = event.context.getUnwrappedCaster();
+        var caster = dev.arsconflux.api.glyph.ArsSpellAccess.caster(event.context);
         if (caster == null || caster.level().isClientSide) return;
         var error = validate(dev.arsconflux.api.glyph.ArsSpellAccess.parts(event.spell));
         boolean allowed = error.isEmpty();

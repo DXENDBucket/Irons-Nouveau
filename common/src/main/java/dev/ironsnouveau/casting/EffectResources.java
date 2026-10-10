@@ -30,7 +30,7 @@ public final class EffectResources {
     private EffectResources() {}
     public static boolean pulse(Entity entity, BooleanSupplier action) { return pulse(entity, 1, action); }
     public static boolean pulse(Entity entity, int period, BooleanSupplier action) {
-        if (entity == null || entity.level().isClientSide || !entity.getPersistentData().contains(KEY)) return action.getAsBoolean();
+        if (entity == null || !(entity.level() instanceof ServerLevel world) || !entity.getPersistentData().contains(KEY)) return action.getAsBoolean();
         if (entity.getPersistentData().getCompound(KEY).getBoolean("one_shot")) return action.getAsBoolean();
         // Ordinary summoned creatures pay for their creation, not every autonomous attack.
         if (entity instanceof net.minecraft.world.entity.Mob && !(entity instanceof io.redspace.ironsspellbooks.entity.spells.wisp.WispEntity)) return action.getAsBoolean();
@@ -40,7 +40,8 @@ public final class EffectResources {
             PAYING.add(entity); try { return action.getAsBoolean(); } finally { PAYING.remove(entity); }
         }
         var tag = entity.getPersistentData().getCompound(KEY);
-        Entity owner = ((ServerLevel)entity.level()).getEntity(tag.getUUID("owner"));
+        if (!tag.hasUUID("owner")) return false;
+        Entity owner = world.getEntity(tag.getUUID("owner"));
         if (!(owner instanceof LivingEntity living) || !living.isAlive()) return false;
         var mana = ACCOUNTS.computeIfAbsent(entity, e -> TriggerMana.of(null, living));
         PAYING.add(entity);
@@ -83,8 +84,9 @@ public final class EffectResources {
     }
     /** An emitter pays per emission; its projectiles have already paid for their eventual impact. */
     public static void emit(Entity parent, int lifetime, boolean firstFree, Runnable action) {
-        if (!managed(parent)) { action.run(); return; }
+        if (!(parent.level() instanceof ServerLevel world) || !managed(parent)) { action.run(); return; }
         var tag = parent.getPersistentData().getCompound(KEY);
+        if (!tag.hasUUID("owner")) return;
         BooleanSupplier spawn = () -> {
             boolean previous = PAID_CHILDREN.get(); PAID_CHILDREN.set(true);
             try { children(parent, lifetime, action); return true; }
@@ -93,7 +95,6 @@ public final class EffectResources {
         if (firstFree && !tag.getBoolean("emitted")) { tag.putBoolean("emitted", true); spawn.getAsBoolean(); }
         else {
             // Emission itself is billed even when the parent projectile's initial impact was prepaid.
-            var world = (ServerLevel)parent.level();
             var owner = world.getEntity(tag.getUUID("owner"));
             if (owner instanceof LivingEntity living && living.isAlive())
                 ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, living))

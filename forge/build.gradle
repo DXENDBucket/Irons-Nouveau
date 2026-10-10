@@ -20,7 +20,12 @@ minecraft {
     mappings channel: 'official', version: '1.20.1'
     copyIdeResources = true
     runs {
-        configureEach { property 'mixin.env.remapRefMap', 'true'; property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg" }
+        configureEach {
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            // Included source directories have no release-JAR manifest to register Core's mixins.
+            args '--mixin.config', 'ars_conflux.mixins.json'
+        }
         gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
         client { workingDirectory project.file('run/client'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }
         server { workingDirectory project.file('run/server'); args '--nogui'; mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }

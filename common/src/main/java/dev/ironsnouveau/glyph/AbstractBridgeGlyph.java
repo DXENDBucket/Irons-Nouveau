@@ -39,6 +39,7 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
     @Override public dev.arsconflux.api.resource.ResourceCharge firstCharge(SpellContext context, java.util.List<AbstractAugment> augments) {
         return dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
             var caster = CastContext.of(context, null, null).caster();
+            if (caster == null) return null; // A client device/dehydrated context cannot identify its account yet.
             int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, definition.spellId(), augments);
             return TriggerMana.of(context, caster).charge(definition.spellId(), level);
         });
@@ -70,6 +71,7 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
     }
     @Override public void onResolve(HitResult hit, Level world, LivingEntity caster, SpellStats stats,
                                     SpellContext context, SpellResolver resolver) {
+        if (!(world instanceof ServerLevel) || !isEnabled()) return;
         dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
             resolve(hit, world, caster, stats, context, resolver); return null;
         });

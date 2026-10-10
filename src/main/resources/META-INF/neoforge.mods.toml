@@ -48,6 +48,6 @@ side="BOTH"
 [[dependencies.irons_nouveau]]
 modId="ars_conflux"
 type="required"
-versionRange="[0.1.6,0.2)"
+versionRange="[0.1.7,0.2)"
 ordering="AFTER"
 side="BOTH"

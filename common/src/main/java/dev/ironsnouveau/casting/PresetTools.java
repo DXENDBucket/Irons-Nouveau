@@ -27,8 +27,8 @@ public final class PresetTools {
     }
     public static <T> T scoped(SpellContext context, Supplier<T> action) {
         var tool = context.getCasterTool();
-        return scoped(isPreset(tool)
-                ? new Token(context.getUnwrappedCaster(), tool.copy()) : null, action);
+        var caster = dev.arsconflux.api.glyph.ArsSpellAccess.caster(context);
+        return scoped(caster != null && isPreset(tool) ? new Token(caster, tool.copy()) : null, action);
     }
     public static boolean isPreset(ItemStack tool) {
         return BoundSpellWeapons.hasBinding(tool) || tool.getItem() instanceof PresetSpellTool;

@@ -30,7 +30,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAc
     public ResourceCharge charge(ResourceLocation spell, int level) { return new ResourceCharge(account(), cost(spell, level)); }
     public int affordableCount(ResourceLocation spell, int level, int requested) { return charge(spell, level).affordableCount(requested); }
     public boolean trigger(ResourceLocation spell, int level, BooleanSupplier action) {
-        if (!caster.isAlive() || caster.level().isClientSide) return false;
+        if (caster == null || !caster.isAlive() || caster.level().isClientSide) return false;
         return charge(spell, level).trigger(() -> run(action));
     }
     public ResourceAccount account() {
