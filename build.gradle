@@ -3,7 +3,7 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.146'
 }
 group = 'dev.ironsnouveau'
-version = '0.16.2'
+version = '0.17.0'
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
 repositories { mavenCentral() }
@@ -13,6 +13,8 @@ configurations {
     gameTestCompileOnly.extendsFrom compileOnly
     gameTestRuntimeOnly.extendsFrom runtimeOnly
 }
+evaluationDependsOn(':ars-conflux')
+def confluxMain = project(':ars-conflux').sourceSets.main
 neoForge {
     version = '21.1.250'
     addModdingDependenciesTo sourceSets.gameTest
@@ -27,9 +29,10 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau')
         }
     }
-    mods { irons_nouveau { sourceSet sourceSets.main; sourceSet sourceSets.gameTest } }
+    mods { ars_conflux { sourceSet confluxMain }; irons_nouveau { sourceSet sourceSets.main; sourceSet sourceSets.gameTest } }
 }
 dependencies {
+    implementation project(':ars-conflux')
     compileOnly fileTree(dir: 'libs', include: '*.jar')
     runtimeOnly fileTree(dir: 'libs', include: '*.jar',
             excludes: providers.gradleProperty('standalone').getOrElse('false').toBoolean()

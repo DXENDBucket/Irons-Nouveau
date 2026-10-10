@@ -1,2 +1,7 @@
 pluginManagement { repositories { gradlePluginPortal() } }
 rootProject.name = 'irons-nouveau'
+
+// Optional checkout location for addon authors; the published runtime remains two separate mods.
+def confluxCheckout = providers.gradleProperty('confluxCheckout').getOrElse('../Ars-Conflux')
+include ':ars-conflux'
+project(':ars-conflux').projectDir = file(confluxCheckout)

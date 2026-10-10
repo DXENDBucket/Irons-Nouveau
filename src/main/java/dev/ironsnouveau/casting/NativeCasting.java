@@ -27,16 +27,18 @@ public final class NativeCasting {
         for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(recipe)) {
             long forms = phrase.getAugments().stream().filter(NativeFormAugment.class::isInstance).count();
             if (forms == 0) {
-                if (CarrierProfiles.of(phrase.getAction()) != null && phrase.getAugments().stream()
-                        .anyMatch(a -> !CarrierProfiles.of(phrase.getAction()).originallySupported(a)
+                // Another Conflux provider owns this payload and its modifier rules.
+                if (phrase.getAugments().stream().anyMatch(dev.arsconflux.api.projectile.ProjectileForm.class::isInstance)) continue;
+                if (dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction()) != null && phrase.getAugments().stream()
+                        .anyMatch(a -> !dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction()).originallySupported(a)
                                 && (a == AugmentAmplify.INSTANCE || a == AugmentDampen.INSTANCE)))
                     errors.add(new Error(phrase.getFirstPosition(), phrase.getAction(), "requires_form"));
                 continue;
             }
             var form = (NativeFormAugment) phrase.getAugments().stream().filter(NativeFormAugment.class::isInstance).findFirst().orElseThrow();
-            var profile = CarrierProfiles.of(phrase.getAction());
+            var profile = dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction());
             String reason = !form.adapter().supportsMethod(phrase.getAction()) || profile == null
-                    || (phrase.getFirstPosition() != 0 && profile != CarrierProfiles.ORBIT && !profile.propagator())
+                    || (phrase.getFirstPosition() != 0 && profile != CarrierProfiles.ORBIT.core() && !profile.propagator())
                     ? "requires_projectile" : forms != 1 ? "one_form" : null;
             if (reason == null && phrase.getAugments().stream().anyMatch(a -> !(a instanceof NativeFormAugment) && !profile.augments().contains(a)))
                 reason = "unsupported_modifier";
@@ -104,28 +106,28 @@ public final class NativeCasting {
         var caster = resolver.spellContext.getUnwrappedCaster();
         var form = form(resolver.spell, caster);
         if (form == null) return false;
-        var profile = CarrierProfiles.of(ars);
+        var profile = dev.arsconflux.api.projectile.CarrierRegistry.of(ars);
         if (profile == null) return false;
         if (!(ars.level() instanceof ServerLevel world)) return true;
         var augments = resolver.spell.getAugments(0, caster);
         if (augments.stream().filter(NativeFormAugment.class::isInstance).count() != 1
                 || augments.stream().anyMatch(a -> !(a instanceof NativeFormAugment) && !profile.augments().contains(a))) return true;
         var velocity = ars.getDeltaMovement();
-        var modifiers = modifiers(resolver.spell, caster, profile.driven() ? 1 : velocity.length() / .75);
+        var modifiers = modifiers(resolver.spell, caster, profile.arsDriven() ? 1 : velocity.length() / .75);
         int level = level(form, modifiers, caster);
         var spell = SpellRegistry.getSpell(form.spellId());
         var plan = new CastPlan(form.getRegistryName(), form.spellId(), level,
                 spell.getSpellPower(level, caster), modifiers, Math.max(1, ars.getExpirationTime() + 1));
         var frozen = resolver.clone();
         CastExecution execution = form.adapter().createExecution(world, caster);
-        if (profile.driven()) execution = ((ProjectileExecution)execution).withTrajectory(ars);
+        if (profile.arsDriven()) execution = ((ProjectileExecution)execution).withTrajectory(ars);
         ImpactContinuation continuation = hit -> frozen.clone().onResolveEffect(world, hit);
-        if (!profile.driven()) continuation = new OncePerTargetContinuation(continuation);
+        if (!profile.arsDriven()) continuation = new OncePerTargetContinuation(continuation);
         var session = new CastSession(world, caster, plan,
                 AimSource.fixed(new CastAim(ars.position(), velocity.normalize(), null)),
-                execution, continuation).billing(TriggerMana.of(resolver.spellContext, caster), profile == CarrierProfiles.TRAIL || profile == CarrierProfiles.ORBIT);
+                execution, continuation).billing(TriggerMana.of(resolver.spellContext, caster), profile.repeated());
         CastSessions.start(session);
-        if (!profile.driven()) ars.discard();
+        if (!profile.arsDriven()) ars.discard();
         return true;
     }
     private record Error(int position, AbstractSpellPart spellPart, String reason) implements SpellValidationError {

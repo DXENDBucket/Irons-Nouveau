@@ -7,54 +7,37 @@ import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import java.util.IdentityHashMap;
+import dev.arsconflux.api.resource.*;
 import java.util.function.BooleanSupplier;
 
 /** Synchronous reservation prevents nested effects spending the same mana. Charge only committed triggers. */
 public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
-    private static final ThreadLocal<IdentityHashMap<LivingEntity, Long>> RESERVED = ThreadLocal.withInitial(IdentityHashMap::new);
     private static final ThreadLocal<TriggerMana> CURRENT = new ThreadLocal<>();
     public static TriggerMana current() { return CURRENT.get(); }
     public static TriggerMana of(SpellContext context, LivingEntity caster) {
         return new TriggerMana(caster, context == null ? LivingCaster.from(caster) : context.getCaster());
     }
-    /** Check one first trigger, allowing for Ars's upfront cost when both draw on this pool. */
+    /** Ars upfront cost belongs to this account only when using Ars mana. */
     public boolean canBegin(ResourceLocation spell, int level, int arsUpfrontCost) {
-        if (caster instanceof Player player && player.isCreative()) return true;
-        long needed = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level))
-                + RESERVED.get().getOrDefault(caster, 0L);
-        if (!usesIronMana()) needed += Math.max(0, arsUpfrontCost);
-        return needed <= Integer.MAX_VALUE && enoughMana((int)needed);
+        return ResourceTransactions.canSpend(account(), (long)cost(spell, level) + (usesIronMana() ? 0 : Math.max(0, arsUpfrontCost)));
     }
-    public int affordableCount(ResourceLocation spell, int level, int requested) {
-        if (caster instanceof Player player && player.isCreative()) return requested;
-        int cost = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level));
-        if (cost == 0) return requested;
-        long held = RESERVED.get().getOrDefault(caster, 0L);
-        int low = 0, high = requested;
-        while (low < high) {
-            int mid = low + (high - low + 1) / 2;
-            long needed = held + (long) mid * cost;
-            if (needed <= Integer.MAX_VALUE && enoughMana((int) needed)) low = mid; else high = mid - 1;
-        }
-        return low;
-    }
+    private int cost(ResourceLocation spell, int level) { return Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level)); }
+    public ResourceCharge charge(ResourceLocation spell, int level) { return new ResourceCharge(account(), cost(spell, level)); }
+    public int affordableCount(ResourceLocation spell, int level, int requested) { return charge(spell, level).affordableCount(requested); }
     public boolean trigger(ResourceLocation spell, int level, BooleanSupplier action) {
         if (!caster.isAlive() || caster.level().isClientSide) return false;
-        if (caster instanceof Player player && player.isCreative()) return run(action);
-        int cost = Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level));
-        var reservations = RESERVED.get();
-        long held = reservations.getOrDefault(caster, 0L), needed = held + cost;
-        if (needed > Integer.MAX_VALUE || !enoughMana((int)needed)) return false;
-        reservations.put(caster, needed);
-        try {
-            boolean applied = run(action);
-            if (applied && cost > 0) expendMana(cost);
-            return applied;
-        } finally {
-            if (held == 0) reservations.remove(caster); else reservations.put(caster, held);
-            if (reservations.isEmpty()) RESERVED.remove();
-        }
+        return charge(spell, level).trigger(() -> run(action));
+    }
+    public ResourceAccount account() {
+        if (!usesIronMana()) return new ArsManaAccount(source,
+                source instanceof LivingCaster living ? living.livingEntity : source,
+                caster instanceof Player player && player.isCreative());
+        return new ResourceAccount() {
+            public Object reservationKey() { return ResourcePoolKey.of("irons_spellbooks:mana", caster); }
+            public boolean free() { return caster instanceof Player player && player.isCreative(); }
+            public boolean canSpend(int amount) { return enoughMana(amount); }
+            public void spend(int amount) { expendMana(amount); }
+        };
     }
     private boolean usesIronMana() {
         return dev.ironsnouveau.config.SpellLevelConfig.useIronMana()

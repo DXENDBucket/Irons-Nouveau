@@ -16,6 +16,7 @@ public final class SiphonRayExecution implements CastExecution {
     private long nextPulse;
     private long nextVisual;
     public SiphonRayExecution(BreathPose pose) { this.pose = pose; }
+    @Override public boolean occupiesCaster() { return true; }
     @Override public boolean start(CastSession session) {
         if (!pose.valid(session)) return false;
         pulse(session); // The enclosing BridgeGlyph reserved and bills this first pulse.

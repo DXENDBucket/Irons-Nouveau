@@ -22,7 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import java.util.Map;
 import java.util.Set;
 
-public final class BridgeGlyph extends AbstractEffect {
+public final class BridgeGlyph extends AbstractEffect implements dev.arsconflux.api.glyph.TriggerPaidGlyph {
     private final GlyphDefinition definition;
     public BridgeGlyph(GlyphDefinition definition) {
         super(definition.glyphId(), definition.name());

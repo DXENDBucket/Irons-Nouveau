@@ -1,94 +1,61 @@
 package dev.ironsnouveau.casting;
 
 import dev.ironsnouveau.api.GlyphAccessEvent;
+import dev.arsconflux.api.execution.*;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.HitResult;
 import java.util.UUID;
 
-/** Server-owned lifecycle shared by execution kinds; continuation policy is supplied per session. */
+/** Iron parameter/authorization facade; Conflux owns the execution state and lifecycle. */
 public final class CastSession {
     public enum State { PREPARED, ACTIVE, COMPLETED, CANCELLED }
-    public enum EndReason { COMPLETED, EXPIRED, OWNER_GONE, DENIED, WORLD_UNLOADED, SPAWN_FAILED, SERVER_STOPPED }
-    private final UUID id = UUID.randomUUID();
-    private final ServerLevel world;
-    private final LivingEntity caster;
+    public enum EndReason { COMPLETED, EXPIRED, OWNER_GONE, DENIED, WORLD_UNLOADED, SPAWN_FAILED, SERVER_STOPPED, ERROR }
     private final CastPlan plan;
     private final AimSource aim;
     private final CastExecution execution;
-    private final ImpactContinuation continuation;
+    private final ExecutionSession<CastPlan> delegate;
     private TriggerMana mana;
-    private boolean repeatPayments;
-    private State state = State.PREPARED;
-    private final long started;
     private final PresetTools.Token preset = PresetTools.current();
-
     public CastSession(ServerLevel world, LivingEntity caster, CastPlan plan, AimSource aim,
                        CastExecution execution, ImpactContinuation continuation) {
-        this.world = world; this.caster = caster; this.plan = plan; this.aim = aim;
-        this.execution = execution; this.continuation = continuation;
-        started = world.getGameTime();
+        this.plan = plan; this.aim = aim; this.execution = execution;
+        delegate = new ExecutionSession<>(world, caster, plan, plan.maxTicks(), new ExecutionDriver<CastPlan>() {
+            public boolean start(ExecutionSession<CastPlan> session) { return execution.start(CastSession.this); }
+            public boolean tick(ExecutionSession<CastPlan> session) { return execution.tick(CastSession.this); }
+            public void close(ExecutionSession<CastPlan> session, ExecutionSession.EndReason reason) {
+                execution.close(CastSession.this, EndReason.valueOf(reason.name()));
+            }
+            public net.minecraft.world.phys.Vec3 incomingDirection() { return execution.incomingDirection(); }
+            public boolean occupiesCaster() { return execution.occupiesCaster(); }
+        }, new dev.arsconflux.api.execution.ImpactContinuation() {
+            public void resolve(HitResult hit) { continuation.resolve(hit); }
+            public void close() { continuation.close(); }
+        }, () -> SpellRegistry.getSpell(plan.spellId()).isEnabled()
+                && GlyphAccessEvent.allowed(caster, plan.glyphId(), plan.spellId(), plan.spellLevel(), GlyphAccessEvent.Action.RESOLVE),
+                action -> PresetTools.scoped(preset, () -> { action.run(); return null; }));
     }
-    public UUID id() { return id; }
-    public ServerLevel world() { return world; }
-    public LivingEntity caster() { return caster; }
+    ExecutionSession<CastPlan> coreSession() { return delegate; }
+    public UUID id() { return delegate.id(); }
+    public ServerLevel world() { return delegate.world(); }
+    public LivingEntity caster() { return delegate.caster(); }
     public CastPlan plan() { return plan; }
     public CastExecution execution() { return execution; }
     public TriggerMana billingSource() { return mana; }
     public CastSession billing(TriggerMana mana, boolean repeatPayments) {
-        this.mana = mana; this.repeatPayments = repeatPayments; return this;
+        this.mana = mana;
+        delegate.billing(mana == null ? TriggerPayment.FREE : action -> mana.trigger(plan.spellId(), plan.spellLevel(), action), repeatPayments);
+        return this;
     }
-    public boolean activate(java.util.function.BooleanSupplier action) {
-        return PresetTools.scoped(preset, () -> !repeatPayments || mana == null ? action.getAsBoolean()
-                : mana.trigger(plan.spellId(), plan.spellLevel(), action));
-    }
+    public boolean activate(java.util.function.BooleanSupplier action) { return delegate.activate(action); }
     public CastAim aim() { return aim.sample(); }
-    public State state() { return state; }
-    public boolean active() { return state == State.ACTIVE; }
-    public int remainingTicks() { return (int)Math.clamp(plan.maxTicks() - (world.getGameTime() - started), 0, Integer.MAX_VALUE); }
-    public boolean permitted() {
-        return PresetTools.scoped(preset, this::permittedScoped);
-    }
-    private boolean permittedScoped() {
-        return caster.isAlive() && !caster.isRemoved() && caster.level() == world
-                && SpellRegistry.getSpell(plan.spellId()).isEnabled()
-                && GlyphAccessEvent.allowed(caster, plan.glyphId(), plan.spellId(), plan.spellLevel(), GlyphAccessEvent.Action.RESOLVE);
-    }
-    public boolean start() {
-        return PresetTools.scoped(preset, this::startScoped);
-    }
-    private boolean startScoped() {
-        if (state != State.PREPARED) return false;
-        if (!permitted()) { finish(EndReason.DENIED); return false; }
-        state = State.ACTIVE;
-        boolean started = repeatPayments || mana == null ? execution.start(this)
-                : mana.trigger(plan.spellId(), plan.spellLevel(), () -> execution.start(this));
-        if (!started) { finish(EndReason.SPAWN_FAILED); return false; }
-        return true;
-    }
-    public void tick() {
-        PresetTools.scoped(preset, () -> { tickScoped(); return null; });
-    }
-    private void tickScoped() {
-        if (!active()) return;
-        if (!caster.isAlive() || caster.isRemoved() || caster.level() != world) { finish(EndReason.OWNER_GONE); return; }
-        long age = world.getGameTime() - started;
-        if (age >= plan.maxTicks()) { finish(EndReason.EXPIRED); return; }
-        if (age % 20 == 0 && !permitted()) { finish(EndReason.DENIED); return; }
-        if (execution.tick(this)) finish(EndReason.COMPLETED);
-    }
-    /** Called only after successful native damage, or a real block collision. Never charges mana. */
-    public void impact(HitResult hit) {
-        if (!active() || !permitted()) return;
-        PresetTools.scoped(preset, () -> {
-            TriggerGeometry.scoped(execution.incomingDirection(), () -> continuation.resolve(hit)); return null;
-        });
-    }
-    public void finish(EndReason reason) {
-        if (state == State.COMPLETED || state == State.CANCELLED) return;
-        state = reason == EndReason.COMPLETED ? State.COMPLETED : State.CANCELLED;
-        execution.close(this, reason);
-        continuation.close();
-    }
+    public State state() { return State.valueOf(delegate.state().name()); }
+    public boolean active() { return delegate.active(); }
+    public int remainingTicks() { return delegate.remainingTicks(); }
+    public boolean permitted() { return delegate.permitted(); }
+    public boolean start() { return delegate.start(); }
+    public void tick() { delegate.tick(); }
+    public void impact(HitResult hit) { delegate.impact(hit); }
+    public void finish(EndReason reason) { delegate.finish(ExecutionSession.EndReason.valueOf(reason.name())); }
 }

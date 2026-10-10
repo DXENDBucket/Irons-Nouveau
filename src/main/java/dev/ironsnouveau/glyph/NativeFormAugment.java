@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 /** Selects native execution; applies no damage, spawning or mana changes while Ars gathers augments. */
-public final class NativeFormAugment extends AbstractAugment {
+public final class NativeFormAugment extends AbstractAugment implements dev.arsconflux.api.projectile.ProjectileForm {
     private final ResourceLocation spellId;
     private final NativeCastAdapter adapter;
     private final int manaCost;
@@ -30,6 +30,16 @@ public final class NativeFormAugment extends AbstractAugment {
         this.adapter = adapter;
         this.manaCost = manaCost;
         spellSchools.add(school); school.addSpellPart(this);
+    }
+    @Override public boolean replace(com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell carrier,
+                                     dev.arsconflux.api.projectile.CarrierProfile profile) {
+        return dev.ironsnouveau.casting.NativeCasting.convert(carrier);
+    }
+    @Override public dev.arsconflux.api.resource.ResourceCharge initialCharge(
+            com.hollingsworth.arsnouveau.api.spell.SpellContext context, java.util.List<AbstractAugment> augments) {
+        var caster = context.getUnwrappedCaster();
+        int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, spellId, augments);
+        return dev.ironsnouveau.casting.TriggerMana.of(context, caster).charge(spellId, level);
     }
     public ResourceLocation spellId() { return spellId; }
     public NativeCastAdapter adapter() { return adapter; }

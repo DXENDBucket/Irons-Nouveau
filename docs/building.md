@@ -1,5 +1,7 @@
 # Building from source
 
+0.17.0 needs a sibling Ars Conflux checkout: NeoForge uses `../Ars-Conflux`, Forge uses `../Ars-Conflux/forge`. Override with `-PconfluxCheckout=path` and prepare Core's Ars dependencies as well. Install both mod JARs. See [the migration notes](ars-conflux.md).
+
 Use **JDK 21** and the included **Gradle 9.2.1 wrapper**. This project currently uses local dependency JARs; a fresh clone requires the setup below before it can compile. Dependencies are not bundled with the repository or the resulting mod.
 
 ## Prepare dependencies
@@ -42,7 +44,7 @@ The main mod and sources JARs are written to `build/libs/`. Install the main JAR
 The standalone server check covers configuration, learning policies, actual Ars mana payment, projectile splitting, creative behavior and preserved scroll progress:
 
 ```powershell
-.\gradlew.bat runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_standalone
+.\gradlew.bat :runGameTestServer -Pstandalone=true -PgameTestNamespaces=irons_nouveau_standalone
 ```
 
 It uses `run/gametest-standalone/`, without Path-To-Zero or the optional integrations at runtime. It does not use an existing personal world. Other test namespaces are `irons_nouveau_policy` and `irons_nouveau`; the latter runs the broader integration suite.
@@ -55,4 +57,4 @@ To start a development client, use `runClient`. GameTest success does not substi
 
 ## 双平台发行版本
 
-模组版本号在 `main`（1.21.1 NeoForge）与 `1.20.1-forge` 中统一为 `0.16.0`。游戏版本和加载器写入发行 JAR 文件名，模组元数据仍只使用 `0.16.0`。后续同批更新同步递增两个分支的版本号。NeoForge 使用 Java 21 执行 `gradlew.bat build`；Forge 使用 Java 17 执行 `gradlew.bat build jarJar`，发布上述带游戏版本的完整 JAR，勿发布 Forge 未包含 MixinExtras 的薄 JAR。
+模组版本号在 `main`（1.21.1 NeoForge）与 `1.20.1-forge` 中统一为 `0.17.0`。游戏版本和加载器写入发行 JAR 文件名，模组元数据仍只使用 `0.17.0`。后续同批更新同步递增两个分支的版本号。NeoForge 使用 Java 21 执行 `gradlew.bat build`；Forge 使用 Java 17 执行 `gradlew.bat build jarJar`，发布上述带游戏版本的完整 JAR，勿发布 Forge 未包含 MixinExtras 的薄 JAR。

@@ -21,6 +21,7 @@ public final class BreathExecution implements CastExecution {
     private int pulses;
     public BreathExecution(AbstractConeProjectile cone, BreathPose pose, float scale) { this.cone = cone; this.pose = pose; this.scale = scale; }
     public AbstractConeProjectile cone() { return cone; }
+    @Override public boolean occupiesCaster() { return true; }
     @Override public boolean start(CastSession session) {
         if (!pose.valid(session)) return false;
         var aim = pose.sample();

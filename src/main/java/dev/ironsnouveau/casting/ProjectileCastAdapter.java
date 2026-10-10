@@ -22,7 +22,7 @@ public final class ProjectileCastAdapter implements NativeCastAdapter {
         this.factory = factory; this.payload = payload;
     }
     public ProjectilePayload payload() { return payload; }
-    @Override public boolean supportsMethod(AbstractSpellPart method) { return CarrierProfiles.of(method) != null; }
+    @Override public boolean supportsMethod(AbstractSpellPart method) { return dev.arsconflux.api.projectile.CarrierRegistry.of(method) != null; }
     @Override public Set<AbstractAugment> supportedAugments() {
         return Set.of(AugmentAmplify.INSTANCE, AugmentDampen.INSTANCE, AugmentAccelerate.INSTANCE,
                 AugmentDecelerate.INSTANCE, AugmentSplit.INSTANCE);

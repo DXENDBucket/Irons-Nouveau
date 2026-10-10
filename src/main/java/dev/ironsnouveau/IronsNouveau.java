@@ -55,6 +55,8 @@ public final class IronsNouveau {
         dev.ironsnouveau.progression.SpellProgress.register(bus, NeoForge.EVENT_BUS);
         dev.ironsnouveau.progression.NoNaturalGlyphs.register(bus);
         dev.ironsnouveau.recipe.SpellScrollIngredient.register(bus);
+        dev.arsconflux.api.glyph.SpellValidators.register(
+                dev.arsconflux.api.projectile.CarrierRegistry.id("irons_nouveau:projectiles"), NativeCasting::validate);
         AdditionalGlyphs.register();
         ExpansionGlyphs.register();
         addForm(new NativeFormAugment("ball_lightning", "Ball Lightning", SpellSchools.ELEMENTAL_AIR,
@@ -114,7 +116,7 @@ public final class IronsNouveau {
         addForm(new NativeFormAugment("blood_slash", "Blood Slash", SpellSchools.NECROMANCY,
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile::new, ProjectilePayload.FULL_POWER), 0, SpellTier.ONE));
         bus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
-            for (var profile : CarrierProfiles.values()) {
+            for (var profile : dev.arsconflux.api.projectile.CarrierRegistry.profiles()) {
                 var glyph = profile.glyph();
                 if (glyph == null) continue;
                 profile.rememberOriginalAugments(glyph);
@@ -128,12 +130,12 @@ public final class IronsNouveau {
                 glyph.augmentDescriptions.put(AugmentDampen.INSTANCE, Component.translatable("irons_nouveau.augment.native_level"));
             }
         }));
-        CastSessions.register(NeoForge.EVENT_BUS);
+        // Lifecycle events are registered by Ars Conflux.
+        // CastSessions.register(NeoForge.EVENT_BUS);
         dev.ironsnouveau.casting.ActiveChanting.register(NeoForge.EVENT_BUS);
         dev.ironsnouveau.casting.MovementRestrictions.register(NeoForge.EVENT_BUS);
         dev.ironsnouveau.casting.EffectResources.register(NeoForge.EVENT_BUS);
         NeoForge.EVENT_BUS.addListener(NativeCasting::beforeCast);
-        NeoForge.EVENT_BUS.addListener(net.neoforged.bus.api.EventPriority.LOWEST, NativeCasting::joined);
         var tabs = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
         tabs.register("glyphs", () -> CreativeModeTab.builder()
                 .title(Component.translatable("itemGroup.irons_nouveau"))
