@@ -37,12 +37,13 @@ public final class NativeRayGeometry {
         }
         var previous = VIEW.get(); VIEW.set(new View(start, hit));
         try {
-            return EffectResources.paidChildren(ctx, 20, () -> {
+            var selected = ctx.withTarget(trigger).withExecutor(pose.anchor());
+            return dev.arsconflux.api.context.CastContexts.scoped(selected.context(), () -> EffectResources.paidChildren(selected, 20, () -> {
                 // No mutation of the caster's native casting state. Iron handles damage,
                 // freezing, both visual layers, hit fog and endpoint snowflakes itself.
                 ctx.spell().onCast(ctx.world(), ctx.level(), ctx.caster(), CastSource.NONE, new MagicData());
                 return true;
-            });
+            }));
         } finally { if (previous == null) VIEW.remove(); else VIEW.set(previous); }
     }
 

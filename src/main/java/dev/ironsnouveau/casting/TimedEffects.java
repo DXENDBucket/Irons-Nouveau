@@ -20,8 +20,9 @@ public final class TimedEffects implements CastExecution {
         if (!followTarget) pose = new BreathPose(null, hit.getLocation(), pose.sample().direction(), net.minecraft.world.phys.Vec3.ZERO);
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), (float)ctx.power(),
                 new CastModifiers(0, 1), EffectResources.ticks(duration));
-        var account = TriggerMana.current() == null ? TriggerMana.of(null, ctx.caster()) : TriggerMana.current();
-        return CastSessions.start(new CastSession(ctx.world(), ctx.caster(), plan, pose,
+        var frame = ctx.context().withTarget(hit).withExecutor(pose.anchor());
+        var account = TriggerMana.of(frame);
+        return CastSessions.start(new CastSession(ctx.world(), frame, plan, pose,
                 new TimedEffects(pose, interval, action), ignored -> {}).billing(account, true));
     }
     @Override public boolean start(CastSession session) {

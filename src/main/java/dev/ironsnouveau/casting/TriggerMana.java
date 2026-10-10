@@ -8,18 +8,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import dev.arsconflux.api.resource.*;
+import dev.arsconflux.api.context.CastContext;
 import java.util.function.BooleanSupplier;
 
 /** Synchronous reservation prevents nested effects spending the same mana. Charge only committed triggers. */
-public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
+public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAccount paymentAccount) {
+    public TriggerMana(LivingEntity caster, IWrappedCaster source) { this(caster, source, null); }
     private static final ThreadLocal<TriggerMana> CURRENT = new ThreadLocal<>();
     public static TriggerMana current() { return CURRENT.get(); }
     public static TriggerMana of(SpellContext context, LivingEntity caster) {
-        return new TriggerMana(caster, context == null ? LivingCaster.from(caster) : context.getCaster());
+        return context == null ? new TriggerMana(caster, LivingCaster.from(caster)) : of(CastContext.of(context, null, null));
+    }
+    public static TriggerMana of(CastContext context) {
+        return new TriggerMana(context.caster(), context.ars() == null ? LivingCaster.from(context.caster()) : context.ars().getCaster(), context.account());
     }
     /** Ars upfront cost belongs to this account only when using Ars mana. */
     public boolean canBegin(ResourceLocation spell, int level, int arsUpfrontCost) {
-        return ResourceTransactions.canSpend(account(), (long)cost(spell, level) + (usesIronMana() ? 0 : Math.max(0, arsUpfrontCost)));
+        return ResourceTransactions.canSpend(account(), (long)cost(spell, level) + (account().reservationKey().equals(new ArsManaAccount(source).reservationKey()) ? Math.max(0, arsUpfrontCost) : 0));
     }
     private int cost(ResourceLocation spell, int level) { return Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level)); }
     public ResourceCharge charge(ResourceLocation spell, int level) { return new ResourceCharge(account(), cost(spell, level)); }
@@ -29,6 +34,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
         return charge(spell, level).trigger(() -> run(action));
     }
     public ResourceAccount account() {
+        if (paymentAccount != null) return paymentAccount;
         if (!usesIronMana()) return new ArsManaAccount(source,
                 source instanceof LivingCaster living ? living.livingEntity : source,
                 caster instanceof Player player && player.isCreative());
@@ -46,11 +52,9 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source) {
     }
     private boolean enoughMana(int cost) {
         if (cost == 0) return true;
-        return usesIronMana() ? io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster).getMana() >= cost
-                : source.enoughMana(cost);
+        return io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster).getMana() >= cost;
     }
     private void expendMana(int cost) {
-        if (!usesIronMana()) { source.expendMana(cost); return; }
         var data = io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster);
         data.setMana(Math.max(0, data.getMana() - cost));
         net.neoforged.neoforge.network.PacketDistributor.sendToPlayer((net.minecraft.server.level.ServerPlayer)caster,

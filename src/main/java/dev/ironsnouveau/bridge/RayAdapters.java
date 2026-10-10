@@ -12,8 +12,9 @@ public final class RayAdapters {
         int duration = EffectResources.ticks(ctx.spell().getCastTime(ctx.level()) * ctx.duration());
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(),
                 ctx.spell().getSpellPower(ctx.level(), ctx.caster()), new CastModifiers(0, 1), duration);
-        var account = TriggerMana.current() == null ? TriggerMana.of(null, ctx.caster()) : TriggerMana.current();
-        return CastSessions.start(new CastSession(ctx.world(), ctx.caster(), plan, pose,
+        var frame = ctx.context().withTarget(hit).withExecutor(pose.anchor());
+        var account = TriggerMana.of(frame);
+        return CastSessions.start(new CastSession(ctx.world(), frame, plan, pose,
                 new SiphonRayExecution(pose), ignored -> {}).billing(account, true));
     };
 }

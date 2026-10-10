@@ -63,7 +63,7 @@ public final class AdditionalTargetAdapters {
     public static final SpellAdapter SACRIFICE = (ctx, target) -> {
         if (!(target instanceof IMagicSummon summon) || summon.getSummoner() != ctx.caster()) return false;
         var spell = (SacrificeSpell)ctx.spell();
-        SacrificeSpell.doSacrificeExplosion(ctx.world(), spell.getDamageSource(target, ctx.caster()),
+        SacrificeSpell.doSacrificeExplosion(ctx.world(), spell.getDamageSource(target, ctx.damageOwner()),
                 spell.getDamage(ctx.level(), ctx.caster()) + target.getHealth() * .5f,
                 (float)WorldSpellAdapters.radius(ctx, spell.getRadius(target)), target.getBoundingBox().getCenter());
         io.redspace.ironsspellbooks.capabilities.magic.SummonManager.removeSummon(target);

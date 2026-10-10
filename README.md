@@ -1,15 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.0**；游戏版本与加载器只写入发行文件名，不再作为模组版本号的 alpha 后缀。
+两个平台统一采用版本号 **0.17.1**；游戏版本与加载器只写入发行文件名，不再作为模组版本号的 alpha 后缀。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.0-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.0-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.1-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.1-mc1.20.1-forge.jar` |
 
-独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.17.0**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。当前版本 **0.17.1**，Minecraft 1.21.1 / NeoForge 21.1.250。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
-0.17.0 抽出独立的 Ars Conflux Core 0.1.0，统一载体兼容、执行会话和资源事务。**现在需要同时安装 Ars Conflux 0.1.x**；魔符、配置、学习数据与法术输出保留原值。Core 不依赖 Iron，可供未来其他 Ars 法术附属共用。详见 [迁移与责任边界](docs/ars-conflux.md)。
+0.17.1 接入 Ars Conflux Core 0.1.2，统一载体兼容、施法上下文、执行会话和资源事务。**现在需要同时安装 Ars Conflux 0.1.2 或更新的 0.1.x**；魔符、配置、学习数据与法术输出保留原值。Core 不依赖 Iron，可供未来其他 Ars 法术附属共用。详见 [迁移与责任边界](docs/ars-conflux.md)。
 
 0.16.2 接入 NEG 的普通、弹跳、追踪与溅射弹调态。Iron 弹射物强化可以跟在这些节点后，生成的新弹射物保留调态的方向、运动、碰撞和剩余编排，费用在每次实际生成时支付。原生 Iron 弹射物命中后也能再次调态发射；附属仍为可选联动。
 

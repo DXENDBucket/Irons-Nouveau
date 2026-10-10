@@ -36,7 +36,7 @@ public final class TerrainAdapters {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         var field = new FireEruptionAoe(ctx.world(), (float)WorldSpellAdapters.radius(ctx, 8));
         field.moveTo(Utils.moveToRelativeGroundLevel(ctx.world(), WorldSpellAdapters.center(hit), 4));
-        field.setOwner(ctx.caster()); field.setDamage((float)ctx.power() + WeaponStats.damage(ctx.caster()));
+        field.setOwner(ctx.damageOwner()); field.setDamage((float)ctx.power() + WeaponStats.damage(ctx.caster()));
         return EffectResources.spawnOnce(ctx, field, 100);
     };
     public static final LocationSpellAdapter ICE_SPIKES = (ctx, hit) -> {
@@ -65,7 +65,7 @@ public final class TerrainAdapters {
         Vec3 start = WorldSpellAdapters.center(hit), forward = AreaSpellAdapters.direction(ctx, hit);
         double radius = WorldSpellAdapters.radius(ctx, 3.25);
         float damage = (float)ctx.power() + WeaponStats.damage(ctx.caster()) + WeaponStats.fireAspect(ctx.caster());
-        var source = ctx.spell().getDamageSource(ctx.caster());
+        var source = ctx.spell().getDamageSource(ctx.damageOwner());
         for (var target : AreaSpellAdapters.targets(ctx, start, radius)) {
             if (target.getBoundingBox().getCenter().subtract(start).dot(forward) < 0) continue;
             if (DamageSources.applyDamage(target, damage, source)) EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);

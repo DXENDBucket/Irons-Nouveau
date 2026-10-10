@@ -54,7 +54,7 @@ public final class SiphonRayExecution implements CastExecution {
         if (!(hit instanceof EntityHitResult eh)) return;
         var spell = SpellRegistry.getSpell(session.plan().spellId());
         float damage = .25f * session.plan().nativePower();
-        if (DamageSources.applyDamage(eh.getEntity(), damage, spell.getDamageSource(session.caster()))) {
+        if (DamageSources.applyDamage(eh.getEntity(), damage, spell.getDamageSource(session.damageOwner()))) {
             PacketDistributor.sendToPlayersTrackingEntityAndSelf(session.caster(), new BloodSiphonParticlesPacket(
                     eh.getEntity().position().add(0, eh.getEntity().getBbHeight() * .5, 0), aim.origin()));
         }

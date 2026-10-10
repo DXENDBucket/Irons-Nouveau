@@ -7,6 +7,8 @@ import dev.ironsnouveau.api.GlyphAccessEvent;
 import dev.ironsnouveau.api.GlyphDefinition;
 import dev.ironsnouveau.bridge.*;
 import dev.ironsnouveau.casting.TriggerMana;
+import dev.arsconflux.api.context.CastContext;
+import dev.arsconflux.api.context.CastContexts;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -78,11 +80,16 @@ public final class BridgeGlyph extends AbstractEffect implements dev.arsconflux.
     }
     private void resolve(HitResult hit, Level world, LivingEntity caster, SpellStats stats,
                          SpellContext context, SpellResolver resolver) {
-        if (!(world instanceof ServerLevel server) || !isEnabled() || !caster.isAlive()) return;
+        if (!(world instanceof ServerLevel server) || !isEnabled()) return;
+        var frame = CastContext.of(context, hit, null);
+        if (frame.caster() == null || !frame.caster().isAlive()) return;
+        var mana = TriggerMana.of(frame);
+        frame = frame.withAccount(mana.account());
+        CastContexts.bind(context, frame);
         var spell = SpellRegistry.getSpell(definition.spellId());
-        var resolution = new Resolution(server, caster, spell, definition, stats, dev.ironsnouveau.casting.TriggerGeometry.read(context));
-        if (!permitted(caster, resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;
-        boolean applied = TriggerMana.of(context, caster).trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit));
+        var resolution = new Resolution(server, frame, spell, definition, stats);
+        if (!permitted(frame.caster(), resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;
+        boolean applied = CastContexts.scoped(frame, () -> mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit)));
         if (applied) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
                 hit.getLocation().x, hit.getLocation().y, hit.getLocation().z, sound, SoundSource.PLAYERS, .7f, 1f));
     }
@@ -91,7 +98,8 @@ public final class BridgeGlyph extends AbstractEffect implements dev.arsconflux.
         if (definition.adapter() instanceof dev.ironsnouveau.api.LocationSpellAdapter location) return location.applyAt(resolution, hit);
         boolean applied = false;
         for (var target : Targeting.select(server, caster, hit, AugmentScaling.radius(stats.getAoeMultiplier()), definition.harmful())) {
-            if (definition.adapter().apply(resolution, target)) {
+            var selected = resolution.withTarget(new net.minecraft.world.phys.EntityHitResult(target));
+            if (CastContexts.scoped(selected.context(), () -> definition.adapter().apply(selected, target))) {
                 applied = true;
                 server.sendParticles(definition.harmful() ? ParticleTypes.ENCHANT : ParticleTypes.HAPPY_VILLAGER,
                         target.getX(), target.getY() + target.getBbHeight() * .5, target.getZ(), 8, .25, .35, .25, .02);

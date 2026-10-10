@@ -2,6 +2,8 @@ package dev.ironsnouveau.casting;
 
 import dev.ironsnouveau.api.GlyphAccessEvent;
 import dev.ironsnouveau.bridge.Resolution;
+import dev.arsconflux.api.context.CastContext;
+import dev.arsconflux.api.context.CastContexts;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.capabilities.magic.SummonManager;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +28,9 @@ public final class EffectResources {
     private static final Map<Entity, TriggerMana> ACCOUNTS = new IdentityHashMap<>();
     private static final Map<Entity, Long> PAID = new IdentityHashMap<>();
     private static final Set<Entity> PAYING = Collections.newSetFromMap(new IdentityHashMap<>());
-    private record Origin(LivingEntity owner, ResourceLocation glyph, ResourceLocation spell, int level, int ticks, TriggerMana mana) {}
+    private record Origin(CastContext context, ResourceLocation glyph, ResourceLocation spell, int level, int ticks, TriggerMana mana) {
+        LivingEntity owner() { return context.caster(); }
+    }
     private EffectResources() {}
     public static boolean pulse(Entity entity, BooleanSupplier action) { return pulse(entity, 1, action); }
     public static boolean pulse(Entity entity, int period, BooleanSupplier action) {
@@ -46,22 +50,22 @@ public final class EffectResources {
         PAYING.add(entity);
         try {
             boolean applied = PresetTools.scoped(preset(entity, living), () ->
-                    mana.trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), action));
+                    CastContexts.scoped(restored(entity, living, mana), () -> mana.trigger(ResourceLocation.parse(tag.getString("spell")), tag.getInt("level"), action)));
             if (applied) PAID.put(entity, round);
             return applied;
         } finally { PAYING.remove(entity); }
     }
     public static int ticks(double ticks) { return (int)Math.clamp(ticks, 1, 96000); }
     public static boolean scoped(CastSession session, BooleanSupplier action) {
-        return scoped(new Origin(session.caster(), session.plan().glyphId(), session.plan().spellId(), session.plan().spellLevel(), 1200, session.billingSource()), action);
+        return scoped(new Origin(session.context(), session.plan().glyphId(), session.plan().spellId(), session.plan().spellLevel(), 1200, session.billingSource()), action);
     }
     private static boolean scoped(Origin origin, BooleanSupplier action) {
         var previous = ORIGIN.get(); ORIGIN.set(origin);
-        try { return action.getAsBoolean(); }
+        try { return CastContexts.scoped(origin.context(), action::getAsBoolean); }
         finally { if (previous == null) ORIGIN.remove(); else ORIGIN.set(previous); }
     }
     public static boolean spawn(Resolution ctx, Entity entity, int ticks) {
-        return scoped(new Origin(ctx.caster(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks, TriggerMana.current()),
+        return scoped(new Origin(ctx.context(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks, TriggerMana.of(ctx.context())),
                 () -> ctx.world().hasChunkAt(entity.blockPosition()) && ctx.world().addFreshEntity(entity));
     }
     /** An already-paid instantaneous cast may resolve later; its first impact is not a new activation. */
@@ -73,8 +77,8 @@ public final class EffectResources {
     public static boolean managed(Entity entity) { return entity.getPersistentData().contains(KEY); }
     public static boolean paidChildren(Resolution ctx, int ticks, BooleanSupplier action) {
         boolean previous = PAID_CHILDREN.get(); PAID_CHILDREN.set(true);
-        try { return scoped(new Origin(ctx.caster(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks,
-                TriggerMana.current()), action); }
+        try { return scoped(new Origin(ctx.context(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks,
+                TriggerMana.of(ctx.context())), action); }
         finally { PAID_CHILDREN.set(previous); }
     }
     public static boolean paidChildren(CastSession session, BooleanSupplier action) {
@@ -108,8 +112,14 @@ public final class EffectResources {
         var spell = ResourceLocation.tryParse(tag.getString("spell"));
         var glyph = ResourceLocation.tryParse(tag.getString("glyph"));
         if (spell == null || glyph == null) return;
-        PresetTools.scoped(preset(parent, owner), () -> scoped(new Origin(owner, glyph, spell, tag.getInt("level"), ticks(duration),
-                ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), () -> { action.run(); return true; }));
+        PresetTools.scoped(preset(parent, owner), () -> scoped(new Origin(restored(parent, owner, ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), glyph, spell, tag.getInt("level"), ticks(duration),
+                ACCOUNTS.get(parent)), () -> { action.run(); return true; }));
+    }
+    private static CastContext restored(Entity entity, LivingEntity owner, TriggerMana mana) {
+        var tag = entity.getPersistentData().getCompound(KEY);
+        var damage = tag.hasUUID("damage_owner") ? ((ServerLevel)entity.level()).getEntity(tag.getUUID("damage_owner")) : owner;
+        return CastContext.detached(owner, new net.minecraft.world.phys.EntityHitResult(entity), mana.account())
+                .withDamageOwner(damage instanceof LivingEntity living ? living : owner);
     }
     public static void register(IEventBus bus) {
         bus.addListener(net.neoforged.bus.api.EventPriority.LOWEST, EffectResources::joined);
@@ -127,7 +137,9 @@ public final class EffectResources {
                     && e.getPersistentData().getCompound(KEY).getUUID("owner").equals(origin.owner().getUUID())).count();
             if (ACTIVE.size() >= 4096 || owned >= 256) { event.setCanceled(true); return; }
             var tag = new CompoundTag();
-            tag.putUUID("owner", origin.owner().getUUID()); tag.putString("glyph", origin.glyph().toString());
+            tag.putUUID("owner", origin.owner().getUUID());
+            if (origin.context().damageOwner() != null) tag.putUUID("damage_owner", origin.context().damageOwner().getUUID());
+            tag.putString("glyph", origin.glyph().toString());
             tag.putString("spell", origin.spell().toString()); tag.putInt("level", origin.level());
             tag.putLong("expires", world.getGameTime() + origin.ticks());
             var preset = PresetTools.current();

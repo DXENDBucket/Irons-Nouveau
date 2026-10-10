@@ -45,7 +45,7 @@ public final class WorldSpellAdapters {
                 ctx.world(), ctx.caster().getEyePosition().add(0, -.75, 0), hit.getLocation(), ctx.caster());
         if (!EffectResources.spawn(ctx, visual, 40)) return false;
         var victim = target(ctx, hit);
-        if (victim != null) DamageSources.applyDamage(victim, (float)ctx.power(), ctx.spell().getDamageSource(ctx.caster()));
+        if (victim != null) DamageSources.applyDamage(victim, (float)ctx.power(), ctx.spell().getDamageSource(ctx.damageOwner()));
         return true;
     };
     public static final LocationSpellAdapter LIGHTNING = (ctx, hit) -> {
@@ -60,7 +60,7 @@ public final class WorldSpellAdapters {
             double distance = living.distanceToSqr(pos);
             if (living == ctx.caster() || ctx.caster().isAlliedTo(living) || distance >= radius * radius
                     || !Utils.hasLineOfSight(ctx.world(), pos.add(0, 2, 0), living.getBoundingBox().getCenter(), true)) continue;
-            DamageSources.applyDamage(living, (float)(ctx.power() * (1 - distance / (radius * radius))), ctx.spell().getDamageSource(bolt, ctx.caster()));
+            DamageSources.applyDamage(living, (float)(ctx.power() * (1 - distance / (radius * radius))), ctx.spell().getDamageSource(bolt, ctx.damageOwner()));
             if (living instanceof Creeper creeper) creeper.thunderHit(ctx.world(), bolt);
         }
         return true;
@@ -76,7 +76,7 @@ public final class WorldSpellAdapters {
     };
     public static final LocationSpellAdapter HEALING_CIRCLE = (ctx, hit) -> {
         if (hit.getType() == HitResult.Type.MISS) return false;
-        var field = new HealingAoe(ctx.world()); field.setOwner(ctx.caster()); field.setCircular();
+        var field = new HealingAoe(ctx.world()); field.setOwner(ctx.damageOwner()); field.setCircular();
         field.setRadius((float)radius(ctx, 5)); field.setDuration(duration(ctx, 200)); field.setDamage((float)ctx.power() * .25f);
         field.setPos(center(hit)); return EffectResources.spawn(ctx, field, duration(ctx, 200));
     };

@@ -41,7 +41,7 @@ public final class AreaSpellAdapters {
     }
     public static final LocationSpellAdapter EARTHQUAKE = (ctx, hit) -> {
         if (!loaded(ctx, hit)) return false;
-        var field = new EarthquakeAoe(ctx.world()); field.moveTo(WorldSpellAdapters.center(hit)); field.setOwner(ctx.caster()); field.setCircular();
+        var field = new EarthquakeAoe(ctx.world()); field.moveTo(WorldSpellAdapters.center(hit)); field.setOwner(ctx.damageOwner()); field.setCircular();
         int ticks = EffectResources.ticks(240 * ctx.duration());
         float damage = (float)ctx.power() * .25f;
         field.setRadius((float)WorldSpellAdapters.radius(ctx, 4 + 4 * ctx.spell().getEntityPowerMultiplier(ctx.caster())));
@@ -51,7 +51,7 @@ public final class AreaSpellAdapters {
     public static final LocationSpellAdapter BLIZZARD = (ctx, hit) -> {
         if (!loaded(ctx, hit)) return false;
         var field = new BlizzardAoe(EntityRegistry.BLIZZARD_AOE.get(), ctx.world());
-        field.moveTo(WorldSpellAdapters.center(hit)); field.setOwner(ctx.caster());
+        field.moveTo(WorldSpellAdapters.center(hit)); field.setOwner(ctx.damageOwner());
         int ticks = EffectResources.ticks(20 * (10 + 1.5 * ctx.level()) * ctx.duration());
         field.setRadius((float)WorldSpellAdapters.radius(ctx, 2 + 6 * ctx.spell().getEntityPowerMultiplier(ctx.caster())));
         field.setDuration(ticks); field.setDeltaMovement(direction(ctx, hit).multiply(1, 0, 1).normalize().scale(.05));
@@ -59,7 +59,7 @@ public final class AreaSpellAdapters {
     };
     public static final LocationSpellAdapter POISON_SPLASH = (ctx, hit) -> {
         if (!loaded(ctx, hit)) return false;
-        var splash = new PoisonSplash(ctx.world()); splash.setOwner(ctx.caster()); splash.moveTo(WorldSpellAdapters.center(hit));
+        var splash = new PoisonSplash(ctx.world()); splash.setOwner(ctx.damageOwner()); splash.moveTo(WorldSpellAdapters.center(hit));
         splash.setDamage((float)ctx.power()); splash.setEffectDuration(EffectResources.ticks((100.0 + ctx.level() * 40.0) * ctx.duration()));
         return EffectResources.spawnOnce(ctx, splash, 20);
     };
@@ -73,12 +73,12 @@ public final class AreaSpellAdapters {
     public static final LocationSpellAdapter SCORCH = (ctx, hit) -> {
         if (!loaded(ctx, hit)) return false;
         Vec3 center = WorldSpellAdapters.center(hit); double radius = WorldSpellAdapters.radius(ctx, 2.5);
-        var field = new FireField(ctx.world()); field.setOwner(ctx.caster()); field.moveTo(center);
+        var field = new FireField(ctx.world()); field.setOwner(ctx.damageOwner()); field.moveTo(center);
         int ticks = EffectResources.ticks(200 * ctx.duration());
         field.setDuration(ticks); field.setDamage((float)ctx.power() * .1f); field.setRadius((float)radius); field.setCircular();
         if (!EffectResources.spawn(ctx, field, ticks)) return false;
         for (var target : targets(ctx, center, radius)) {
-            DamageSources.applyDamage(target, (float)ctx.power(), ctx.spell().getDamageSource(ctx.caster()));
+            DamageSources.applyDamage(target, (float)ctx.power(), ctx.spell().getDamageSource(ctx.damageOwner()));
             DamageSources.ignoreNextKnockback(target);
         }
         ctx.world().sendParticles(ParticleTypes.LAVA, center.x, center.y, center.z, 25, 1, 1, 1, 1); return true;
@@ -105,7 +105,7 @@ public final class AreaSpellAdapters {
                         EffectResources.ticks(((FrostwaveSpell)c.spell()).getDuration(c.level(), c.caster()) * c.duration())), c.caster()));
     public static final LocationSpellAdapter SHOCKWAVE = (ctx, hit) -> wave(ctx, hit,
             ((ShockwaveSpell)ctx.spell()).getRadius(ctx.level(), ctx.caster()), (c, target) -> {
-                DamageSources.applyDamage(target, ((ShockwaveSpell)c.spell()).getDamage(c.level(), c.caster()), c.spell().getDamageSource(c.caster()));
+                DamageSources.applyDamage(target, ((ShockwaveSpell)c.spell()).getDamage(c.level(), c.caster()), c.spell().getDamageSource(c.damageOwner()));
                 if (target instanceof Creeper creeper) {
                     var bolt = net.minecraft.world.entity.EntityType.LIGHTNING_BOLT.create(c.world());
                     if (bolt != null) { bolt.setVisualOnly(true); bolt.setDamage(0); creeper.thunderHit(c.world(), bolt); }

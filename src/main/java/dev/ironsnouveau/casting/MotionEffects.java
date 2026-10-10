@@ -2,6 +2,8 @@ package dev.ironsnouveau.casting;
 
 import dev.ironsnouveau.api.GlyphAccessEvent;
 import dev.ironsnouveau.bridge.Resolution;
+import dev.arsconflux.api.context.CastContext;
+import dev.arsconflux.api.context.CastContexts;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.nbt.CompoundTag;
@@ -14,12 +16,19 @@ import java.util.function.BooleanSupplier;
 public final class MotionEffects {
     private static final String KEY = "irons_nouveau_motion";
     private static final ThreadLocal<Binding> CURRENT = new ThreadLocal<>();
-    public record Binding(LivingEntity actor, LivingEntity owner, AbstractSpell spell, float damageScale) {}
+    public record Binding(CastContext context, AbstractSpell spell, float damageScale) {
+        public Binding(LivingEntity actor, LivingEntity owner, AbstractSpell spell, float damageScale) {
+            this(CastContext.detached(owner, null, null).withExecutor(actor), spell, damageScale);
+        }
+        public LivingEntity actor() { return context.executor(); }
+        public LivingEntity owner() { return context.damageOwner(); }
+    }
     private MotionEffects() {}
     public static Binding current() { return CURRENT.get(); }
     public static void bind(Resolution ctx, LivingEntity actor, int ticks, float damage, int amplifier) {
         var tag = new CompoundTag();
         tag.putUUID("owner", ctx.caster().getUUID());
+        tag.putUUID("damage_owner", ctx.damageOwner().getUUID());
         tag.putString("spell", ctx.spell().getSpellResource().toString());
         tag.putString("glyph", ctx.definition().glyphId().toString());
         tag.putInt("level", ctx.level()); tag.putFloat("scale", damage / amplifier);
@@ -40,9 +49,15 @@ public final class MotionEffects {
             actor.getPersistentData().remove(KEY); return false;
         }
         var previous = CURRENT.get();
-        CURRENT.set(new Binding(actor, owner, SpellRegistry.getSpell(spellId), tag.getFloat("scale")));
+        var damageEntity = tag.hasUUID("damage_owner") ? world.getEntity(tag.getUUID("damage_owner")) : owner;
+        if (!(damageEntity instanceof LivingEntity damageOwner) || !damageOwner.isAlive()) {
+            actor.getPersistentData().remove(KEY); return false;
+        }
+        var frame = CastContext.detached(owner, new net.minecraft.world.phys.EntityHitResult(actor), null)
+                .withExecutor(actor).withDamageOwner(damageOwner);
+        CURRENT.set(new Binding(frame, SpellRegistry.getSpell(spellId), tag.getFloat("scale")));
         try {
-            boolean keep = action.getAsBoolean();
+            boolean keep = CastContexts.scoped(frame, action::getAsBoolean);
             if (!keep) actor.getPersistentData().remove(KEY);
             return keep;
         } finally {

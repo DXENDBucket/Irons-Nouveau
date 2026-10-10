@@ -26,7 +26,7 @@ public final class BreathExecution implements CastExecution {
         if (!pose.valid(session)) return false;
         var aim = pose.sample();
         if (!session.world().hasChunkAt(BlockPos.containing(aim.origin()))) return false;
-        cone.setOwner(session.caster()); cone.setDamage(session.plan().nativePower());
+        cone.setOwner(session.damageOwner()); cone.setDamage(session.plan().nativePower());
         ((ConeState)cone).ironsNouveau$bind(pose.anchor() == null ? -1 : pose.anchor().getId(), pose.offset(), scale);
         BreathVisuals.place(cone, aim.origin(), aim.direction()); cone.setOldPosAndRot();
         if (!session.world().addFreshEntity(cone)) return false;

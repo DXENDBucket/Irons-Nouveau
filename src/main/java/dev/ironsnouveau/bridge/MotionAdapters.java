@@ -27,9 +27,13 @@ import java.util.function.BiPredicate;
 public final class MotionAdapters {
     private MotionAdapters() {}
     private static LocationSpellAdapter selected(BiPredicate<Resolution, LivingEntity> action) {
-        return (ctx, hit) -> hit instanceof EntityHitResult entity && entity.getEntity() instanceof LivingEntity actor
-                && actor.isAlive() && !actor.isSpectator() && !actor.isPassenger() && actor.level() == ctx.world()
-                && ctx.world().hasChunkAt(actor.blockPosition()) && action.test(ctx, actor);
+        return (ctx, hit) -> {
+            if (!(hit instanceof EntityHitResult entity) || !(entity.getEntity() instanceof LivingEntity actor)
+                    || !actor.isAlive() || actor.isSpectator() || actor.isPassenger() || actor.level() != ctx.world()
+                    || !ctx.world().hasChunkAt(actor.blockPosition())) return false;
+            var selected = ctx.withTarget(hit).withExecutor(actor);
+            return dev.arsconflux.api.context.CastContexts.scoped(selected.context(), () -> action.test(selected, actor));
+        };
     }
     public static final LocationSpellAdapter BURNING_DASH = selected((ctx, actor) -> dash(ctx, actor, false));
     public static final LocationSpellAdapter VOLT_STRIKE = selected((ctx, actor) -> dash(ctx, actor, true));
@@ -78,12 +82,12 @@ public final class MotionAdapters {
         if (nearest.isPresent() && actor.distanceToSqr(nearest.get()) < 144) {
             var box = AABB.ofSize(nearest.get().getBoundingBox().getCenter(), 2.5, 3.5, 2.5).move(forward.scale(1.25));
             end = box.getCenter().add(end).scale(.5);
-            var source = ctx.spell().getDamageSource(actor, ctx.caster());
+            var source = ctx.spell().getDamageSource(actor, ctx.damageOwner());
             for (var target : ctx.world().getEntities(actor, box, e -> enemy(ctx, actor, e))) {
                 if (!Utils.hasLineOfSight(ctx.world(), start, target.getBoundingBox().getCenter(), true)) continue;
                 if (target instanceof Projectile projectile && !projectile.noPhysics && !projectile.getType().is(ModTags.CANT_PARRY)
                         && !(projectile instanceof AbstractArrow arrow && ((io.redspace.ironsspellbooks.mixin.AbstractArrowAccessor)arrow).isInGround())) {
-                    projectile.setOwner(ctx.caster());
+                    projectile.setOwner(ctx.damageOwner());
                     projectile.shoot(forward.x, forward.y, forward.z, (float)projectile.getDeltaMovement().length(), 0);
                 } else if (DamageSources.applyDamage(target, (float)ctx.power() + WeaponStats.damage(ctx.caster()), source)) {
                     EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);
@@ -116,7 +120,7 @@ public final class MotionAdapters {
         bolt.setVisualOnly(true); bolt.setDamage(0); bolt.setPos(point);
         if (!ctx.world().addFreshEntity(bolt)) return false;
         double radius = WorldSpellAdapters.radius(ctx, 5);
-        var source = ctx.spell().getDamageSource(bolt, ctx.caster());
+        var source = ctx.spell().getDamageSource(bolt, ctx.damageOwner());
         for (var target : ctx.world().getEntities(actor, actor.getBoundingBox().inflate(radius), e -> enemy(ctx, actor, e))) {
             double fraction = 1 - target.distanceToSqr(point) / (radius * radius);
             if (fraction <= 0) continue;

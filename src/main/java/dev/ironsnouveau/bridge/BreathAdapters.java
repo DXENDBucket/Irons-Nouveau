@@ -30,8 +30,9 @@ public final class BreathAdapters {
         int duration = EffectResources.ticks(ctx.spell().getCastTime(ctx.level()) * ctx.duration());
         float scale = (float)Math.clamp(1 + Math.max(0, ctx.stats().getAoeMultiplier()) * .25, 1, 3);
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), damage, new CastModifiers(0, 1), duration);
-        var account = TriggerMana.current() == null ? TriggerMana.of(null, ctx.caster()) : TriggerMana.current();
-        return CastSessions.start(new CastSession(ctx.world(), ctx.caster(), plan, pose, new BreathExecution(cone, pose, scale), ignored -> {})
+        var frame = ctx.context().withTarget(hit).withExecutor(pose.anchor());
+        var account = TriggerMana.of(frame);
+        return CastSessions.start(new CastSession(ctx.world(), frame, plan, pose, new BreathExecution(cone, pose, scale), ignored -> {})
                 .billing(account, true));
     }; }
 }

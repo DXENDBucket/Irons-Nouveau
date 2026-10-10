@@ -22,7 +22,7 @@ public final class PointEntityAdapters {
     public static final LocationSpellAdapter SUNBEAM = (ctx, hit) -> {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         var beam = new io.redspace.ironsspellbooks.entity.spells.sunbeam.SunbeamEntity(ctx.world());
-        beam.setOwner(ctx.caster()); beam.moveTo(WorldSpellAdapters.center(hit));
+        beam.setOwner(ctx.damageOwner()); beam.moveTo(WorldSpellAdapters.center(hit));
         if (hit instanceof EntityHitResult entity && entity.getEntity() instanceof LivingEntity living) beam.setTarget(living);
         beam.setDamage(((dev.ironsnouveau.mixin.SunbeamAccess)ctx.spell()).ironsNouveau$damage(ctx.level(), ctx.caster()));
         // Native 15-tick windup, column renderer, impact damage/particles/sound and removal.
@@ -59,7 +59,7 @@ public final class PointEntityAdapters {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         Vec3 pos = Utils.moveToRelativeGroundLevel(ctx.world(), WorldSpellAdapters.center(hit), 4, 24);
         if (!ctx.world().hasChunkAt(BlockPos.containing(pos))) return false;
-        var goat = new ScapegoatEntity(ctx.world()); goat.setOwner(ctx.caster()); goat.setTargetPos(BlockPos.containing(pos)); goat.moveTo(pos);
+        var goat = new ScapegoatEntity(ctx.world()); goat.setOwner(ctx.damageOwner()); goat.setTargetPos(BlockPos.containing(pos)); goat.moveTo(pos);
         float yaw = Utils.rotationFromDirection(AreaSpellAdapters.direction(ctx, hit)).y;
         goat.setYRot(yaw); goat.setYBodyRot(yaw); goat.setYHeadRot(yaw);
         goat.getAttribute(Attributes.MAX_HEALTH).setBaseValue(ctx.power()); goat.setHealth(goat.getMaxHealth());
@@ -73,7 +73,7 @@ public final class PointEntityAdapters {
         Vec3 pos = WorldSpellAdapters.center(hit);
         int range = (int)Math.clamp(4 + ctx.level() * (double)ctx.spell().getEntityPowerMultiplier(ctx.caster()), 1, 48);
         var stomp = new StompAoe(ctx.world(), range, Utils.rotationFromDirection(AreaSpellAdapters.direction(ctx, hit)).y);
-        stomp.moveTo(pos); stomp.setDamage((float)ctx.power()); stomp.setExplosionRadius(ctx.spell().getEntityPowerMultiplier(ctx.caster())); stomp.setOwner(ctx.caster());
+        stomp.moveTo(pos); stomp.setDamage((float)ctx.power()); stomp.setExplosionRadius(ctx.spell().getEntityPowerMultiplier(ctx.caster())); stomp.setOwner(ctx.damageOwner());
         return EffectResources.spawn(ctx, stomp, 300);
     };
     private static boolean fang(Resolution ctx, Vec3 pos, float yaw, int delay) {
@@ -114,7 +114,7 @@ public final class PointEntityAdapters {
         // A single travelling shock, not a maintained beam. Preserve the native ability to cross blocks.
         for (var target : ctx.world().getEntities(ctx.caster(), new AABB(start, end).inflate(1)))
             if (Utils.checkEntityIntersecting(target, start, end, .4f).getType() != HitResult.Type.MISS)
-                DamageSources.applyDamage(target, (float)ctx.power(), ctx.spell().getDamageSource(ctx.caster()));
+                DamageSources.applyDamage(target, (float)ctx.power(), ctx.spell().getDamageSource(ctx.damageOwner()));
         for (int i = 0; i < range; i++) {
             Vec3 pos = start.add(direction.scale(i)); ctx.world().sendParticles(ParticleTypes.SONIC_BOOM, pos.x, pos.y, pos.z, 1, 0, 0, 0, 0);
         }
@@ -124,7 +124,7 @@ public final class PointEntityAdapters {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         Vec3 pos = WorldSpellAdapters.center(hit);
         float damage = ((dev.ironsnouveau.mixin.DivineSmiteAccess)ctx.spell()).ironsNouveau$damage(ctx.level(), ctx.caster());
-        var source = ctx.spell().getDamageSource(ctx.caster());
+        var source = ctx.spell().getDamageSource(ctx.damageOwner());
         for (var target : AreaSpellAdapters.targets(ctx, pos, WorldSpellAdapters.radius(ctx, 2.2)))
             if (DamageSources.applyDamage(target, damage, source))
                 net.minecraft.world.item.enchantment.EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);

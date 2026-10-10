@@ -14,7 +14,7 @@ public final class ProjectileExecution implements CastExecution {
     }
     @Override public boolean start(CastSession session) {
         var aim = session.aim();
-        projectile.setOwner(session.caster());
+        projectile.setOwner(session.damageOwner());
         projectile.setPos(aim.origin());
         payload.configure(session, projectile);
         projectile.setDeltaMovement(aim.direction().scale(projectile.getSpeed() * session.plan().modifiers().speedMultiplier() * payload.launchSpeedMultiplier()));

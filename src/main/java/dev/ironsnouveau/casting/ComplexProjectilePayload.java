@@ -50,7 +50,7 @@ public final class ComplexProjectilePayload extends ProjectilePayload {
     public boolean detonate(CastSession session, AbstractMagicProjectile visual, HitResult hit) {
         if (hit.getType() == HitResult.Type.MISS) return false;
         var impact = create(session.world(), session.caster()); configure(session, impact);
-        impact.setOwner(session.caster()); impact.setPos(hit.getLocation()); impact.setOldPosAndRot();
+        impact.setOwner(session.damageOwner()); impact.setPos(hit.getLocation()); impact.setOldPosAndRot();
         impact.setDeltaMovement(visual.getDeltaMovement()); ((NativeCastCarrier)impact).ironsNouveau$session(session);
         if (!session.world().addFreshEntity(impact)) return false;
         try { ((NativeProjectileHitAccess)impact).ironsNouveau$hit(hit); return true; }

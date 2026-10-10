@@ -34,7 +34,7 @@ public class ProjectilePayload {
     public boolean apply(CastSession session, AbstractMagicProjectile projectile, Entity target) {
         if (target == projectile) return false;
         var spell = SpellRegistry.getSpell(session.plan().spellId());
-        boolean success = DamageSources.applyDamage(target, projectile.getDamage(), spell.getDamageSource(projectile, session.caster()));
+        boolean success = DamageSources.applyDamage(target, projectile.getDamage(), spell.getDamageSource(projectile, session.damageOwner()));
         if (success) afterHit.accept(session, target);
         return success;
     }

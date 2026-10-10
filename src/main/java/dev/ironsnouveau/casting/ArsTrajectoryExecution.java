@@ -19,7 +19,7 @@ public final class ArsTrajectoryExecution implements CastExecution {
     public EntityProjectileSpell trajectory() { return trajectory; }
     @Override public net.minecraft.world.phys.Vec3 incomingDirection() { return TriggerGeometry.direction(trajectory); }
     @Override public boolean start(CastSession session) {
-        projectile.setOwner(session.caster());
+        projectile.setOwner(session.damageOwner());
         return motion.start(session.world(), () -> {
             payload.configure(session, projectile);
             var carrier = (NativeCastCarrier)projectile;

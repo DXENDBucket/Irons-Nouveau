@@ -80,7 +80,7 @@ public final class EmissionAdapters {
         if (!ctx.world().hasChunkAt(BlockPos.containing(endpoint))) return false;
         var spawn = ctx.world().clip(new ClipContext(center, endpoint, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, ctx.caster())).getLocation();
         var field = new ArrowVolleyEntity(EntityRegistry.ARROW_VOLLEY_ENTITY.get(), ctx.world());
-        field.moveTo(spawn); field.setOwner(ctx.caster());
+        field.moveTo(spawn); field.setOwner(ctx.damageOwner());
         var rotation = Utils.rotationFromDirection(center.subtract(spawn).normalize());
         field.setYRot((float)-Math.toDegrees(rotation.y));
         field.setXRot(Math.min(89, (float)-Math.toDegrees(rotation.x) + 25));
@@ -93,7 +93,7 @@ public final class EmissionAdapters {
         if (!AreaSpellAdapters.loaded(ctx, hit)) return false;
         var center = Utils.moveToRelativeGroundLevel(ctx.world(), WorldSpellAdapters.center(hit), 6);
         var field = new FangSwirlEntity(EntityRegistry.FANG_SWIRL.get(), ctx.world());
-        field.moveTo(center); field.setStartPos(center); field.setDelay(0); field.setOwner(ctx.caster());
+        field.moveTo(center); field.setStartPos(center); field.setDelay(0); field.setOwner(ctx.damageOwner());
         int ticks = EffectResources.ticks(160 * ctx.duration());
         field.setDuration(ticks); field.setRadius((float)WorldSpellAdapters.radius(ctx, 4.5 + .5 * ctx.level() * ctx.spell().getEntityPowerMultiplier(ctx.caster())));
         field.setDamage((float)ctx.power() * .75f);

@@ -16,8 +16,20 @@ public abstract class NativePulseDamageMixin {
             if (target == motion.actor() || target == motion.owner() || motion.owner().isAlliedTo(target)) return false;
             return original.call(target, amount * motion.damageScale(), motion.spell().getDamageSource(motion.actor(), motion.owner()));
         }
-        boolean success = EffectResources.pulse(source.getDirectEntity(), () -> original.call(target, amount, source));
-        if (success) ComplexImpacts.damaged(target, source);
+        var context = dev.arsconflux.api.context.CastContexts.current();
+        // Native onCast implementations can construct their own source from the original caster.
+        // Reattribute that source while retaining Iron's spell identity and all post-hit metadata.
+        if (context != null && context.damageOwner() != null && context.damageOwner() != context.caster()
+                && source.getEntity() == context.caster() && source instanceof io.redspace.ironsspellbooks.damage.SpellDamageSource nativeSource) {
+            var attributed = nativeSource.spell().getDamageSource(source.getDirectEntity(), context.damageOwner())
+                    .setLifestealPercent(nativeSource.getLifestealPercent()).setFireTicks(nativeSource.getFireTime())
+                    .setFreezeTicks(nativeSource.getFreezeTicks()).setIFrames(nativeSource.getIFrames());
+            if (!nativeSource.isDirect()) attributed.indirect();
+            source = attributed;
+        }
+        DamageSource attributedSource = source;
+        boolean success = EffectResources.pulse(source.getDirectEntity(), () -> original.call(target, amount, attributedSource));
+        if (success) ComplexImpacts.damaged(target, attributedSource);
         return success;
     }
 }
