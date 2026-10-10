@@ -26,10 +26,8 @@ public final class ActiveCooldowns {
     private static final class Attempt {
         final ServerPlayer player;
         final Set<AbstractSpell> spells;
-        final Set<AbstractSpell> deferred = new LinkedHashSet<>();
-        final CastSource source;
         boolean released;
-        Attempt(ServerPlayer player, Spell spell, CastSource source) { this.player = player; spells = spells(spell); this.source = source; }
+        Attempt(ServerPlayer player, Spell spell) { this.player = player; spells = spells(spell); }
     }
     private ActiveCooldowns() {}
     public static void arrowSpawned(net.minecraft.world.entity.Entity entity, boolean success) {
@@ -69,14 +67,14 @@ public final class ActiveCooldowns {
         if (!allowed(spell, caster)) return denied;
         var previous = CURRENT.get();
         if (previous != null && previous.player == caster) return action.get();
-        var attempt = new Attempt((ServerPlayer)caster, spell, source);
+        var attempt = new Attempt((ServerPlayer)caster, spell);
         CURRENT.set(attempt);
         T result;
         try { result = action.get(); }
         finally { if (previous == null) CURRENT.remove(); else CURRENT.set(previous); }
         if (attempt.released && SpellLevelConfig.cooldownsEnabled()) {
             for (var nativeSpell : attempt.spells)
-                if (!attempt.deferred.contains(nativeSpell)) MagicHelper.MAGIC_MANAGER.addCooldown(attempt.player, nativeSpell, source);
+                MagicHelper.MAGIC_MANAGER.addCooldown(attempt.player, nativeSpell, source);
         }
         return result;
     }
@@ -92,19 +90,5 @@ public final class ActiveCooldowns {
                 || !ChantTiming.containsIron(resolver.spell)) return;
         attempt.spells.addAll(spells(resolver.spell));
         attempt.released = true;
-    }
-    /** Commit this spell's cooldown at session end, retaining the original active source/configuration. */
-    public static Runnable deferCurrent(LivingEntity caster, AbstractSpell spell) {
-        var attempt = CURRENT.get();
-        if (attempt == null || attempt.player != caster) return () -> {};
-        attempt.deferred.add(spell);
-        return new Runnable() {
-            private boolean committed;
-            public void run() {
-                if (committed) return;
-                committed = true;
-                if (SpellLevelConfig.cooldownsEnabled()) MagicHelper.MAGIC_MANAGER.addCooldown(attempt.player, spell, attempt.source);
-            }
-        };
     }
 }

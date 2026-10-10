@@ -214,8 +214,5 @@
   "irons_nouveau.glyph_name.glyph_electrocute": "Electrocute",
   "irons_nouveau.glyph_desc.glyph_electrocute": "Channels branching lightning ahead. Struck creatures emit in their own direction; point triggers use the incoming direction. The caster pays ongoing mana until the duration ends or mana runs out. Extend Time increases duration, each Amplify adds one native level, and AoE enlarges the lightning.",
   "irons_nouveau.glyph_name.glyph_sunbeam": "Sunbeam",
-  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level.",
-  "irons_nouveau.glyph_name.glyph_wall_of_fire": "Wall of Fire",
-  "irons_nouveau.glyph_desc.glyph_wall_of_fire": "Records the first wall anchor at the hit position. Use the same spell again to add up to three anchors, or wait two seconds to finish. Sneak-cast to cancel. Remaining glyphs resume when the wall forms. Each Amplify adds one native level.",
-  "irons_nouveau.cast.wall_select": "Cast again to select a wall anchor (%s remaining); sneak-cast to cancel"
+  "irons_nouveau.glyph_desc.glyph_sunbeam": "Calls down a pillar of sunlight at the trigger position after a brief windup. Pays once on activation; the delayed impact does not cost additional mana. Each Amplify adds one native level."
 }

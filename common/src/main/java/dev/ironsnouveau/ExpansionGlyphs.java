@@ -9,7 +9,6 @@ import dev.ironsnouveau.bridge.*;
 final class ExpansionGlyphs {
     private ExpansionGlyphs() {}
     static void register() {
-        add("wall_of_fire", "Wall of Fire", SpellSchools.ELEMENTAL_FIRE, true, false, WallOfFireAdapter.INSTANCE);
         add("starfall", "Starfall", SpellSchools.MANIPULATION, true, true, EmissionAdapters.STARFALL);
         add("arrow_volley", "Arrow Volley", SpellSchools.CONJURATION, true, false, EmissionAdapters.ARROWS);
         add("chain_creeper", "Chain Creeper", SpellSchools.CONJURATION, true, false, EmissionAdapters.CREEPERS);

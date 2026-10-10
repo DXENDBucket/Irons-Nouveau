@@ -1,17 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.8**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.7**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.8-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.8-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.7-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.7-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
-0.17.8 新增火墙术效果魔符，通过 Core 的输入会话记录最多三个节点，继续使用同一工具与术式追加选点；两秒未操作则完成，潜行使用取消。完成时生成 Iron 原生火墙，并从暂停位置续接后面的魔符。节点输入不重放前缀，也不重复收费或吟唱；玩家原生冷却在会话结束后开始。详见 [交互法术](docs/interactive-spells.md)。
-
-0.17.7 将魔符展示排序交给 Conflux 的共同入口，同类普通魔符之后的 Goety、Iron 各自集中；Iron 内部继续按原生学派相邻排列，效果与增强分类保持不变。**需要同时安装 Ars Conflux 0.1.9 或更新的 0.1.x**。Core 集中维护展示排序、Hex 来源、计费和回调，既有 ID、配置和学习数据保持兼容。两端继续共享魔符目录、主要施法实现、素材及 100 份配方定义。Core 不依赖 Iron。详见 [构建说明](docs/building.md)、[双版本维护](docs/multi-version.md) 和 [责任边界](docs/ars-conflux.md)。
+0.17.7 将魔符展示排序交给 Conflux 的共同入口，同类普通魔符之后的 Goety、Iron 各自集中；Iron 内部继续按原生学派相邻排列，效果与增强分类保持不变。**需要同时安装 Ars Conflux 0.1.8 或更新的 0.1.x**。Core 集中维护展示排序、Hex 来源、计费和回调，既有 ID、配置和学习数据保持兼容。两端继续共享魔符目录、主要施法实现、素材及 99 份配方定义。Core 不依赖 Iron。详见 [构建说明](docs/building.md)、[双版本维护](docs/multi-version.md) 和 [责任边界](docs/ars-conflux.md)。
 
 0.17.4 提供各魔符的首次触发费用，供 Core 的通用资源预估使用；沿用实际工具、等级和账户，不增加 Hex 专用代码。
 
@@ -53,7 +51,7 @@
 
 0.11.0 新增独立的基础等级、学习方式配置，见 [配置说明](docs/configuration.md)。下文个人卷轴等级、撰写解锁与创造原生最高等级描述均以默认配置为准；固定等级和 Ars 学习模式可以分别选择。
 
-现有 100 个魔符：18 个弹射物形态强化、82 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
+现有 99 个魔符：18 个弹射物形态强化、81 个效果魔符。0.12.0 新增 18 个法术，包含持续发射、地形攻击、采掘与实体动作，见下表及[完整核对清单](docs/spell-audit.md)。使用个人亲自撰写或升级过的最高卷轴等级作为各法术的基础等级，首次完成制作直接解锁对应魔符；增幅／减弱继续改变原生等级，输出和费用一起按最终等级计算。保留已有吐息、爆炸、区域、召唤和实际触发计费机制。
 
 `NativeSpellLevelEvent` 允许可选集成为非玩家提供每种法术的基础等级，然后统一计算增幅。未处理时使用所选等级策略：个人卷轴模式为 1 级，固定模式读取配置。Path-To-Zero 的咒法师使用此入口保留抽取到的原生稀有度等级，无须伪造玩家或临时修改法术注册对象。
 
@@ -77,7 +75,6 @@
 | 爆炸／附带区域的弹射物形态 | `fireball`, `fire_arrow`, `poison_arrow`, `magma_bomb`, `snowball`, `acid_orb` |
 | 增益／减益／恢复效果 | `heal`, `fortify`, `oakskin`, `haste`, `slow`, `blight`, `greater_heal`, `cleanse`, `root` |
 | 目标／位置攻击效果 | `lightning_bolt`, `eldritch_blast`, `chain_lightning`, `wisp`, `firefly_swarm` |
-| 多次选点效果 | `wall_of_fire` |
 | 持续射线效果 | `ray_of_siphoning` |
 | 持续区域／雷暴效果 | `healing_circle`, `black_hole`, `sculk_tentacles`, `thunderstorm` |
 | 召唤效果 | `summon_vex`, `raise_dead`, `summon_horse`, `summon_swords`, `summon_polar_bear` |
@@ -92,7 +89,7 @@
 | 0.12.0 武器／地形／采掘 | `flaming_strike`, `raise_hell`, `ice_spikes`, `firecracker`, `spectral_hammer`, `touch_dig` |
 | 0.12.0 实体动作 | `shadow_slash`, `burning_dash`, `ascension`, `volt_strike` |
 
-传送和传送门尚未接入。现有持续射线与吐息使用固定时长，尚未接入按住／松开控制。邪术冲击波是瞬时目标攻击，已接入；没有加入 Iron 原生的连发重施状态。上述清单是本版实际注册内容，不等于整个 Iron 法术库。
+持续射线、传送和传送门尚未接入。邪术冲击波是瞬时目标攻击，已接入；没有加入 Iron 原生的连发重施状态。上述清单是本版实际注册内容，不等于整个 Iron 法术库。
 
 位置效果在 Ars 触发点产生；需要方向的新增效果沿用吐息的方向优先级（目标朝向、弹射物来向、施法者朝向）。属性与伤害来源仍取原施法者。反制保留 Iron 的可反制目标限制；献祭仅接受本人召唤物；召唤末影箱仅为玩家打开其自己的箱子。
 

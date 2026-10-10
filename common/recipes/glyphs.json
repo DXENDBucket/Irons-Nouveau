@@ -1681,22 +1681,5 @@
       "id": "irons_nouveau:glyph_wololo",
       "count": 1
     }
-  },
-  "glyph_wall_of_fire": {
-    "type": "ars_nouveau:glyph",
-    "exp": 27,
-    "inputs": [
-      {
-        "type": "irons_nouveau:spell_scroll",
-        "spell": "irons_spellbooks:wall_of_fire"
-      },
-      {
-        "item": "ars_nouveau:source_gem"
-      }
-    ],
-    "output": {
-      "id": "irons_nouveau:glyph_wall_of_fire",
-      "count": 1
-    }
   }
 }

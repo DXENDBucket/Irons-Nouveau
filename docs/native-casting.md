@@ -72,7 +72,3 @@ Ars 的施放方式原本先生成实体、再结算蓝量。本模组仅在包�
 `NativeRayGeometry` 为冰霜射线的完整原生调用提供作用域内的空间输入，射线搜索范围从实际起点计算，避免远程触发误用施法者的包围盒。原生伤害、冻结、实体生成和粒子逻辑均直接保留。作用域通过 `finally` 恢复，不改动玩家的 `MagicData`。
 
 电刑复用 `BreathExecution`；受管锥体仅替换位置、碰撞计费和寿命，仍运行电刑子类生成分支电弧的客户端 tick。`NativeElectrocuteRenderingMixin` 只调整受管实体的朝向和范围，保留全部原生绘制层。烈阳射线使用目标位置适配器创建原生实体，原生实体独立完成蓄势与爆发，并标记延迟命中已支付，避免再次收费。
-
-## 多次输入与暂停
-
-`InteractiveSpellAdapter` 接收实际解析器并在成功启动时暂停余下编排。火墙将选点状态留在 Iron 的驱动中，使用 Conflux `InputSession`、来源绑定和 `ArsContinuation`。下一次主动使用优先路由到同一术式，避免重新吟唱／支付前缀；玩家 CD 使用原生管理器但延迟到会话结束。见 [交互法术](interactive-spells.md)。
