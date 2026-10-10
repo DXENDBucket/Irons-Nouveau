@@ -1,12 +1,12 @@
-# Ars Conflux 接入（0.17.2）
+# Ars Conflux 接入（0.17.3）
 
-Iron & Nouveau 0.17.2 需要独立安装 Ars Conflux 0.1.3 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；未来 Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.3 需要独立安装 Ars Conflux 0.1.4 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；未来 Goety 等法术附属可以使用同一 API 而不安装 Iron。
 
 ## 实际边界
 
 | 归属 | 内容 |
 | --- | --- |
-| Conflux | 载体注册、Ars 生成入口、共享轨迹与碰撞、对称散射预算、组合验证入口、触发方向、资源预留／提交、临时执行会话及清理 |
+| Conflux | 载体注册、Ars／Hex-Ars Linker 生成入口、共享轨迹与碰撞、对称散射预算、组合验证入口、触发方向、资源预留／提交、临时执行会话及清理 |
 | Iron & Nouveau | 魔符和具体效果、Iron 实体钩子、输出及等级公式、权限与学习进度、价格及支付接口、吟唱／冷却／移动限制、长期召唤物及领域存档 |
 
 `CastSession`、`CastSessions`、`TriggerGeometry`、`ProjectileVolley` 和旧 `CarrierProfiles` 保留为兼容入口，公共实现已经委托 Core。新载体可向 Core 注册，不必修改旧枚举。
@@ -14,6 +14,8 @@ Iron & Nouveau 0.17.2 需要独立安装 Ars Conflux 0.1.3 或更新的 0.1.x（
 七个公共 mixin 从 Iron 移至 Core，避免两个附属各装一份相同的 Ars／NEG 钩子。`ArsTrajectoryExecution` 的运动和解析器桥接也使用 Core 的 `ArsTrajectory`；Iron 只提供原生实体、owner、载荷、粒子及命中效果。
 
 魔符 ID、物品 ID、配置键、玩家撰写进度和施法数值保持原值。触发计费仍按 Iron 配置选择 Iron 或 Ars 账户，公共资源事务负责防止嵌套重复支出。原版 Ars 的默认计费未改动。
+
+Hex-Ars Linker 的适配和两提供者独立测试统一由 Core 维护。Iron 不引用 Hex 类型，也不保留单独的 Linker 识别类；未来法术附属使用相同公共接口即可。详见 [适配范围](hex-ars-linker.md)。
 
 ## 开发构建
 
@@ -46,3 +48,9 @@ Forge：发行构建、重映射及 4 项迁移 GameTest 通过。运行检查�
 两端共享 64 个 Java 文件、所有魔符模型与翻译，以及 99 份完整配方定义。原生 Mixin、数据组件／NBT、网络和事件接线分别保留在各自平台目录。Forge 新增与 NeoForge 一致的封存术式与成品工具授权，授权仅作用于实际施法工具，不写入个人学习进度。
 
 两端各通过 5 项定向 GameTest（`irons_nouveau_context` 与 `irons_nouveau_shared`），包含原有上下文回归和新增的物品存储／授权作用域检查。两端单元测试、发行构建与 99 份生成配方一致性检查通过。尚未进行本次客户端画面或多人实机测试。
+
+## Hex 公共适配（0.17.3）
+
+移除 Iron 的旧 Hex 专用识别类、可选加载声明及 Forge 专用测试运行依赖。原有通用转换已由 Core 接管，本次不改变具体魔符、计费或学习规则。
+
+Core 0.1.4 在不安装 Iron／Goety 的独立环境中，两个平台各通过一项真实 Hex-Ars Linker GameTest，用两个独立提供者验证常规、指定位置和指定实体入口、归属、方向、克隆与资源不足时拒绝。Iron 本次只执行两端构建与测试源码编译，不重复启动原有完整回归套件。

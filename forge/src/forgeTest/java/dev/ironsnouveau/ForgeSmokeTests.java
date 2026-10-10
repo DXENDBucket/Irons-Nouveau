@@ -88,51 +88,6 @@ public final class ForgeSmokeTests {
         h.assertTrue(dev.ironsnouveau.progression.SpellProgress.craftedLevel(clone, id) == 1, "Death clone retains progress");
         h.succeed();
     }
-    @GameTest(template = "empty", timeoutTicks = 80)
-    public static void optionalHexPositionedProjectile(GameTestHelper h) throws ReflectiveOperationException {
-        var player = player(h);
-        var form = IronsNouveau.forms().stream().filter(g -> g.spellId().getPath().equals("firebolt")).findFirst().orElseThrow();
-        var spell = new Spell(MethodProjectile.INSTANCE, form);
-        var context = SpellContext.fromEntity(spell, player, ItemStack.EMPTY);
-        h.assertTrue(!dev.ironsnouveau.compat.HexArsLinkCompat.isResolver(new SpellResolver(context)),
-                "Ordinary Ars resolvers are not classified as Linker casts");
-        if (!net.minecraftforge.fml.ModList.get().isLoaded("hex_ars_link")) {
-            h.succeed(); return; // Also verifies the optional bridge can load without Hex installed.
-        }
-        // Reflect only in this optional test so the default test runtime has no Hex dependency.
-        var envType = Class.forName("at.petrak.hexcasting.api.casting.eval.CastingEnvironment");
-        var env = Class.forName("at.petrak.hexcasting.api.casting.eval.env.StaffCastEnv")
-                .getConstructor(net.minecraft.server.level.ServerPlayer.class, net.minecraft.world.InteractionHand.class)
-                .newInstance(player, net.minecraft.world.InteractionHand.MAIN_HAND);
-        var resolverType = Class.forName("io.yukkuric.hex_ars_link.env.ars.PatternResolver");
-        var resolver = (SpellResolver)resolverType.getConstructor(SpellContext.class, envType, int.class)
-                .newInstance(context, env, MethodProjectile.INSTANCE.getCastingCost());
-        var actionType = Class.forName("io.yukkuric.hex_ars_link.action.OpShootCast$Action");
-        var action = actionType.getConstructor(net.minecraft.world.phys.Vec3.class, net.minecraft.world.phys.Vec3.class, resolverType)
-                .newInstance(player.getEyePosition(), new net.minecraft.world.phys.Vec3(1, 0, 0), resolver);
-        var cast = actionType.getMethod("cast", envType);
-        var world = h.getLevel(); var area = player.getBoundingBox().inflate(12);
-        var mana = CapabilityRegistry.getMana(player).orElseThrow(IllegalStateException::new);
-        cast.invoke(action, env);
-        h.assertTrue(world.getEntitiesOfClass(io.redspace.ironsspellbooks.entity.spells.firebolt.FireboltProjectile.class,
-                area, shot -> shot.getOwner() == player).isEmpty(), "Linker cannot bypass scroll learning");
-        dev.ironsnouveau.progression.SpellProgress.accept(player, dev.ironsnouveau.progression.CraftedSpells.EMPTY.record(form.spellId(), 1));
-        var iron = io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(player);
-        mana.setMana(1000); iron.setMana(1000); double before = iron.getMana();
-        cast.invoke(action, env);
-        var shots = world.getEntitiesOfClass(io.redspace.ironsspellbooks.entity.spells.firebolt.FireboltProjectile.class,
-                area, shot -> shot.getOwner() == player);
-        h.assertTrue(shots.size() == 1, "Linker positioned shot converts exactly once");
-        h.assertTrue(iron.getMana() < before, "Converted shot pays native Iron trigger mana");
-        h.assertTrue(world.getEntitiesOfClass(com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell.class,
-                area, shot -> shot.getOwner() == player).isEmpty(), "No duplicate Ars carrier remains");
-        shots.forEach(net.minecraft.world.entity.Entity::discard);
-        iron.setMana(0);
-        cast.invoke(action, env);
-        h.assertTrue(world.getEntitiesOfClass(io.redspace.ironsspellbooks.entity.spells.firebolt.FireboltProjectile.class,
-                area, shot -> shot.getOwner() == player).isEmpty(), "Empty mana blocks positioned Iron shot");
-        h.succeed();
-    }
     @GameTest(template = "empty", timeoutTicks = 160)
     public static void activeChantAndCooldown(GameTestHelper h) {
         var player = player(h); player.setHealth(2);

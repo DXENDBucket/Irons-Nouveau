@@ -1,5 +1,13 @@
 # Hex-Ars Linker 可选联动
 
+## 当前归属
+
+从 0.17.3 起，该联动由 **Ars Conflux 0.1.4** 集中提供。Iron 不再保留 Linker 专用类型识别或可选加载声明；普通发射和指定位置发射都经过 Core 的公共载体调度，指定实体效果使用共享上下文。其他法术提供者接入同一 Core API 即可，不需要分别适配 Hex。
+
+独立定向验证与可选测试依赖位于 Core 仓库的 `docs/hex-ars-linker.md`。Iron 的等级、学习限制、实际耗蓝、原生吟唱和冷却仍属于本附属；这次集中适配不改变这些规则。
+
+## 历史验证记录
+
 从 0.15.4 起，安装 Hex-Ars Linker（`hex_ars_link`）时自动启用弹射物适配。Hex Casting、Linker 及其依赖仍需自行安装；未安装时本模组照常工作，不加载任何 Hex 类，也不打包第三方模组。
 
 Linker 常规施法入口原本就经过 Ars 的发射逻辑；指定位置发射入口会自行创建普通 Ars 弹射物，绕过通常的转换钩子。现在本模组在实体加入世界时识别 Linker 的 `PatternResolver`，通过同一 `NativeCasting.convert` 转换普通弹射物。没有 Iron 形态魔符的弹射物保持原状；非 Linker 解析器不受此兼容分支影响。

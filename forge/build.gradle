@@ -7,7 +7,7 @@ group = 'dev.ironsnouveau'
 version = file('../VERSION').text.trim()
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
-repositories { flatDir { dirs 'libs', 'build/hex-dependencies' }; mavenCentral { content { excludeGroup 'local' } } }
+repositories { flatDir { dirs 'libs' }; mavenCentral { content { excludeGroup 'local' } } }
 jarJar.enable()
 sourceSets { forgeTest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
 ext.sharedRoot = file('..')
@@ -30,12 +30,6 @@ mixin { add sourceSets.main, 'irons_nouveau.refmap.json'; config 'irons_nouveau.
 dependencies {
     implementation project(':ars-conflux')
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
-    // Opt-in integration test runtime only; Hex and Linker are never shipped or required.
-    if (providers.gradleProperty('withHexLinker').getOrElse('false').toBoolean()) {
-        for (name in ['hexcasting', 'hex-ars-link', 'paucal', 'inline', 'caelus', 'kotlinforforge']) {
-            runtimeOnly fg.deobf("local:${name}:hex1201")
-        }
-    }
     for (name in ['ars-nouveau','irons-spells-n-spellbooks','geckolib','curios','patchouli','playeranimator','irons-lib','jei']) {
         implementation fg.deobf("local:${name}:forge1201")
     }
