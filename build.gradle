@@ -3,11 +3,14 @@ plugins {
     id 'net.neoforged.moddev' version '2.0.146'
 }
 group = 'dev.ironsnouveau'
-version = '0.17.1'
+version = file('VERSION').text.trim()
 base { archivesName = 'irons-nouveau' }
 java { toolchain.languageVersion = JavaLanguageVersion.of(21); withSourcesJar() }
 repositories { mavenCentral() }
 sourceSets { gameTest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
+ext.sharedRoot = projectDir
+ext.glyphRecipeFormat = 'ars5'
+apply from: 'gradle/shared-sources.gradle'
 configurations {
     gameTestImplementation.extendsFrom implementation
     gameTestCompileOnly.extendsFrom compileOnly
@@ -49,5 +52,5 @@ processResources {
     filesMatching('META-INF/neoforge.mods.toml') { expand(version: project.version) }
 }
 
-tasks.named('jar') { from('LICENSE'); archiveFileName = "irons-nouveau-${project.version}-mc1.21.1-neoforge.jar" }
+tasks.named('jar') { from('LICENSE', 'THIRD_PARTY_NOTICES.md'); archiveFileName = "irons-nouveau-${project.version}-mc1.21.1-neoforge.jar" }
 tasks.named('sourcesJar') { from('LICENSE') }

@@ -1,0 +1,49 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// Included independently by the existing ModDevGradle and ForgeGradle builds.
+sourceSets {
+    main {
+        java.srcDir new File(sharedRoot, 'common/src/main/java')
+        resources.srcDir new File(sharedRoot, 'common/src/main/resources')
+    }
+    test { java.srcDir new File(sharedRoot, 'common/src/test/java') }
+}
+def runtimeChecks = sourceSets.findByName('forgeTest') ?: sourceSets.findByName('gameTest')
+if (runtimeChecks != null) runtimeChecks.java.srcDir new File(sharedRoot, 'common/src/gameTest/java')
+
+def definitions = new File(sharedRoot, 'common/recipes/glyphs.json')
+def generatedResources = layout.buildDirectory.dir('generated/glyph-resources')
+def generateGlyphResources = tasks.register('generateGlyphResources') {
+    group = 'build'
+    description = 'Generate Ars 4 or Ars 5 glyph recipes from the shared definitions.'
+    inputs.file definitions
+    inputs.property 'format', glyphRecipeFormat
+    outputs.dir generatedResources
+    doLast {
+        def root = generatedResources.get().asFile
+        if (!root.toPath().normalize().startsWith(layout.buildDirectory.get().asFile.toPath().normalize())) {
+            throw new GradleException('Generated resources must remain within this build directory')
+        }
+        delete root
+        def recipes = new JsonSlurper().parse(definitions, 'UTF-8')
+        recipes.each { name, recipe ->
+            if (!(name ==~ /[a-z0-9_]+/)) throw new GradleException("Invalid glyph recipe name: ${name}")
+            def output = recipe
+            if (glyphRecipeFormat == 'ars4') {
+                output = [type: recipe.type, exp: recipe.exp,
+                          output: recipe.output.id, count: recipe.output.count,
+                          inputItems: recipe.inputs.collect { [item: it] }]
+            } else if (glyphRecipeFormat != 'ars5') {
+                throw new GradleException("Unknown Ars recipe format: ${glyphRecipeFormat}")
+            }
+            def directory = glyphRecipeFormat == 'ars4' ? 'recipes' : 'recipe'
+            def file = new File(root, "data/irons_nouveau/${directory}/${name}.json")
+            file.parentFile.mkdirs()
+            file.setText(JsonOutput.prettyPrint(JsonOutput.toJson(output)) + '\n', 'UTF-8')
+        }
+    }
+}
+sourceSets.main.resources.srcDir generatedResources
+tasks.named('processResources') { dependsOn generateGlyphResources }
+tasks.named('sourcesJar') { dependsOn generateGlyphResources }

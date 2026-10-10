@@ -18,7 +18,7 @@ import java.util.UUID;
 public record SiphonRayVisualPayload(UUID token, ResourceLocation dimension, int anchorId, UUID anchorUuid,
                                     UUID ownerUuid, Vec3 origin, Vec3 direction, Vec3 offset,
                                     boolean eyeAnchored, float range, int remaining) implements CustomPacketPayload {
-    public static final Type<SiphonRayVisualPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(IronsNouveau.MOD_ID, "siphon_ray_visual"));
+    public static final Type<SiphonRayVisualPayload> TYPE = new Type<>(dev.ironsnouveau.platform.Locations.id(IronsNouveau.MOD_ID, "siphon_ray_visual"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SiphonRayVisualPayload> CODEC = StreamCodec.of(
             (b, p) -> {
                 b.writeUUID(p.token); b.writeResourceLocation(p.dimension); b.writeVarInt(p.anchorId);

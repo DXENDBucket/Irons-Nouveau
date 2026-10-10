@@ -1,0 +1,38 @@
+[
+  {
+    "name": "hex-ars-link",
+    "version": "1.20.1-0.9.5.1",
+    "url": "https://cdn.modrinth.com/data/Yntfg3XG/versions/EcAoCfLK/hex_ars_link-1.20.1-0.9.5.1.jar",
+    "sha512": "ba0817cc545b4225daa41e9c4d9e79193b7014b21e998a4cfd4b1b4096651b190f2c05fdde33d3554c502494f0454bb55a2c6255b720f16bf34b3594ee63e17b"
+  },
+  {
+    "name": "hexcasting",
+    "version": "0.11.4",
+    "url": "https://cdn.modrinth.com/data/nTW3yKrm/versions/e41256fb/hexcasting-forge-1.20.1-0.11.4.jar",
+    "sha512": "bbae5917d401acb1b573f4d29c2d334007df7a48de99346412a6b2890692a1795563d7e4db6bd67b578a2ea5f4983a1685b5068a0e64cf764cbc382a1087d124"
+  },
+  {
+    "name": "caelus",
+    "version": "3.1.0+1.20",
+    "url": "https://cdn.modrinth.com/data/40FYwb4z/versions/fs9CeXYZ/caelus-forge-3.1.0%2B1.20.jar",
+    "sha512": "b665292cf808a6776b77c1bd427dac17ba7b4b38213b6078967f4cd0df089675c21fa6589fc6a27f4970eae8857db99a4441c14628ba1b3c89f10ddbf6c50091"
+  },
+  {
+    "name": "paucal",
+    "version": "0.6.0",
+    "url": "https://cdn.modrinth.com/data/TZo2wHFe/versions/HyBiJPtT/paucal-0.6.0%2B1.20.1-forge.jar",
+    "sha512": "c970d419650a54fbf90319d5a2187228ab634ada8b9a2b381f8365066718e006203f0769217b47c9a875eb296751eadfa5fb79788deb36d7c07ca258e9d3e249"
+  },
+  {
+    "name": "inline",
+    "version": "1.20.1-1.2.2-forge",
+    "url": "https://cdn.modrinth.com/data/fin1PX4m/versions/H1jsvy53/inline-forge-1.20.1-1.2.2.jar",
+    "sha512": "ff631012ef59eb560999dab05b65325f9ab848f0f7253818c9202ab1b8ecfc0de3417c6d57c2b63573da00814c8b87cdc86bc0b35952d1f927b97983dde0a153"
+  },
+  {
+    "name": "kotlinforforge",
+    "version": "4.12.0",
+    "url": "https://cdn.modrinth.com/data/ordsPcFz/versions/Zsh14XeQ/kotlinforforge-4.12.0-all.jar",
+    "sha512": "767f40030ed4b370a3838fa65ae1b79974f31979342fff7cc834a0d5f39eb28612642519352ff2a1dd5226ce1f745f8b3156ee3625ffde01219137d064c1ee40"
+  }
+]

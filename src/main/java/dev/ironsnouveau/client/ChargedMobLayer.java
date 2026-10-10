@@ -34,7 +34,7 @@ public final class ChargedMobLayer<T extends LivingEntity, M extends EntityModel
     }
     @Override public void render(PoseStack pose, MultiBufferSource buffers, int light, T entity,
             float limbSwing, float limbAmount, float partialTick, float age, float yaw, float pitch) {
-        if (entity.isInvisible() || !entity.hasEffect(MobEffectRegistry.CHARGED)) return;
+        if (entity.isInvisible() || !dev.ironsnouveau.platform.Effects.has(entity, MobEffectRegistry.CHARGED)) return;
         float time = entity.tickCount + partialTick;
         var buffer = buffers.getBuffer(RenderType.energySwirl(EnergySwirlLayer.CHARGE_TEXTURE, time * .02f % 1, time * .01f % 1));
         pose.pushPose();

@@ -13,7 +13,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.phys.*;
 import net.neoforged.neoforge.common.CommonHooks;
 
@@ -68,7 +67,7 @@ public final class TerrainAdapters {
         var source = ctx.spell().getDamageSource(ctx.damageOwner());
         for (var target : AreaSpellAdapters.targets(ctx, start, radius)) {
             if (target.getBoundingBox().getCenter().subtract(start).dot(forward) < 0) continue;
-            if (DamageSources.applyDamage(target, damage, source)) EnchantmentHelper.doPostAttackEffects(ctx.world(), target, source);
+            if (DamageSources.applyDamage(target, damage, source)) dev.ironsnouveau.platform.CombatAccess.postAttack(ctx.world(), ctx.caster(), target, source);
         }
         var particle = new io.redspace.ironsspellbooks.particle.FlameStrikeParticleOptions((float)forward.x, (float)forward.y, (float)forward.z, false, false, 1);
         var pos = start.add(forward.scale(1.9)).add(0, .5, 0);
@@ -96,8 +95,8 @@ public final class TerrainAdapters {
     public static final LocationSpellAdapter HAMMER = (ctx, hit) -> {
         if (!(hit instanceof BlockHitResult block) || hit.getType() != HitResult.Type.BLOCK || !canMine(ctx, block.getBlockPos())) return false;
         if (!ctx.world().getBlockState(block.getBlockPos()).is(ModTags.SPECTRAL_HAMMER_MINEABLE)) return false;
-        int depth = (int)Math.clamp(ctx.power(), 0, 16);
-        int radius = (int)Math.clamp(WorldSpellAdapters.radius(ctx, Math.max(ctx.power() * .5, 1)), 1, 8);
+        int depth = (int)net.minecraft.util.Mth.clamp(ctx.power(), 0, 16);
+        int radius = (int)net.minecraft.util.Mth.clamp(WorldSpellAdapters.radius(ctx, Math.max(ctx.power() * .5, 1)), 1, 8);
         int bound = Math.max(depth, radius);
         for (var pos : BlockPos.betweenClosed(block.getBlockPos().offset(-bound, -bound, -bound), block.getBlockPos().offset(bound, bound, bound)))
             if (!canMine(ctx, pos)) return false;

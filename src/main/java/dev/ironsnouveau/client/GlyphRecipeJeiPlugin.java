@@ -24,7 +24,7 @@ public final class GlyphRecipeJeiPlugin implements IModPlugin {
     public GlyphRecipeJeiPlugin() { NeoForge.EVENT_BUS.addListener(this::tick); }
 
     @Override public ResourceLocation getPluginUid() {
-        return ResourceLocation.fromNamespaceAndPath(IronsNouveau.MOD_ID, "glyph_learning");
+        return dev.ironsnouveau.platform.Locations.id(IronsNouveau.MOD_ID, "glyph_learning");
     }
 
     @Override public void onRuntimeAvailable(IJeiRuntime runtime) {

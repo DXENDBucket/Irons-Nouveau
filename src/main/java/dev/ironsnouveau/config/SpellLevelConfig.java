@@ -101,7 +101,7 @@ public final class SpellLevelConfig {
                 var levels = new HashMap<ResourceLocation, Integer>();
                 for (var entry : entries) if (validEntry(entry)) {
                     int separator = entry.lastIndexOf('=');
-                    levels.put(ResourceLocation.parse(entry.substring(0, separator).trim()),
+                    levels.put(dev.ironsnouveau.platform.Locations.id(entry.substring(0, separator).trim()),
                             Integer.parseInt(entry.substring(separator + 1).trim()));
                 }
                 cachedEntries = List.copyOf(entries);

@@ -1,0 +1,1685 @@
+{
+  "glyph_abyssal_shroud": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:abyssal_shroud"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_abyssal_shroud",
+      "count": 1
+    }
+  },
+  "glyph_acid_orb": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:acid_orb"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_acid_orb",
+      "count": 1
+    }
+  },
+  "glyph_acupuncture": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:acupuncture"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_acupuncture",
+      "count": 1
+    }
+  },
+  "glyph_angel_wing": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:angel_wing"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_angel_wing",
+      "count": 1
+    }
+  },
+  "glyph_arrow_volley": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:arrow_volley"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_arrow_volley",
+      "count": 1
+    }
+  },
+  "glyph_ascension": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ascension"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ascension",
+      "count": 1
+    }
+  },
+  "glyph_ball_lightning": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ball_lightning"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ball_lightning",
+      "count": 1
+    }
+  },
+  "glyph_black_hole": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:black_hole"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_black_hole",
+      "count": 1
+    }
+  },
+  "glyph_blaze_storm": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blaze_storm"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blaze_storm",
+      "count": 1
+    }
+  },
+  "glyph_blessing_of_life": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blessing_of_life"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blessing_of_life",
+      "count": 1
+    }
+  },
+  "glyph_blight": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blight"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blight",
+      "count": 1
+    }
+  },
+  "glyph_blizzard": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blizzard"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blizzard",
+      "count": 1
+    }
+  },
+  "glyph_blood_needles": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blood_needles"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blood_needles",
+      "count": 1
+    }
+  },
+  "glyph_blood_slash": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:blood_slash"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_blood_slash",
+      "count": 1
+    }
+  },
+  "glyph_burning_dash": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:burning_dash"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_burning_dash",
+      "count": 1
+    }
+  },
+  "glyph_chain_creeper": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:chain_creeper"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_chain_creeper",
+      "count": 1
+    }
+  },
+  "glyph_chain_lightning": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:chain_lightning"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_chain_lightning",
+      "count": 1
+    }
+  },
+  "glyph_charge": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:charge"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_charge",
+      "count": 1
+    }
+  },
+  "glyph_cleanse": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:cleanse"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_cleanse",
+      "count": 1
+    }
+  },
+  "glyph_cloud_of_regeneration": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:cloud_of_regeneration"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_cloud_of_regeneration",
+      "count": 1
+    }
+  },
+  "glyph_cone_of_cold": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:cone_of_cold"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_cone_of_cold",
+      "count": 1
+    }
+  },
+  "glyph_counterspell": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:counterspell"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_counterspell",
+      "count": 1
+    }
+  },
+  "glyph_devour": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:devour"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_devour",
+      "count": 1
+    }
+  },
+  "glyph_divine_smite": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:divine_smite"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_divine_smite",
+      "count": 1
+    }
+  },
+  "glyph_dragon_breath": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:dragon_breath"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_dragon_breath",
+      "count": 1
+    }
+  },
+  "glyph_earthquake": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:earthquake"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_earthquake",
+      "count": 1
+    }
+  },
+  "glyph_echoing_strikes": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:echoing_strikes"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_echoing_strikes",
+      "count": 1
+    }
+  },
+  "glyph_eldritch_blast": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:eldritch_blast"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_eldritch_blast",
+      "count": 1
+    }
+  },
+  "glyph_electrocute": {
+    "type": "ars_nouveau:glyph",
+    "exp": 40,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:electrocute"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_electrocute",
+      "count": 1
+    }
+  },
+  "glyph_fang_strike": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fang_strike"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fang_strike",
+      "count": 1
+    }
+  },
+  "glyph_fang_swirl": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fang_swirl"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fang_swirl",
+      "count": 1
+    }
+  },
+  "glyph_fang_ward": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fang_ward"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fang_ward",
+      "count": 1
+    }
+  },
+  "glyph_fire_arrow": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fire_arrow"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fire_arrow",
+      "count": 1
+    }
+  },
+  "glyph_fire_breath": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fire_breath"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fire_breath",
+      "count": 1
+    }
+  },
+  "glyph_fireball": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fireball"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fireball",
+      "count": 1
+    }
+  },
+  "glyph_firebolt": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:firebolt"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_firebolt",
+      "count": 1
+    }
+  },
+  "glyph_firecracker": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:firecracker"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_firecracker",
+      "count": 1
+    }
+  },
+  "glyph_firefly_swarm": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:firefly_swarm"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_firefly_swarm",
+      "count": 1
+    }
+  },
+  "glyph_flaming_barrage": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:flaming_barrage"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_flaming_barrage",
+      "count": 1
+    }
+  },
+  "glyph_flaming_strike": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:flaming_strike"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_flaming_strike",
+      "count": 1
+    }
+  },
+  "glyph_fortify": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:fortify"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fortify",
+      "count": 1
+    }
+  },
+  "glyph_frostbite": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:frostbite"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_frostbite",
+      "count": 1
+    }
+  },
+  "glyph_frostwave": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:frostwave"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_frostwave",
+      "count": 1
+    }
+  },
+  "glyph_gluttony": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:gluttony"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_gluttony",
+      "count": 1
+    }
+  },
+  "glyph_gravity_fissure": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:gravity_fissure"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_gravity_fissure",
+      "count": 1
+    }
+  },
+  "glyph_greater_heal": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:greater_heal"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_greater_heal",
+      "count": 1
+    }
+  },
+  "glyph_guiding_bolt": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:guiding_bolt"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_guiding_bolt",
+      "count": 1
+    }
+  },
+  "glyph_haste": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:haste"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_haste",
+      "count": 1
+    }
+  },
+  "glyph_heal": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:heal"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_heal",
+      "count": 1
+    }
+  },
+  "glyph_healing_circle": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:healing_circle"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_healing_circle",
+      "count": 1
+    }
+  },
+  "glyph_heartstop": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:heartstop"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_heartstop",
+      "count": 1
+    }
+  },
+  "glyph_heat_surge": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:heat_surge"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_heat_surge",
+      "count": 1
+    }
+  },
+  "glyph_ice_block": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ice_block"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ice_block",
+      "count": 1
+    }
+  },
+  "glyph_ice_spikes": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ice_spikes"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ice_spikes",
+      "count": 1
+    }
+  },
+  "glyph_ice_tomb": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ice_tomb"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ice_tomb",
+      "count": 1
+    }
+  },
+  "glyph_icicle": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:icicle"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_icicle",
+      "count": 1
+    }
+  },
+  "glyph_invisibility": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:invisibility"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_invisibility",
+      "count": 1
+    }
+  },
+  "glyph_lightning_bolt": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:lightning_bolt"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_lightning_bolt",
+      "count": 1
+    }
+  },
+  "glyph_lightning_lance": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:lightning_lance"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_lightning_lance",
+      "count": 1
+    }
+  },
+  "glyph_lob_creeper": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:lob_creeper"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_lob_creeper",
+      "count": 1
+    }
+  },
+  "glyph_magic_arrow": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:magic_arrow"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_magic_arrow",
+      "count": 1
+    }
+  },
+  "glyph_magic_missile": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:magic_missile"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_magic_missile",
+      "count": 1
+    }
+  },
+  "glyph_magma_bomb": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:magma_bomb"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_magma_bomb",
+      "count": 1
+    }
+  },
+  "glyph_oakskin": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:oakskin"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_oakskin",
+      "count": 1
+    }
+  },
+  "glyph_planar_sight": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:planar_sight"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_planar_sight",
+      "count": 1
+    }
+  },
+  "glyph_poison_arrow": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:poison_arrow"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_poison_arrow",
+      "count": 1
+    }
+  },
+  "glyph_poison_breath": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:poison_breath"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_poison_breath",
+      "count": 1
+    }
+  },
+  "glyph_poison_splash": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:poison_splash"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_poison_splash",
+      "count": 1
+    }
+  },
+  "glyph_raise_dead": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:raise_dead"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_raise_dead",
+      "count": 1
+    }
+  },
+  "glyph_raise_hell": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:raise_hell"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_raise_hell",
+      "count": 1
+    }
+  },
+  "glyph_ray_of_frost": {
+    "type": "ars_nouveau:glyph",
+    "exp": 40,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ray_of_frost"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ray_of_frost",
+      "count": 1
+    }
+  },
+  "glyph_ray_of_siphoning": {
+    "type": "ars_nouveau:glyph",
+    "exp": 40,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:ray_of_siphoning"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ray_of_siphoning",
+      "count": 1
+    }
+  },
+  "glyph_root": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:root"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_root",
+      "count": 1
+    }
+  },
+  "glyph_sacrifice": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:sacrifice"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_sacrifice",
+      "count": 1
+    }
+  },
+  "glyph_scapegoat": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:scapegoat"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_scapegoat",
+      "count": 1
+    }
+  },
+  "glyph_scorch": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:scorch"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_scorch",
+      "count": 1
+    }
+  },
+  "glyph_sculk_tentacles": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:sculk_tentacles"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_sculk_tentacles",
+      "count": 1
+    }
+  },
+  "glyph_shadow_slash": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:shadow_slash"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_shadow_slash",
+      "count": 1
+    }
+  },
+  "glyph_shield": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:shield"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_shield",
+      "count": 1
+    }
+  },
+  "glyph_shockwave": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:shockwave"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_shockwave",
+      "count": 1
+    }
+  },
+  "glyph_slow": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:slow"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_slow",
+      "count": 1
+    }
+  },
+  "glyph_snowball": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:snowball"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_snowball",
+      "count": 1
+    }
+  },
+  "glyph_sonic_boom": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:sonic_boom"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_sonic_boom",
+      "count": 1
+    }
+  },
+  "glyph_spectral_hammer": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:spectral_hammer"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_spectral_hammer",
+      "count": 1
+    }
+  },
+  "glyph_spider_aspect": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:spider_aspect"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_spider_aspect",
+      "count": 1
+    }
+  },
+  "glyph_starfall": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:starfall"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_starfall",
+      "count": 1
+    }
+  },
+  "glyph_stomp": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:stomp"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_stomp",
+      "count": 1
+    }
+  },
+  "glyph_summon_ender_chest": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_ender_chest"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_summon_ender_chest",
+      "count": 1
+    }
+  },
+  "glyph_summon_horse": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_horse"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_summon_horse",
+      "count": 1
+    }
+  },
+  "glyph_summon_polar_bear": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_polar_bear"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_summon_polar_bear",
+      "count": 1
+    }
+  },
+  "glyph_summon_swords": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_swords"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_summon_swords",
+      "count": 1
+    }
+  },
+  "glyph_summon_vex": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:summon_vex"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_summon_vex",
+      "count": 1
+    }
+  },
+  "glyph_sunbeam": {
+    "type": "ars_nouveau:glyph",
+    "exp": 40,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:sunbeam"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_sunbeam",
+      "count": 1
+    }
+  },
+  "glyph_thunderstorm": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:thunderstorm"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_thunderstorm",
+      "count": 1
+    }
+  },
+  "glyph_touch_dig": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:touch_dig"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_touch_dig",
+      "count": 1
+    }
+  },
+  "glyph_volt_strike": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:volt_strike"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_volt_strike",
+      "count": 1
+    }
+  },
+  "glyph_wisp": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:wisp"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_wisp",
+      "count": 1
+    }
+  },
+  "glyph_wither_skull": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:wither_skull"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_wither_skull",
+      "count": 1
+    }
+  },
+  "glyph_wololo": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "type": "irons_nouveau:spell_scroll",
+        "spell": "irons_spellbooks:wololo"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_wololo",
+      "count": 1
+    }
+  }
+}

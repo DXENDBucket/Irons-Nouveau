@@ -25,7 +25,7 @@ public final class SummoningAdapters {
             case io.redspace.ironsspellbooks.spells.blood.RaiseDeadSpell spell -> spell.getSummonCount(ctx.level(), ctx.caster());
             default -> id.equals("summon_swords") ? 3 : 1;
         };
-        int count = Math.clamp(nativeCount, 1, 64);
+        int count = net.minecraft.util.Mth.clamp(nativeCount, 1, 64);
         boolean any = false;
         for (int i = 0; i < count; i++) {
             Mob mob = create(ctx, id, i); boolean flying = id.equals("summon_vex") || id.equals("summon_swords");

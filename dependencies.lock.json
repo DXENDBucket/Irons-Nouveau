@@ -1,0 +1,104 @@
+[
+  {
+    "path": "forge/libs/ars-nouveau-forge1201.jar",
+    "version": "4.12.7",
+    "url": "https://cdn.modrinth.com/data/TKB6INcv/versions/Hw2aD01e/ars_nouveau-1.20.1-4.12.7-all.jar",
+    "sha512": "f3e3abf260fb3ef4c5b6b7324c055802135f82f4c550986f4e93b1a186c9b495cd8b6396ed89ab088b95e6176c0b9e290ccc69a528c521cd1bff19935ac36836"
+  },
+  {
+    "path": "forge/libs/curios-forge1201.jar",
+    "version": "5.14.1+1.20.1",
+    "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/IPQlZkz1/curios-forge-5.14.1%2B1.20.1.jar",
+    "sha512": "1373f95fd111c977db2f6adcef8e4eb486a2d926a3e17374692dee4ac3d65857de6446c16922b531aa5ace2c23c666a7fcc28c720b2917c1e04808d15648ba87"
+  },
+  {
+    "path": "forge/libs/geckolib-forge1201.jar",
+    "version": "4.8.4",
+    "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/aC5KMoNg/geckolib-forge-1.20.1-4.8.4.jar",
+    "sha512": "443a321a293e3cb92fbbc3c97a38b179a45d1db703cd7bdb123270a9e04e7b7d67d5b06cd8e77a6d4d9139e033e901b9660cccf53ad5f9beaae6d06eae68febf"
+  },
+  {
+    "path": "forge/libs/irons-lib-forge1201.jar",
+    "version": "1.20.1-2.2.0",
+    "url": "https://cdn.modrinth.com/data/9nfaJPtX/versions/6HqXQkgC/irons_lib-1.20.1-2.2.0.jar",
+    "sha512": "5d3ce588f692233672f5059e527fa093a3a3d40f2121a90101aa5c815c1677dc9d5eeca0528a010c0ad6d417b244943fc935bc093e66af72c9a6e1b0b674eeab"
+  },
+  {
+    "path": "forge/libs/irons-spells-n-spellbooks-forge1201.jar",
+    "version": "1.20.1-3.16.3",
+    "url": "https://cdn.modrinth.com/data/s4OWxYQQ/versions/hZaEegS9/irons_spellbooks-1.20.1-3.16.3.jar",
+    "sha512": "a699631fa56568d39a30773b8fe96d7a49f1cd7f8e243340ce7ad91b09ccf49c9a6802a944f4bd04b2d88d9fc796a70add1d18d8f326bb2be238b02a8c8076da"
+  },
+  {
+    "path": "forge/libs/jei-forge1201.jar",
+    "version": "15.56.0.205",
+    "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/9jqubC9n/jei-1.20.1-forge-15.56.0.205.jar",
+    "sha512": "1306fe15c81d54aa9ff8f3d9f04812c0d61ffaaae433c29621f926db8f8e2c898669ccdd99e025849859d38b7a2eac170c466390b467f4dfa77542b5dbdd1678"
+  },
+  {
+    "path": "forge/libs/patchouli-forge1201.jar",
+    "version": "1.20.1-85-forge",
+    "url": "https://cdn.modrinth.com/data/nU0bVIaL/versions/94dtOLgZ/Patchouli-1.20.1-85-FORGE.jar",
+    "sha512": "15aedda4efcc553d5e3c83aa867b62554bc2fab298b43f55ed324e10507a3605f0ec2c59c01476e6d80b2a49275ef080142e43a6e663f9463b62f520960fc203"
+  },
+  {
+    "path": "forge/libs/playeranimator-forge1201.jar",
+    "version": "1.0.2-rc1+1.20-forge",
+    "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/xe2EVE6q/player-animation-lib-forge-1.0.2-rc1%2B1.20.jar",
+    "sha512": "cb9f6a3aaa943823a85fdd716ddb3c7623af2b3520926c3a98d170c52d31908894808fb61c52bea39bae622dbab59d50b4bad56f7ca0533a9c3350d412c33729"
+  },
+  {
+    "path": "libs/ars.jar",
+    "version": "5.13.1",
+    "url": "https://cdn.modrinth.com/data/TKB6INcv/versions/qEFs5RRw/ars_nouveau-1.21.1-5.13.1.jar",
+    "sha512": "5c7f36345faf4a16a183f3d7839c0c22a0d21638410598b23049867c87acc2e673974e2eb1d0bee1b616aca14c9642f7c97e2c28a17259cddc84b731ca95684f"
+  },
+  {
+    "path": "libs/caelus.jar",
+    "version": "7.0.1+1.21.1",
+    "url": "https://cdn.modrinth.com/data/40FYwb4z/versions/KsfI4QsR/caelus-neoforge-7.0.1%2B1.21.1.jar",
+    "sha512": "3763f95304ade2bacb217828c74eeef7905a114f71d41537d56121af58c182c2685467a5afb7e03ddb3997ec3d7496bdfdf71a9946a9f33e3470393e7a13306d"
+  },
+  {
+    "path": "libs/curios.jar",
+    "version": "9.5.1+1.21.1",
+    "url": "https://cdn.modrinth.com/data/vvuO3ImH/versions/yohfFbgD/curios-neoforge-9.5.1%2B1.21.1.jar",
+    "sha512": "5981a267686b744e7e3c227f78cbcd5267c14ac6979a28e814695f4589273998563147207fef4a5cdb7cdbdc39797cd95d9e4abadb55869f18e02a38d0654ae5"
+  },
+  {
+    "path": "libs/geckolib.jar",
+    "version": "4.9.2",
+    "url": "https://cdn.modrinth.com/data/8BmcQJ2H/versions/tPkJmim6/geckolib-neoforge-1.21.1-4.9.2.jar",
+    "sha512": "c91012b16cc40c8f48f69b78cb8e2e5c006486ae2431fbd289dfc01be7a4217294becea22d83a155d6b32b3969450df871352a3695e1452168b84f41355f7b9e"
+  },
+  {
+    "path": "libs/iron.jar",
+    "version": "1.21.1-3.16.3",
+    "url": "https://cdn.modrinth.com/data/s4OWxYQQ/versions/slKLosTb/irons_spellbooks-1.21.1-3.16.3.jar",
+    "sha512": "fd782f98c6c59b193c4832f33775291d2a7e639e1e23dd47510bfb494d99d182bec1253566b9394f96c733a0d0108be34bd729614b82dc29e55e096fdeb96f5b"
+  },
+  {
+    "path": "libs/irons-lib.jar",
+    "version": "1.21.1-2.1.0",
+    "url": "https://cdn.modrinth.com/data/9nfaJPtX/versions/sQyzhxuH/irons_lib-1.21.1-2.1.0.jar",
+    "sha512": "63f4c2575ac6e031e28d36f87a84d823ebfad389aee49f5315cdf3cfd47af3fa3b8f546af986e48dba72466a0d63c08158b885fc415497c237361ca57dc8e99b"
+  },
+  {
+    "path": "libs/jei.jar",
+    "version": "19.54.0.429",
+    "url": "https://cdn.modrinth.com/data/u6dRKJwZ/versions/BBfxXwba/jei-1.21.1-neoforge-19.54.0.429.jar",
+    "sha512": "4e1ec70a31e03158d6210c2ec20d286b00dd235b2400a77e0cf2fbb4bddedd29f579bcacb796bb05a2c70da5b815a6498a8fadaef02432091b9cdb654212ef39"
+  },
+  {
+    "path": "libs/not-enough-glyphs.jar",
+    "version": "4.6.1",
+    "url": "https://cdn.modrinth.com/data/WgAFDDv0/versions/OItR2D7T/not_enough_glyphs-1.21.1-4.6.1.jar",
+    "sha512": "2867c2263dc19675d27b1780f4eeb0e77973b368e47da6ee94042adbf6f45b714d00c4bbd17413a9c09c17ff1c850d0ca10cdf8018557e934b8866dcc9e301ed"
+  },
+  {
+    "path": "libs/player-animation.jar",
+    "version": "2.0.4+1.21.1-forge",
+    "url": "https://cdn.modrinth.com/data/gedNE4y2/versions/HJZB6bmA/player-animation-lib-forge-2.0.4%2B1.21.1.jar",
+    "sha512": "fc00450fb6c95ec1779021bdc726122dacb5915c6baddaacc981cd221b01b8db35f2a0dfde5d6fa6766d877266dc82f58854f571ea53cc5c4d468b80e1548a5f"
+  }
+]

@@ -1,0 +1,7 @@
+pluginManagement { repositories { gradlePluginPortal(); maven { url = 'https://maven.minecraftforge.net' }; maven { url = 'https://repo.spongepowered.org/repository/maven-public/' } } }
+rootProject.name = 'irons-nouveau-forge'
+
+// Optional checkout location for addon authors; the published runtime remains two separate mods.
+def confluxCheckout = providers.gradleProperty('confluxCheckout').getOrElse('../../Ars-Conflux/forge')
+include ':ars-conflux'
+project(':ars-conflux').projectDir = file(confluxCheckout)

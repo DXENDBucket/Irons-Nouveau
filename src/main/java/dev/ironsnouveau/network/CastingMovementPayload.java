@@ -11,7 +11,7 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 /** Aggregate remaining lifetime of this player's movement leases. No native casting-state mutation. */
 public record CastingMovementPayload(int entityId, ResourceLocation dimension, int remaining) implements CustomPacketPayload {
-    public static final Type<CastingMovementPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(IronsNouveau.MOD_ID, "casting_movement"));
+    public static final Type<CastingMovementPayload> TYPE = new Type<>(dev.ironsnouveau.platform.Locations.id(IronsNouveau.MOD_ID, "casting_movement"));
     public static final StreamCodec<RegistryFriendlyByteBuf, CastingMovementPayload> CODEC = StreamCodec.of(
             (buf, data) -> { buf.writeVarInt(data.entityId); buf.writeResourceLocation(data.dimension); buf.writeVarInt(data.remaining); },
             buf -> new CastingMovementPayload(buf.readVarInt(), buf.readResourceLocation(), buf.readVarInt()));

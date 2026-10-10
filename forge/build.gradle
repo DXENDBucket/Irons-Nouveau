@@ -1,0 +1,64 @@
+plugins {
+    id 'java-library'
+    id 'net.minecraftforge.gradle' version '6.0.36'
+    id 'org.spongepowered.mixin' version '0.7.38'
+}
+group = 'dev.ironsnouveau'
+version = file('../VERSION').text.trim()
+base { archivesName = 'irons-nouveau' }
+java { toolchain.languageVersion = JavaLanguageVersion.of(17); withSourcesJar() }
+repositories { flatDir { dirs 'libs', 'build/hex-dependencies' }; mavenCentral { content { excludeGroup 'local' } } }
+jarJar.enable()
+sourceSets { forgeTest { compileClasspath += sourceSets.main.output; runtimeClasspath += sourceSets.main.output } }
+ext.sharedRoot = file('..')
+ext.glyphRecipeFormat = 'ars4'
+apply from: '../gradle/shared-sources.gradle'
+configurations { forgeTestImplementation.extendsFrom implementation; forgeTestRuntimeOnly.extendsFrom runtimeOnly }
+evaluationDependsOn(':ars-conflux')
+def confluxMain = project(':ars-conflux').sourceSets.main
+minecraft {
+    mappings channel: 'official', version: '1.20.1'
+    copyIdeResources = true
+    runs {
+        configureEach { property 'mixin.env.remapRefMap', 'true'; property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg" }
+        gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
+        client { workingDirectory project.file('run/client'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }
+        server { workingDirectory project.file('run/server'); args '--nogui'; mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }
+    }
+}
+mixin { add sourceSets.main, 'irons_nouveau.refmap.json'; config 'irons_nouveau.mixins.json' }
+dependencies {
+    implementation project(':ars-conflux')
+    minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
+    // Opt-in integration test runtime only; Hex and Linker are never shipped or required.
+    if (providers.gradleProperty('withHexLinker').getOrElse('false').toBoolean()) {
+        for (name in ['hexcasting', 'hex-ars-link', 'paucal', 'inline', 'caelus', 'kotlinforforge']) {
+            runtimeOnly fg.deobf("local:${name}:hex1201")
+        }
+    }
+    for (name in ['ars-nouveau','irons-spells-n-spellbooks','geckolib','curios','patchouli','playeranimator','irons-lib','jei']) {
+        implementation fg.deobf("local:${name}:forge1201")
+    }
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation 'io.github.llamalad7:mixinextras-common:0.4.1'
+    runtimeOnly 'io.github.llamalad7:mixinextras-forge:0.4.1'
+    annotationProcessor 'io.github.llamalad7:mixinextras-common:0.4.1'
+    jarJar('io.github.llamalad7:mixinextras-forge:0.4.1') { jarJar.ranged(it, '[0.4.1,0.5)') }
+    testImplementation platform('org.junit:junit-bom:5.13.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs += ['-Xmaxerrs', '500'] }
+tasks.withType(Test).configureEach { useJUnitPlatform() }
+processResources { inputs.property 'version', project.version; filesMatching('META-INF/mods.toml') { expand(version: project.version) } }
+tasks.named('jar') { from('../LICENSE', '../THIRD_PARTY_NOTICES.md'); manifest { attributes 'MixinConfigs': 'irons_nouveau.mixins.json' }; finalizedBy 'reobfJar' }
+tasks.named('jarJar') {
+    archiveFileName = "irons-nouveau-${project.version}-mc1.20.1-forge.jar"
+    archiveClassifier = 'all'
+    from('../LICENSE')
+    from('../THIRD_PARTY_NOTICES.md')
+    manifest { attributes 'MixinConfigs': 'irons_nouveau.mixins.json' }
+    finalizedBy 'reobfJarJar'
+}
+reobf { jarJar {} }
+tasks.named('sourcesJar') { from('../LICENSE') }
