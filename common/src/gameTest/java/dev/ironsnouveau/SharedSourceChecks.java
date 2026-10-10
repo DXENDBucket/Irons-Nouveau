@@ -1,8 +1,12 @@
 package dev.ironsnouveau;
 
 import com.hollingsworth.arsnouveau.api.spell.Spell;
+import com.hollingsworth.arsnouveau.api.spell.SpellContext;
+import com.hollingsworth.arsnouveau.common.spell.augment.AugmentAmplify;
+import com.hollingsworth.arsnouveau.common.spell.method.MethodProjectile;
 import com.hollingsworth.arsnouveau.common.spell.method.MethodSelf;
 import dev.arsconflux.api.glyph.ArsSpellAccess;
+import dev.arsconflux.api.resource.SpellResourceQuotes;
 import dev.ironsnouveau.casting.BoundSpellWeapons;
 import dev.ironsnouveau.casting.PresetTools;
 import dev.ironsnouveau.platform.BoundSpellData;
@@ -39,6 +43,21 @@ public final class SharedSourceChecks {
             return null;
         });
         helper.assertTrue(SpellProgress.baseLevel(caster, spellId) == baseline, "A finished tool must not permanently change personal progression");
+        var effectQuote = SpellResourceQuotes.estimate(SpellContext.fromEntity(
+                new Spell(MethodSelf.INSTANCE, glyph, AugmentAmplify.INSTANCE), caster, loaded));
+        helper.assertTrue(effectQuote.complete() && effectQuote.entries().get(0).charge().amount()
+                == io.redspace.ironsspellbooks.api.registry.SpellRegistry.getSpell(spellId).getManaCost(4),
+                "Dry effect quotes retain the actual tool's level and written amplification");
+        var form = IronsNouveau.forms().stream().filter(g -> g.spellId().equals(unrelated)).findFirst().orElseThrow();
+        var projectile = new Spell(MethodProjectile.INSTANCE, AugmentAmplify.INSTANCE, form, AugmentAmplify.INSTANCE);
+        var projectileTool = new ItemStack(Items.BONE);
+        BoundSpellWeapons.bind(projectileTool, projectile, Map.of(unrelated, 3));
+        var formQuote = SpellResourceQuotes.estimate(SpellContext.fromEntity(projectile, caster, projectileTool));
+        helper.assertTrue(formQuote.complete() && formQuote.entries().get(0).charge().amount()
+                == io.redspace.ironsspellbooks.api.registry.SpellRegistry.getSpell(unrelated).getManaCost(5),
+                "Dry form quotes include sibling augments on both sides and sealed tool levels");
+        helper.assertTrue(SpellProgress.baseLevel(caster, spellId) == baseline,
+                "Dry quotes restore tool scope without changing progression");
         BoundSpellWeapons.clearBinding(loaded);
         helper.assertTrue(!BoundSpellWeapons.hasBinding(loaded), "Clearing the binding must remove native stored authorization");
         helper.succeed();

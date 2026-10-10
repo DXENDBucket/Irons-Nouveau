@@ -37,9 +37,11 @@ public final class NativeFormAugment extends AbstractAugment implements dev.arsc
     }
     @Override public dev.arsconflux.api.resource.ResourceCharge initialCharge(
             com.hollingsworth.arsnouveau.api.spell.SpellContext context, java.util.List<AbstractAugment> augments) {
-        var caster = context.getUnwrappedCaster();
-        int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, spellId, augments);
-        return dev.ironsnouveau.casting.TriggerMana.of(context, caster).charge(spellId, level);
+        return dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
+            var caster = dev.arsconflux.api.context.CastContext.of(context, null, null).caster();
+            int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, spellId, augments);
+            return dev.ironsnouveau.casting.TriggerMana.of(context, caster).charge(spellId, level);
+        });
     }
     public ResourceLocation spellId() { return spellId; }
     public NativeCastAdapter adapter() { return adapter; }

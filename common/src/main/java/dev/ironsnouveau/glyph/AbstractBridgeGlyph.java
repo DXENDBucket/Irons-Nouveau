@@ -36,6 +36,13 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
 
     }
     public GlyphDefinition definition() { return definition; }
+    @Override public dev.arsconflux.api.resource.ResourceCharge firstCharge(SpellContext context, java.util.List<AbstractAugment> augments) {
+        return dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
+            var caster = CastContext.of(context, null, null).caster();
+            int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, definition.spellId(), augments);
+            return TriggerMana.of(context, caster).charge(definition.spellId(), level);
+        });
+    }
     @Override public int getDefaultManaCost() { return 0; }
     @Override public int getCastingCost() { return 0; }
     @Override public SpellTier defaultTier() { return SpellTier.ONE; }

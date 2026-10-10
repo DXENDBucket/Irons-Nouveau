@@ -1,6 +1,6 @@
-# Ars Conflux 接入（0.17.3）
+# Ars Conflux 接入（0.17.4）
 
-Iron & Nouveau 0.17.3 需要独立安装 Ars Conflux 0.1.4 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；未来 Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.4 需要独立安装 Ars Conflux 0.1.5 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；未来 Goety 等法术附属可以使用同一 API 而不安装 Iron。
 
 ## 实际边界
 
@@ -54,3 +54,13 @@ Forge：发行构建、重映射及 4 项迁移 GameTest 通过。运行检查�
 移除 Iron 的旧 Hex 专用识别类、可选加载声明及 Forge 专用测试运行依赖。原有通用转换已由 Core 接管，本次不改变具体魔符、计费或学习规则。
 
 Core 0.1.4 在不安装 Iron／Goety 的独立环境中，两个平台各通过一项真实 Hex-Ars Linker GameTest，用两个独立提供者验证常规、指定位置和指定实体入口、归属、方向、克隆与资源不足时拒绝。Iron 本次只执行两端构建与测试源码编译，不重复启动原有完整回归套件。
+
+## 首次触发报价（0.17.4）
+
+效果魔符实现 Core 的 `TriggerPaidGlyph.firstCharge`，替换弹射物魔符通过 `ProjectileForm.initialCharge` 提供同样的报价。两者均恢复实际施法工具的封存等级作用域，再按原有 `SpellLevels` 与 `TriggerMana` 计算；报价不解锁魔符或扣蓝。
+
+Core 的 `SpellResourceQuotes` 只预估每个魔符一次可能发生的首次激活，按实际资源池合计费用。持续脉冲、散射数量、原生 Ars 起手费与 Hex 媒质费不在该预估内，实际触发仍重新检查。未知价格不会被当成免费。
+
+Core 0.1.5 独立完成来源解析器传递、Linker Mana／媒质倍率、回调深度和真实 Ars → Hex VM → Ars 往返的双版本验证。Iron 没有增加 Hex 类型引用、专用检测或运行时依赖；具体等级、权限、吟唱和冷却继续由本模组负责。
+
+Iron 两端各通过一项定向工具验证：物品存储保留封存等级，效果报价读取实际工具及增幅，替换弹射物报价读取前后增强，报价后恢复作用域且不修改个人学习进度。两端发行构建、测试源码编译与 99 份共享配方一致性检查通过。

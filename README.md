@@ -1,15 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.3**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.4**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.3-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.3-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.4-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.4-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
-0.17.3 将 Hex-Ars Linker 的适配声明及独立验证集中到 Core，移除 Iron 的重复识别代码。**需要同时安装 Ars Conflux 0.1.4 或更新的 0.1.x**；既有 ID、配置和学习数据保持兼容。两端继续共享魔符目录、主要施法实现、素材及 99 份配方定义。Core 不依赖 Iron。详见 [构建说明](docs/building.md)、[双版本维护](docs/multi-version.md) 和 [责任边界](docs/ars-conflux.md)。
+0.17.4 提供各魔符的首次触发费用，供 Core 的通用资源预估使用；沿用实际工具、等级和账户，不增加 Hex 专用代码。**需要同时安装 Ars Conflux 0.1.5 或更新的 0.1.x**。Core 集中维护 Hex 来源、计费和回调，既有 ID、配置和学习数据保持兼容。两端继续共享魔符目录、主要施法实现、素材及 99 份配方定义。Core 不依赖 Iron。详见 [构建说明](docs/building.md)、[双版本维护](docs/multi-version.md) 和 [责任边界](docs/ars-conflux.md)。
 
 0.16.2 接入 NEG 的普通、弹跳、追踪与溅射弹调态。Iron 弹射物强化可以跟在这些节点后，生成的新弹射物保留调态的方向、运动、碰撞和剩余编排，费用在每次实际生成时支付。原生 Iron 弹射物命中后也能再次调态发射；附属仍为可选联动。
 
