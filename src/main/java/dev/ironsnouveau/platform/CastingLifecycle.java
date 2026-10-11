@@ -1,6 +1,5 @@
 package dev.ironsnouveau.platform;
 
-import dev.ironsnouveau.casting.ActiveChanting;
 import dev.ironsnouveau.casting.MovementRestrictions;
 import dev.ironsnouveau.casting.EffectResources;
 import net.neoforged.bus.api.IEventBus;
@@ -18,12 +17,12 @@ public final class CastingLifecycle {
         });
         bus.addListener((net.neoforged.neoforge.event.tick.ServerTickEvent.Pre event) -> EffectResources.tick());
         bus.addListener((net.neoforged.neoforge.event.tick.ServerTickEvent.Post event) -> {
-            ActiveChanting.tick(); MovementRestrictions.tick();
+            MovementRestrictions.tick();
         });
         bus.addListener((ServerStoppingEvent event) -> EffectResources.stop());
-        bus.addListener((ServerStoppedEvent event) -> { ActiveChanting.stop(); MovementRestrictions.stop(); });
+        bus.addListener((ServerStoppedEvent event) -> { MovementRestrictions.stop(); });
         bus.addListener((LevelEvent.Unload event) -> {
-            ActiveChanting.unload(event.getLevel()); MovementRestrictions.unload(event.getLevel());
+            MovementRestrictions.unload(event.getLevel());
         });
     }
 }

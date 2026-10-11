@@ -31,6 +31,7 @@ public final class IronsNouveau {
         dev.arsconflux.api.glyph.SpellValidators.register(
                 dev.arsconflux.api.projectile.CarrierRegistry.id("irons_nouveau:projectiles"), NativeCasting::validate);
         GlyphCatalog.register();
+        dev.ironsnouveau.casting.IronActiveCastProvider.register();
         bus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(GlyphCatalog::configureCarriers));
         dev.ironsnouveau.platform.CastingLifecycle.register(MinecraftForge.EVENT_BUS);
         MinecraftForge.EVENT_BUS.addListener(NativeCasting::beforeCast);

@@ -40,6 +40,8 @@ public final class CooldownGameTests {
     private static ServerPlayer player(GameTestHelper h) {
         var player = ScrollProgressGameTests.player(h);
         var mana = CapabilityRegistry.getMana(player); mana.setMaxMana(10000); mana.setMana(10000);
+        player.getAttribute(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA).setBaseValue(10000);
+        MagicData.getPlayerMagicData(player).setMana(10000);
         player.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.STICK)); player.setXRot(-90);
         return player;
     }
@@ -68,8 +70,13 @@ public final class CooldownGameTests {
                     "Native reduction and event used once despite duplicate glyphs");
             player.setHealth(1); cast(h, player, new Spell(MethodSelf.INSTANCE, heal));
             h.assertTrue(player.getHealth() == 1 && count.get() == 1, "Different recipe cannot bypass shared native cooldown");
-            cast(h, player, new Spell(MethodSelf.INSTANCE, EffectHeal.INSTANCE));
-            h.assertTrue(player.getHealth() > 1 && count.get() == 1, "Pure Ars remains usable");
+            player.setHealth(10);
+            var pure = new Spell(MethodSelf.INSTANCE, EffectHeal.INSTANCE);
+            var pureResolver = new SpellResolver(new SpellContext(h.getLevel(), pure, player,
+                    new com.hollingsworth.arsnouveau.api.spell.wrapped_caster.PlayerCaster(player), player.getMainHandItem()));
+            h.assertTrue(pureResolver.canCast(player), "Pure Ars fixture can cast: mana=" + CapabilityRegistry.getMana(player).getCurrentMana());
+            cast(h, player, pure);
+            h.assertTrue(player.getHealth() > 10 && count.get() == 1, "Pure Ars remains usable without touching Iron cooldown");
             cds.clearCooldowns(); MagicHelper.MAGIC_MANAGER.addCooldown(player, nativeHeal, CastSource.SPELLBOOK);
             player.setHealth(1); cast(h, player, recipe);
             h.assertTrue(player.getHealth() == 1, "Cooldown created by Iron blocks bridge");
@@ -112,10 +119,12 @@ public final class CooldownGameTests {
             var laterRecipe = new Spell(MethodSelf.INSTANCE, heal);
             var context = new SpellContext(h.getLevel(), laterRecipe, player, com.hollingsworth.arsnouveau.api.spell.wrapped_caster.LivingCaster.from(player), ItemStack.EMPTY);
             cds.addCooldown(nativeHeal, 200); player.setHealth(1);
-            double before = CapabilityRegistry.getMana(player).getCurrentMana();
+            double before = SpellLevelConfig.useIronMana() ? MagicData.getPlayerMagicData(player).getMana()
+                    : CapabilityRegistry.getMana(player).getCurrentMana();
             // Deferred hits/continuations enter resolution, not a fresh active-use boundary.
             new SpellResolver(context).onResolveEffect(h.getLevel(), new net.minecraft.world.phys.EntityHitResult(player));
-            h.assertTrue(player.getHealth() > 1 && CapabilityRegistry.getMana(player).getCurrentMana() < before,
+            h.assertTrue(player.getHealth() > 1 && (SpellLevelConfig.useIronMana() ? MagicData.getPlayerMagicData(player).getMana()
+                    : CapabilityRegistry.getMana(player).getCurrentMana()) < before,
                     "Ongoing trigger still applies and spends mana during its own cooldown");
             shots.forEach(net.minecraft.world.entity.Entity::discard);
             var crossbowStack = new ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(

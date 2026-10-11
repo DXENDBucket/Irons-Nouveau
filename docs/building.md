@@ -44,12 +44,12 @@ For explicit Java and Core paths:
 
 This runs both builds, their unit tests, compilation of the focused runtime checks, both Core release builds, and shared-source / generated-recipe validation. It does not start Minecraft by default. `-RuntimeChecks` additionally runs only `irons_nouveau_shared` and `irons_nouveau_context` in disposable development worlds.
 
-Release files for 0.17.7:
+Release files for 0.17.11:
 
 | Target | Iron & Nouveau | Ars Conflux |
 | --- | --- | --- |
-| NeoForge | `build/libs/irons-nouveau-0.17.7-mc1.21.1-neoforge.jar` | `../Ars-Conflux/build/libs/ars-conflux-0.1.8-mc1.21.1-neoforge.jar` |
-| Forge | `forge/build/libs/irons-nouveau-0.17.7-mc1.20.1-forge.jar` | `../Ars-Conflux/forge/build/libs/ars-conflux-0.1.8-mc1.20.1-forge.jar` |
+| NeoForge | `build/libs/irons-nouveau-0.17.11-mc1.21.1-neoforge.jar` | `../Ars-Conflux/build/libs/ars-conflux-0.1.10-mc1.21.1-neoforge.jar` |
+| Forge | `forge/build/libs/irons-nouveau-0.17.11-mc1.20.1-forge.jar` | `../Ars-Conflux/forge/build/libs/ars-conflux-0.1.10-mc1.20.1-forge.jar` |
 
 Install the full release JAR, not `-sources.jar` or Forge's `-thin.jar`. Forge's full `jarJar` output includes MixinExtras and is reobfuscated. Both releases contain the MIT license and third-party notices.
 
@@ -82,3 +82,6 @@ The checks cover sealed-tool persistence, scoped authorization and dry first-tri
 `runClient` starts a development client. Server GameTests do not verify client rendering or multiplayer connections.
 
 See [source ownership and the update workflow](multi-version.md). `libs/`, `build/`, `run/`, caches and generated IDE files stay local. The checked-in Gradle wrapper JAR is build tooling.
+
+
+0.17.11 / Core 0.1.10: two focused NeoForge chant cases and three native cooldown cases passed. The latter verify pure Ars casting, native cooldown sharing/events/reduction/opt-out, interrupted or failed preparation, split/ongoing triggers and crossbow ammunition preservation. The fixtures initialize both mana pools and compare the configured pool. Logs: `build/conflux-active-regression-final.log` (chant cases) and `build/pure-ars-diagnostic.log` (all cooldown cases). Actual mixed Iron / Goety release is additionally covered by Goety's NeoForge native-casting namespace. Both loader release/source builds succeed. Client HUD rendering remains a manual check.

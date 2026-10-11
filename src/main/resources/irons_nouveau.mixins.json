@@ -4,13 +4,6 @@
   "package": "dev.ironsnouveau.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "ActiveCooldownDispatchMixin",
-    "ScryCooldownMixin",
-    "CrossbowCooldownMixin",
-    "BowCooldownSpawnMixin",
-    "SwordCooldownMixin",
-    "ActiveCasterChantMixin",
-    "ActiveBowChantMixin",
     "NativeProjectileStateMixin",
     "NativeProjectileImpactMixin",
     "NativeBlockImpactMixin",

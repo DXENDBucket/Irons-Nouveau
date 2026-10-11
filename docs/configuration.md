@@ -62,6 +62,12 @@ use_iron_mana = true
 
 纯 Ars／其他附属法术不受影响。自动炮台、被动装备以及第三方直接调用 resolver 的施法维持原有规则，怪物冷却继续由其 AI 决定。集成方可用 `ActiveCooldowns.execute` 显式标记一次新施法；无需在命中或持续效果内反复检查 CD。
 
+## Conflux 共用主动入口
+
+0.17.11 起，排队、取消与释放事务由 Conflux 0.1.10 管理。Iron 原有吟唱开关、有效时间计算、移动限制、原生进度条与冷却记录保留。混合 Goety 编排只吟唱一次；两边各自检查原生冷却。Core `ars_conflux-server.toml` 的 `[active_casting].chant_mode` 默认 MAXIMUM，可改为 SUM 累加所有提供者的书写时间。Iron 旧的 `chanting.mode=SUM` 保留为 Iron 分组累加覆盖。
+
+第三方新集成优先用 `ActiveCasts.perform/execute`，不再复制工具 mixin。旧 `ActiveChanting.defer` 与 `ActiveCooldowns.execute` 保留为转发兼容入口，处理混合编排时也会覆盖其他已注册提供者。
+
 ## 主动吟唱
 
 只处理包含本模组 Iron 魔符的主动施法。未使用 Iron 魔符的 Ars／附属法术完整保留原行为。

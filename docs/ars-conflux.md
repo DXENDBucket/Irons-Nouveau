@@ -1,6 +1,6 @@
 # Ars Conflux 接入（0.17.7）
 
-Iron & Nouveau 0.17.7 需要独立安装 Ars Conflux 0.1.8 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
+Iron & Nouveau 0.17.11 需要独立安装 Ars Conflux 0.1.10 或更新的 0.1.x（Mod ID `ars_conflux`）。Core 只依赖 Ars；Goety 等法术附属可以使用同一 API 而不安装 Iron。
 
 0.17.5 在自身转换入口、Core 0.1.6 在公共分派入口增加服务端世界检查。客户端接收原生或 Ars 弹射物的生成包时保留正常加入行为，不读取服务器专用的施法者上下文。这处理了 0.16.2 用户报告中的 `ClientLevel` 强转 `ServerLevel` 异常。
 
@@ -72,3 +72,5 @@ Core 的 `SpellResourceQuotes` 只预估每个魔符一次可能发生的首次�
 Core 0.1.5 独立完成来源解析器传递、Linker Mana／媒质倍率、回调深度和真实 Ars → Hex VM → Ars 往返的双版本验证。Iron 没有增加 Hex 类型引用、专用检测或运行时依赖；具体等级、权限、吟唱和冷却继续由本模组负责。
 
 Iron 两端各通过一项定向工具验证：物品存储保留封存等级，效果报价读取实际工具及增幅，替换弹射物报价读取前后增强，报价后恢复作用域且不修改个人学习进度。两端发行构建、测试源码编译与 99 份共享配方一致性检查通过。
+
+主动工具的排队、取消和释放钩子由 Core 提供，Iron 通过 `IronActiveCastProvider` 注册自己的时间、冷却与 HUD／移动回调。旧入口只转发到共享事务。

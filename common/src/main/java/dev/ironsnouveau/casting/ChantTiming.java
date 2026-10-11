@@ -17,7 +17,10 @@ public final class ChantTiming {
         return dev.arsconflux.api.glyph.ArsSpellAccess.parts(spell).stream().anyMatch(p -> p instanceof BridgeGlyph || p instanceof NativeFormAugment);
     }
     public static int ticks(Spell recipe, LivingEntity caster, SpellLevelConfig.ChantMode mode) {
-        long total = 0;
+        return dev.arsconflux.api.casting.ChantDurations.combine(occurrences(recipe, caster), mode == SpellLevelConfig.ChantMode.SUM);
+    }
+    public static java.util.List<Integer> occurrences(Spell recipe, LivingEntity caster) {
+        var result = new java.util.ArrayList<Integer>();
         int action = 0;
         var parts = dev.arsconflux.api.glyph.ArsSpellAccess.parts(recipe);
         for (int i = 0; i < parts.size(); i++) {
@@ -31,9 +34,8 @@ public final class ChantTiming {
             if (nativeSpell == SpellRegistry.none() || nativeSpell.getCastType() != CastType.LONG) continue;
             int level = SpellLevels.resolve(caster, id, recipe.getAugments(action, caster));
             int ticks = Math.max(0, nativeSpell.getEffectiveCastTime(level, caster));
-            total = mode == SpellLevelConfig.ChantMode.MAXIMUM ? Math.max(total, ticks) : total + ticks;
-            total = Math.min(Integer.MAX_VALUE, total);
+            result.add(ticks);
         }
-        return (int)total;
+        return java.util.List.copyOf(result);
     }
 }
