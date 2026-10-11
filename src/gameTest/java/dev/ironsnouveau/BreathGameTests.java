@@ -36,6 +36,7 @@ public final class BreathGameTests {
     @GameTest(template = "empty", batch = "breath_host", timeoutTicks = 35)
     public static void targetOwnsPoseButCasterOwnsDamageAndMana(GameTestHelper h) {
         var caster = cow(h, 1, 1); var host = cow(h, 2, 4); var victim = cow(h, 5, 4);
+        BeneficialExecutorCases.ally(h, caster, host);
         h.runAtTickTime(2, () -> {
         var glyph = glyph("poison_breath"); int cost = SpellRegistry.getSpell(glyph.definition().spellId()).getManaCost(3);
         var mana = new AtomicInteger(cost * 2); var resolver = resolver(h, caster, new Spell(MethodTouch.INSTANCE, glyph), mana);

@@ -26,5 +26,6 @@ public record BreathPose(LivingEntity anchor, Vec3 origin, Vec3 direction, Vec3 
         return anchor == null ? new CastAim(origin, direction, null)
                 : new CastAim((eyeAnchored ? anchor.getEyePosition() : anchor.position()).add(offset), anchor.getLookAngle(), anchor.getUUID());
     }
-    public boolean valid(CastSession session) { return anchor == null || anchor.isAlive() && !anchor.isRemoved() && anchor.level() == session.world(); }
+    public boolean valid(CastSession session) { return anchor == null || anchor.isAlive() && !anchor.isRemoved() && anchor.level() == session.world() && !anchor.isSpectator()
+            && dev.ironsnouveau.bridge.Targeting.alliedExecutor(session.caster(), anchor); }
 }

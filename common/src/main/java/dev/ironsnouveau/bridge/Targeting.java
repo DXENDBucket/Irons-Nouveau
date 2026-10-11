@@ -11,6 +11,14 @@ import java.util.List;
 
 public final class Targeting {
     private Targeting() {}
+    /** A hostile recipient may be attacked, but cannot be forced to execute a beneficial action. */
+    public static boolean alliedExecutor(LivingEntity caster, LivingEntity host) {
+        return caster == host || caster.isAlliedTo(host) || host.isAlliedTo(caster);
+    }
+    public static boolean beneficialHost(LivingEntity caster, HitResult hit) {
+        return !(hit instanceof EntityHitResult selected) || selected.getEntity() instanceof LivingEntity host
+                && host.isAlive() && !host.isSpectator() && alliedExecutor(caster, host);
+    }
     public static List<LivingEntity> select(ServerLevel world, LivingEntity caster, HitResult hit,
                                             double radius, boolean harmful) {
         var targets = new ArrayList<LivingEntity>();

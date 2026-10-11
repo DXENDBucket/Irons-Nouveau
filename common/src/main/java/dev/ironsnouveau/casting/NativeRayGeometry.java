@@ -17,6 +17,7 @@ public final class NativeRayGeometry {
     public static View current() { return VIEW.get(); }
 
     public static boolean frost(Resolution ctx, HitResult trigger) {
+        if (!dev.ironsnouveau.bridge.Targeting.beneficialHost(ctx.caster(), trigger)) return false;
         var pose = rayPose(ctx, trigger);
         var aim = pose.sample();
         Vec3 start = aim.origin(), end = start.add(aim.direction().normalize()

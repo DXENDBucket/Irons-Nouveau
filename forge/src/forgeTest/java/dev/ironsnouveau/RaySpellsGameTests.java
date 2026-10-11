@@ -49,6 +49,7 @@ public final class RaySpellsGameTests {
     @GameTest(template = "empty", templateNamespace = "irons_nouveau_rays", timeoutTicks = 30)
     public static void frostRemoteEyesNativeDamageFreezingAndVisualLifetime(GameTestHelper h) {
         var caster = caster(h); var host = cow(h, 4, 5); var target = cow(h, 8, 5);
+        BeneficialExecutorCases.ally(h, caster, host);
         var spell = SpellRegistry.getSpell(glyph("ray_of_frost").definition().spellId());
         var mana = budget(caster, spell.getManaCost(1));
         var data = MagicData.getPlayerMagicData(caster);
@@ -93,6 +94,7 @@ public final class RaySpellsGameTests {
     @GameTest(template = "empty", templateNamespace = "irons_nouveau_rays", timeoutTicks = 30)
     public static void electrocuteHostNativeHitManaAndAnimationAge(GameTestHelper h) {
         var caster = caster(h); caster.setYRot(0); var host = cow(h, 3, 5); var target = cow(h, 6, 5);
+        BeneficialExecutorCases.ally(h, caster, host);
         int cost = SpellRegistry.getSpell(glyph("electrocute").definition().spellId()).getManaCost(1);
         var mana = budget(caster, cost * 2);
         h.runAtTickTime(2, () -> {

@@ -64,6 +64,7 @@ public final class EmitterMotionGameTests {
     @GameTest(template = "empty", batch = "motion_selection")
     public static void movementUsesRecipientAndNativeDamageKeepsCaster(GameTestHelper h) {
         var caster = cow(h, 1, 1); var actor = cow(h, 6, 6); var victim = cow(h, 6, 6);
+        BeneficialExecutorCases.ally(h, caster, actor);
         var mana = new AtomicInteger(100000);
         for (String id : List.of("shadow_slash", "burning_dash", "ascension", "volt_strike")) {
             int before = mana.get(); cast(h, caster, id, at(h, 8, 2, 8), mana);

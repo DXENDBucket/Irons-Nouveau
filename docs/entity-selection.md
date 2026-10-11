@@ -35,3 +35,9 @@
 实体命中生成原生三条锁链；方块命中束缚附近符合原生条件的生物。保留锁链健康、束缚强度、原生寿命、可破坏性、反魔法响应及渲染。命中后继续剩余 Ars 效果。已付费的镣铐命中和锁链存活不再逐帧扣魔力；持续载体的再次触发仍遵循现有计费规则。
 
 这批实现不增加多次选点、火墙或传送门协议。已绑定的 Conflux 上下文可跨现有克隆式子触发路径保留身份；不承诺所有未知附属都正确传播原施法者。
+
+## Beneficial executors (0.17.12)
+
+Breaths, Siphoning/Frost rays and selected-entity motion require the host to be the caster or an ally in either direction. Native team/ownership alliance implementations apply. Alive or neutral alone does not establish an alliance. Hostile entity hits fail before starting native entities, motion or payment; block-origin breath/ray geometry remains supported.
+
+Continuous cones and Siphoning rays revalidate the same original caster-to-host relation and terminate if it changes. Damage ownership and account identity do not authorize a hostile executor. Blood/Frost Step still moves the original caster, so a hostile destination remains valid. Telekinesis is harmful targeting and is unchanged.

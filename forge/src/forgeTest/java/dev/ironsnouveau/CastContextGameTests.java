@@ -43,6 +43,7 @@ public final class CastContextGameTests {
     @GameTest(template="empty", timeoutTicks=20)
     public static void cloneIsolationScopesAndProxyLoss(GameTestHelper h) {
         var caster = cow(h, 1, 1); var host = cow(h, 3, 1); var credit = cow(h, 5, 1);
+        BeneficialExecutorCases.ally(h, caster, host);
         var pool = account(new AtomicInteger(100));
         var ars = ars(h, caster, new Spell(MethodProjectile.INSTANCE));
         var frame = CastContext.of(ars, new EntityHitResult(host), pool).withExecutor(host).withDamageOwner(credit)
@@ -75,6 +76,7 @@ public final class CastContextGameTests {
     @GameTest(template="empty", timeoutTicks=30)
     public static void nativeBreathKeepsOriginalPowerCustomAccountAndSeparateDamageOwner(GameTestHelper h) {
         var caster = cow(h, 1, 1); var host = cow(h, 2, 4); var victim = cow(h, 5, 4); var credit = cow(h, 1, 7);
+        BeneficialExecutorCases.ally(h, caster, host);
         h.runAtTickTime(2, () -> {
             var glyph = IronsNouveau.glyphs().stream().filter(g -> g.definition().spellId().getPath().equals("poison_breath")).findFirst().orElseThrow();
             var nativeSpell = (io.redspace.ironsspellbooks.spells.nature.PoisonBreathSpell)SpellRegistry.getSpell(glyph.definition().spellId());
@@ -94,6 +96,7 @@ public final class CastContextGameTests {
             h.runAtTickTime(18, () -> {
                 h.assertTrue(balance.get() == 0 && cone.isRemoved(), "Deferred upkeep retains custom pool and stops on empty mana");
                 var frostHost = cow(h, 3, 8); var frostTarget = cow(h, 7, 8);
+        BeneficialExecutorCases.ally(h, caster, frostHost);
                 var frost = IronsNouveau.glyphs().stream().filter(g -> g.definition().spellId().getPath().equals("ray_of_frost")).findFirst().orElseThrow();
                 balance.set(SpellRegistry.getSpell(frost.definition().spellId()).getManaCost(1));
                 var frostArs = ars(h, caster, new Spell(MethodTouch.INSTANCE, frost));

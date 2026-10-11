@@ -11,6 +11,7 @@ public final class BreathAdapters {
     private BreathAdapters() {}
     private static float unsupported(String id) { throw new IllegalArgumentException(id); }
     public static LocationSpellAdapter of(String id) { return (ctx, hit) -> {
+        if (!dev.ironsnouveau.bridge.Targeting.beneficialHost(ctx.caster(), hit)) return false;
         var pose = BreathPose.forBreath(ctx, hit);
         AbstractConeProjectile cone = switch (id) {
             case "fire_breath" -> new FireBreathProjectile(ctx.world(), ctx.caster());

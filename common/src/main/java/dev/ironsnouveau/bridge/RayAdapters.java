@@ -8,6 +8,7 @@ public final class RayAdapters {
     private RayAdapters() {}
     public static final LocationSpellAdapter FROST = NativeRayGeometry::frost;
     public static final LocationSpellAdapter SIPHON = (ctx, hit) -> {
+        if (!dev.ironsnouveau.bridge.Targeting.beneficialHost(ctx.caster(), hit)) return false;
         var pose = NativeRayGeometry.rayPose(ctx, hit);
         int duration = EffectResources.ticks(ctx.spell().getCastTime(ctx.level()) * ctx.duration());
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(),

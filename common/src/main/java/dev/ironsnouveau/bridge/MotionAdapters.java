@@ -27,7 +27,7 @@ public final class MotionAdapters {
     private static LocationSpellAdapter selected(BiPredicate<Resolution, LivingEntity> action) {
         return (ctx, hit) -> {
             if (!(hit instanceof EntityHitResult entity) || !(entity.getEntity() instanceof LivingEntity actor)
-                    || !actor.isAlive() || actor.isSpectator() || actor.isPassenger() || actor.level() != ctx.world()
+                    || !Targeting.alliedExecutor(ctx.caster(), actor) || !actor.isAlive() || actor.isSpectator() || actor.isPassenger() || actor.level() != ctx.world()
                     || !ctx.world().hasChunkAt(actor.blockPosition())) return false;
             var selected = ctx.withTarget(hit).withExecutor(actor);
             return dev.arsconflux.api.context.CastContexts.scoped(selected.context(), () -> action.test(selected, actor));
