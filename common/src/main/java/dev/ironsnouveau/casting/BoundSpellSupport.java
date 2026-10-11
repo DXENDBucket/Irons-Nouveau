@@ -131,8 +131,9 @@ public abstract class BoundSpellSupport {
             boolean success = ActiveCooldowns.execute(spell, caster, CastSource.SWORD,
                     () -> resolver.onCast(stack, caster.level()), false);
             if (success && localCooldowns(caster) && !creativeFreeCooldown(caster))
-                for (var id : ironSpells(spell)) caster.getPersistentData().putLong(cooldownKey(id),
-                        caster.level().getGameTime() + SpellRegistry.getSpell(id).getSpellCooldown());
+                RecastCooldowns.occurrences(List.of(spell), caster).forEach((nativeSpell, shots) ->
+                        caster.getPersistentData().putLong(cooldownKey(nativeSpell.getSpellResource()),
+                                caster.level().getGameTime() + RecastCooldowns.perShot(nativeSpell.getSpellCooldown(), shots)));
             return success;
         });
     }

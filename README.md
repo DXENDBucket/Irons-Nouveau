@@ -1,11 +1,11 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.12**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.13**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.12-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.12-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.13-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.13-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
@@ -211,3 +211,5 @@ Java 21；本地 `libs/` 提供上游依赖，首次克隆须按 [构建说明�
 0.17.11 将主动施法准备与冷却事务迁入 Conflux 0.1.10；Iron 原生显示、时间修正、移动限制和冷却记录保持。见 [配置说明](docs/configuration.md)。
 
 0.17.12 中，吐息、持续射线及选中生物执行的位移只允许由自己或友军执行。持续吐息与吸血射线会在友军关系失效时停止；血步、霜步仍可把敌人作为落点。具体边界见 [实体选择说明](docs/entity-selection.md)。
+
+0.17.13 起，单发魔符的有限连发法术按原版连发数分摊冷却：烈焰弹幕为原冷却的 1/5，邪术冲击为 1/(2＋实际等级)。先计算原版冷却缩减和武器倍率，再向上取整到游戏刻；持续吐息、射线及召回类重施不作此折算。

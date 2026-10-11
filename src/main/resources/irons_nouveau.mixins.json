@@ -46,7 +46,8 @@
     "ArcaneShackleAccess",
     "ArcaneShackleImpactMixin",
     "StepDistanceAccess",
-    "StepLandingDirectionMixin"
+    "StepLandingDirectionMixin",
+    "RecastCooldownMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",

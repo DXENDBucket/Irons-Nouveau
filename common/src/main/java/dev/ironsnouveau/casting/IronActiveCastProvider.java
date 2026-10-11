@@ -4,7 +4,6 @@ import com.hollingsworth.arsnouveau.api.spell.Spell;
 import dev.arsconflux.api.casting.*;
 import dev.ironsnouveau.config.SpellLevelConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
-import io.redspace.ironsspellbooks.api.magic.MagicHelper;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
@@ -54,7 +53,8 @@ public final class IronActiveCastProvider implements ActiveCastProvider {
     @Override public void released(ActiveCastRequest request, List<Spell> recipes) {
         if (!cooldowns(request)) return;
         var source = request.source() == ActiveCastSource.WEAPON ? CastSource.SWORD : CastSource.SPELLBOOK;
-        for (var spell : spells(recipes)) MagicHelper.MAGIC_MANAGER.addCooldown((ServerPlayer)request.caster(), spell, source);
+        RecastCooldowns.occurrences(recipes, request.caster()).forEach((spell, shots) ->
+                RecastCooldowns.add((ServerPlayer)request.caster(), spell, source, shots));
     }
     @Override public void chantProgress(ActiveCastRequest request, UUID token, int duration, int remaining) {
         if (remaining == duration) MovementRestrictions.begin(request.caster(), token, duration);
