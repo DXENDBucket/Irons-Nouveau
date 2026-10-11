@@ -1,6 +1,6 @@
 # 等级、魔符学习与吟唱
 
-首次启动后生成 `config/irons_nouveau-server.toml`。多人游戏由服务端决定并通过 NeoForge 同步。建议停止游戏／服务器后编辑再启动。等级与学习的默认值保持原有玩法；0.13.0 起默认启用主动吟唱。另有可直接复制的 [固定等级 + Ars 学习示例](../config-examples/fixed-levels-ars-learning.toml)。
+首次启动后生成 `config/irons_nouveau-server.toml`。多人游戏由服务端决定并通过 NeoForge 同步。建议停止游戏／服务器后编辑再启动。0.17.14 起默认使用 Ars 学习；基础等级仍默认读取个人卷轴制作记录。0.13.0 起默认启用主动吟唱。另有可直接复制的 [固定等级 + Ars 学习示例](../config-examples/fixed-levels-ars-learning.toml)。已有配置中明确填写的学习方式不会自动覆盖；要切换请将 `[learning]` 的 `mode` 改为 `"ARS"`。
 
 ```toml
 [spell_levels]
@@ -10,7 +10,7 @@ overrides = []
 creative_native_max = true
 
 [learning]
-mode = "SCROLL_CRAFTING"
+mode = "ARS"
 
 [chanting]
 enabled = true
@@ -109,8 +109,8 @@ creative_native_max = false
 
 `learning.mode` 与等级模式独立：
 
-- `SCROLL_CRAFTING`：本人成功撰写／升级 Iron 卷轴后解锁对应魔符；魔符物品和 Ars 抄写台不能绕过制作记录，Iron 魔符不进入随机战利品。这是默认玩法。
-- `ARS`：使用 Ars 已学魔符记录与魔符物品学习。在抄写台消耗对应法术的 Iron 卷轴 ×1、魔源宝石 ×1 制作魔符，卷轴不限等级与来源。允许 Iron 魔符进入 Ars 原生随机魔符战利品，不会直接学会全部魔符。
+- `SCROLL_CRAFTING`：本人成功撰写／升级 Iron 卷轴后解锁对应魔符；魔符物品和 Ars 抄写台不能绕过制作记录，Iron 魔符不进入随机战利品。这是可选玩法。
+- `ARS`（0.17.14 起默认）：使用 Ars 已学魔符记录与魔符物品学习。在抄写台消耗对应法术的 Iron 卷轴 ×1、魔源宝石 ×1 制作魔符，卷轴不限等级与来源。允许 Iron 魔符进入 Ars 原生随机魔符战利品，不会直接学会全部魔符。
 
 因此，固定等级仍可要求亲自撰写才能解锁；个人卷轴等级也可搭配 Ars 学习，尚无个人制作记录时基础等级为 1。两种模式都会保留并继续记录本人制作成果，切换不会清空。Ars 学习模式下，制作卷轴只更新等级记录，不直接解锁魔符。
 

@@ -62,8 +62,9 @@ public final class StandaloneGameTests {
         try {
             SpellLevelConfig.USE_IRON_MANA.set(false); // This legacy scenario explicitly exercises the Ars payment route.
             h.assertTrue(SpellLevelConfig.SPEC.isLoaded() && previousMode == SpellLevelConfig.Mode.PERSONAL_SCROLL
-                    && previousLearning == SpellLevelConfig.LearningMode.SCROLL_CRAFTING, "Loaded server config preserves existing defaults");
-            h.assertTrue(!cap.knowsGlyph(form) && !cap.unlockGlyph(form), "Default learning still requires personal crafting");
+                    && SpellLevelConfig.LEARNING_MODE.getDefault() == SpellLevelConfig.LearningMode.ARS, "Default Ars learning remains independent of personal scroll levels");
+            SpellLevelConfig.LEARNING_MODE.set(SpellLevelConfig.LearningMode.SCROLL_CRAFTING);
+            h.assertTrue(!cap.knowsGlyph(form) && !cap.unlockGlyph(form), "Optional scroll crafting requires personal crafting");
             var menu = ScrollProgressGameTests.forge(h, player, SpellRarity.COMMON);
             menu.clicked(39, 0, ClickType.PICKUP, player);
             h.assertTrue(cap.knowsGlyph(form) && SpellProgress.craftedLevel(player, id) == 1, "Real native crafting works without Ars n Spells");

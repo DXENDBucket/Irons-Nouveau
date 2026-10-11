@@ -1,5 +1,5 @@
 # Copy to config/irons_nouveau-server.toml while the game/server is stopped.
-# This example changes both independent policies. Either policy can be used on its own.
+# This example changes the level policy and explicitly selects the default Ars learning policy.
 [spell_levels]
 mode = "FIXED"
 default_level = 1

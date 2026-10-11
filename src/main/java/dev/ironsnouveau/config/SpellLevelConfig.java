@@ -42,10 +42,10 @@ public final class SpellLevelConfig {
         builder.pop();
         builder.push("learning");
         LEARNING_MODE = builder.comment("Independent of spell_levels.mode.",
-                "SCROLL_CRAFTING: personally craft/upgrade a native Iron scroll to unlock its glyph (existing behavior).",
+                "SCROLL_CRAFTING: personally craft/upgrade a native Iron scroll to unlock its glyph (optional).",
                 "ARS: use Ars learned-glyph records and glyph items. Scribe recipes consume a matching Iron scroll and a source gem.",
                 "ARS permits Iron glyphs in normal Ars random loot. Neither mode auto-teaches every glyph.")
-                .defineEnum("mode", LearningMode.SCROLL_CRAFTING);
+                .defineEnum("mode", LearningMode.ARS);
         builder.pop();
         builder.push("chanting");
         CHANTING_ENABLED = builder.comment("Add a pre-cast chant to active Ars casts containing Iron & Nouveau glyphs.",
