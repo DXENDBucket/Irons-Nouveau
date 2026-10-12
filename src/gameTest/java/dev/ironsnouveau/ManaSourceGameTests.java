@@ -16,6 +16,11 @@ import net.neoforged.neoforge.gametest.*;
 @GameTestHolder("irons_nouveau_mana")
 @PrefixGameTestTemplate(false)
 public final class ManaSourceGameTests {
+    @GameTest(template="empty",timeoutTicks=40)
+    public static void crossProviderAccountDoesNotLeak(GameTestHelper h) {
+        var p=ScrollProgressGameTests.player(h);var mana=CapabilityRegistry.getMana(p);mana.setMaxMana(10000);
+        AccountIsolationCases.verify(h,p,amount->mana.setMana(amount),()->mana.getCurrentMana());
+    }
     @GameTest(template = "empty", timeoutTicks = 80)
     public static void selectedPoolPaymentsAndFallback(GameTestHelper h) {
         var player = ScrollProgressGameTests.player(h);

@@ -39,16 +39,18 @@ public final class IronActiveCastProvider implements ActiveCastProvider {
         }
         return result;
     }
-    @Override public boolean allowed(ActiveCastRequest request) {
-        if (!cooldowns(request)) return true;
-        var player = (ServerPlayer)request.caster();
-        var cooldowns = MagicData.getPlayerMagicData(player).getPlayerCooldowns();
-        for (var spell : spells(List.of(request.spell()))) if (cooldowns.isOnCooldown(spell)) {
-            player.displayClientMessage(Component.translatable("ui.irons_spellbooks.cast_error_cooldown",
-                    spell.getDisplayName(player)).withStyle(ChatFormatting.RED), true);
-            return false;
+    @Override public boolean allowed(ActiveCastRequest request) { return rejection(request)==null; }
+    @Override public dev.arsconflux.api.casting.CastRejection rejection(ActiveCastRequest request) {
+        if(!cooldowns(request)) return null;
+        var player=(ServerPlayer)request.caster();
+        var cooldowns=MagicData.getPlayerMagicData(player).getPlayerCooldowns();
+        dev.arsconflux.api.casting.CastRejection selected=null;
+        for(var spell:spells(List.of(request.spell()))) if(cooldowns.isOnCooldown(spell)) {
+            var record=cooldowns.getSpellCooldowns().get(spell.getSpellId());
+            long ticks=record==null?-1:record.getCooldownRemaining();
+            if(selected==null || ticks>selected.remainingTicks()) selected=dev.arsconflux.api.casting.CastRejection.cooldown(spell.getDisplayName(player),ticks);
         }
-        return true;
+        return selected;
     }
     @Override public void released(ActiveCastRequest request, List<Spell> recipes) {
         if (!cooldowns(request)) return;

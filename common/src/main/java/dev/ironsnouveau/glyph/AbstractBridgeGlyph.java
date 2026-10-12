@@ -82,8 +82,8 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
         var frame = CastContext.of(context, hit, null);
         if (frame.caster() == null || !frame.caster().isAlive()) return;
         var mana = TriggerMana.of(frame);
-        frame = frame.withAccount(mana.account());
         CastContexts.bind(context, frame);
+        frame = frame.withAccount(mana.account());
         var spell = SpellRegistry.getSpell(definition.spellId());
         var resolution = new Resolution(server, frame, spell, definition, stats);
         if (!permitted(frame.caster(), resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;

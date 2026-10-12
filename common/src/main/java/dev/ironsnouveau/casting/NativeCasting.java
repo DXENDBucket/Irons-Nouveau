@@ -114,17 +114,18 @@ public final class NativeCasting {
         var spell = SpellRegistry.getSpell(form.spellId());
         var plan = new CastPlan(form.getRegistryName(), form.spellId(), level,
                 spell.getSpellPower(level, caster), modifiers, Math.max(1, ars.getExpirationTime() + 1));
+        var inheritedAccount = context.account();
         var mana = TriggerMana.of(context);
         context = context.withAccount(mana.account()).withIncomingDirection(velocity)
                 .withTarget(net.minecraft.world.phys.BlockHitResult.miss(ars.position(), net.minecraft.core.Direction.UP,
                         net.minecraft.core.BlockPos.containing(ars.position())));
-        CastContexts.bind(resolver.spellContext, context);
+        CastContexts.bind(resolver.spellContext, context.withAccount(inheritedAccount));
         var frozen = resolver.clone();
         CastExecution execution = form.adapter().createExecution(world, caster);
         if (profile.arsDriven()) execution = ((ProjectileExecution)execution).withTrajectory(ars);
         ImpactContinuation continuation = hit -> {
             var child = frozen.clone();
-            CastContexts.bind(child.spellContext, CastContexts.current());
+            CastContexts.bind(child.spellContext, CastContexts.current().withAccount(inheritedAccount));
             child.onResolveEffect(world, hit);
         };
         if (!profile.arsDriven()) continuation = new OncePerTargetContinuation(continuation);
