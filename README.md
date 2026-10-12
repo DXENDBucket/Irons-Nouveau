@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.15**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.16**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.15-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.15-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.16-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.16-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.16 修复 Forge 1.20.1 在渲染 Iron 生物时由血吸光束客户端 Mixin 引起的崩溃：使用该平台真实的 `Utils.raycastForEntity` 入口，保留联动几何替换与普通 Iron 原生渲染回退。NeoForge 沿用其原有入口。两个平台的版本继续统一；验证与边界见 [修复记录](docs/siphon-render-forge-fix.md)。
 
 0.17.9 新增血步、霜步、念力三个单实体选中效果，以及奥术镣铐弹射物替换增强。步法只移动原施法者，选中实体决定落点；霜步保留原生替身与粒子，念力使用原生牵引物理和隔离的持续会话，镣铐保留原生锁链。无效选点不收费，也不阻断后续 Ars 效果。详见 [单实体入口](docs/entity-selection.md)。
 

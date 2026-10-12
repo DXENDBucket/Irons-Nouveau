@@ -81,6 +81,8 @@ The checks cover sealed-tool persistence, scoped authorization and dry first-tri
 
 `runClient` starts a development client. Server GameTests do not verify client rendering or multiplayer connections.
 
+For native Siphon renderer hooks, `tools/check_siphon_render_hooks.py` checks both actual dependency JARs and resolves Forge's final embedded refmap. Use `--platform neoforge`, or `--platform forge --artifact forge/build/libs/irons-nouveau-0.17.16-mc1.20.1-forge.jar`. It detects absent native invocations without starting a client; it does not replace actual client Mixin/graphics validation. See [the Forge rendering fix](siphon-render-forge-fix.md).
+
 See [source ownership and the update workflow](multi-version.md). `libs/`, `build/`, `run/`, caches and generated IDE files stay local. The checked-in Gradle wrapper JAR is build tooling.
 
 
