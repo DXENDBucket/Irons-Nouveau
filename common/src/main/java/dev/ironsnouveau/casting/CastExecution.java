@@ -6,7 +6,7 @@ public interface CastExecution {
     default java.util.List<dev.arsconflux.api.execution.ExecutionClaim> claims(CastSession session) {
         if(!occupiesCaster())return java.util.List.of();
         var actor=session.executor();
-        return java.util.List.of(new dev.arsconflux.api.execution.ExecutionClaim(actor==null?session.caster():actor,dev.arsconflux.api.execution.ExecutionClaim.ENTITY_ACTION,false));
+        return java.util.List.of(new dev.arsconflux.api.execution.ExecutionClaim(actor==null?session.caster():actor,dev.arsconflux.api.execution.ExecutionClaim.ACTIVITY,false));
     }
     boolean start(CastSession session);
     /** Return true on normal completion. The driver may sample live aim and emit successful impacts. */
