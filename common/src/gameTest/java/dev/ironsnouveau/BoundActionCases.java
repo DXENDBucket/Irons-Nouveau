@@ -15,10 +15,12 @@ public final class BoundActionCases {
             var action=session(h,actor,List.of(ExecutionClaim.action(actor)));sessions.add(action);ExecutionSessions.start(action);
             h.assertTrue(ExecutionSessions.isCasting(actor) && !BoundSpellSupport.busy(actor),"A physical action does not block bound-tool release before replacement can run");
             var channel=session(h,actor,List.of(ExecutionClaim.channel(actor)));sessions.add(channel);ExecutionSessions.start(channel);
-            h.assertTrue(BoundSpellSupport.busy(actor),"A continuing channel retains the existing bound-tool busy restriction");
+            h.assertTrue(!BoundSpellSupport.busy(actor),"A continuing breath does not block another bound-tool release");
+            var second=session(h,actor,List.of(ExecutionClaim.channel(actor)));sessions.add(second);
+            h.assertTrue(ExecutionSessions.start(second) && channel.active(),"Concurrent channels do not replace each other");
             channel.finish(ExecutionSession.EndReason.COMPLETED);
             var activity=session(h,actor,List.of(new ExecutionClaim(actor,ExecutionClaim.ACTIVITY,false)));sessions.add(activity);ExecutionSessions.start(activity);
-            h.assertTrue(BoundSpellSupport.busy(actor),"Legacy activity is not accidentally ignored as a replaceable body action");
+            h.assertTrue(!BoundSpellSupport.busy(actor),"Nonphysical legacy activity also allows another bound-tool release");
             activity.finish(ExecutionSession.EndReason.COMPLETED);
             h.assertTrue(!BoundSpellSupport.busy(actor) && action.active(),"Ending unrelated activity does not end the body action");h.succeed();
         }finally{for(var s:sessions)s.finish(ExecutionSession.EndReason.SERVER_STOPPED);actor.discard();ExecutionSessions.tick();}

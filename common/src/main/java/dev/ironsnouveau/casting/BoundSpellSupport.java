@@ -74,8 +74,7 @@ public abstract class BoundSpellSupport {
         bind(stack, spell, levels);
     }
     public static boolean busy(LivingEntity caster) {
-        return ActiveChanting.isChanting(caster) || dev.arsconflux.api.execution.ExecutionSessions.isCasting(caster,
-                claim->!claim.exclusive() || !claim.channel().equals(dev.arsconflux.api.execution.ExecutionClaim.ENTITY_ACTION));
+        return ActiveChanting.isChanting(caster);
     }
     private static boolean localCooldowns(LivingEntity caster) {
         return !(caster instanceof ServerPlayer) || dev.ironsnouveau.platform.Casters.isFake(caster);
