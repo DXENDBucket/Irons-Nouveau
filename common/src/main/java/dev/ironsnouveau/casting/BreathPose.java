@@ -1,5 +1,6 @@
 package dev.ironsnouveau.casting;
 import dev.ironsnouveau.bridge.Resolution;
+import dev.arsconflux.api.execution.ExecutionAnchor;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.*;
 
@@ -10,11 +11,10 @@ public record BreathPose(LivingEntity anchor, Vec3 origin, Vec3 direction, Vec3 
     }
     /** Iron positions the collision cone below the eyes; particle origins are handled separately. */
     public static BreathPose forBreath(Resolution ctx, HitResult hit) {
-        if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity living) {
-            var offset = new Vec3(0, -.8, 0);
-            return new BreathPose(living, living.getEyePosition().add(offset), living.getLookAngle(), offset, true);
-        }
-        return from(ctx, hit);
+        var source=ExecutionAnchor.beneficial(ctx.context().withTarget(hit),ExecutionAnchor.Basis.EYES,new Vec3(0,-.8,0));
+        if(source==null)return null;
+        var pose=source.sample();
+        return new BreathPose(source.entity(),pose.origin(),pose.direction(),source.offset(),source.entity()!=null);
     }
     public static BreathPose from(Resolution ctx, HitResult hit) {
         if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity living)
@@ -23,9 +23,10 @@ public record BreathPose(LivingEntity anchor, Vec3 origin, Vec3 direction, Vec3 
         return new BreathPose(null, hit.getLocation(), direction.normalize(), Vec3.ZERO);
     }
     @Override public CastAim sample() {
-        return anchor == null ? new CastAim(origin, direction, null)
-                : new CastAim((eyeAnchored ? anchor.getEyePosition() : anchor.position()).add(offset), anchor.getLookAngle(), anchor.getUUID());
+        var pose=executionAnchor().sample();
+        return new CastAim(pose.origin(),pose.direction(),anchor==null?null:anchor.getUUID());
     }
-    public boolean valid(CastSession session) { return anchor == null || anchor.isAlive() && !anchor.isRemoved() && anchor.level() == session.world() && !anchor.isSpectator()
-            && dev.ironsnouveau.bridge.Targeting.alliedExecutor(session.caster(), anchor); }
+    public ExecutionAnchor executionAnchor(){return anchor==null?ExecutionAnchor.position(origin,direction)
+            :ExecutionAnchor.entity(anchor,eyeAnchored?ExecutionAnchor.Basis.EYES:ExecutionAnchor.Basis.FEET,offset);}
+    public boolean valid(CastSession session) {return executionAnchor().valid(session.world(),session.context());}
 }

@@ -1,7 +1,6 @@
 package dev.ironsnouveau.casting;
 
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
-import io.redspace.ironsspellbooks.api.util.RaycastBuilder;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.network.particles.BloodSiphonParticlesPacket;
 import io.redspace.ironsspellbooks.spells.blood.RayOfSiphoningSpell;
@@ -17,6 +16,9 @@ public final class SiphonRayExecution implements CastExecution {
     private long nextVisual;
     public SiphonRayExecution(BreathPose pose) { this.pose = pose; }
     @Override public boolean occupiesCaster() { return true; }
+    @Override public java.util.List<dev.arsconflux.api.execution.ExecutionClaim> claims(CastSession session) {
+        return pose.anchor()==null?java.util.List.of():java.util.List.of(dev.arsconflux.api.execution.ExecutionClaim.channel(pose.anchor()));
+    }
     @Override public boolean start(CastSession session) {
         if (!pose.valid(session)) return false;
         pulse(session); // The enclosing BridgeGlyph reserved and bills this first pulse.
@@ -48,9 +50,8 @@ public final class SiphonRayExecution implements CastExecution {
         var aim = pose.sample();
         var end = aim.origin().add(aim.direction().scale(RayOfSiphoningSpell.getRange(session.plan().spellLevel())));
         if (!session.world().hasChunksAt(BlockPos.containing(aim.origin()), BlockPos.containing(end))) return;
-        var hit = RaycastBuilder.begin(session.world(), session.caster()).start(aim.origin()).end(end)
-                .checkForBlocks(true).bbInflation(.15f)
-                .filter(entity -> entity != session.caster() && entity != pose.anchor() && entity.canBeHitByProjectile()).build();
+        var hit = RayGeometry.trace(session.world(), pose.anchor(), aim.origin(), end, .15f,
+                entity -> entity != session.caster() && entity != pose.anchor() && entity.canBeHitByProjectile());
         if (!(hit instanceof EntityHitResult eh)) return;
         var spell = SpellRegistry.getSpell(session.plan().spellId());
         float damage = .25f * session.plan().nativePower();

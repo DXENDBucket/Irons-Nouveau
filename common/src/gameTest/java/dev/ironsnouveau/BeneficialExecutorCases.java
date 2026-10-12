@@ -48,9 +48,9 @@ public final class BeneficialExecutorCases {
         board.addPlayerToTeam(caster.getScoreboardName(),team);board.addPlayerToTeam(host.getScoreboardName(),team);
         cast(h,caster,"fire_breath",host,balance);
         var cones=h.getLevel().getEntitiesOfClass(AbstractConeProjectile.class,host.getBoundingBox().inflate(20));
-        h.assertTrue(balance.get()<100000&&cones.size()==1&&ExecutionSessions.isCasting(caster),"A real ally receives a paid native cone execution");
+        h.assertTrue(balance.get()<100000&&cones.size()==1&&ExecutionSessions.isCasting(host)&&!ExecutionSessions.isCasting(caster),"A real ally receives a paid native cone execution");
         board.removePlayerFromTeam(host.getScoreboardName());ExecutionSessions.tick();
-        h.assertTrue(cones.get(0).isRemoved()&&!ExecutionSessions.isCasting(caster),"Losing ally status ends and removes a running cone");
+        h.assertTrue(cones.get(0).isRemoved()&&!ExecutionSessions.isCasting(host),"Losing ally status ends and removes a running cone");
         board.addPlayerToTeam(host.getScoreboardName(),team);
         var before=balance.get();cast(h,caster,"volt_strike",host,balance);
         h.assertTrue(balance.get()<before&&host.getDeltaMovement().lengthSqr()>0,"Native motion remains available to allies");

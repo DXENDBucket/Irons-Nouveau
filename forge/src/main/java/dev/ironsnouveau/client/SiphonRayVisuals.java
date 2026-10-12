@@ -3,7 +3,6 @@ package dev.ironsnouveau.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.ironsnouveau.IronsNouveau;
 import dev.ironsnouveau.network.SiphonRayVisualPayload;
-import io.redspace.ironsspellbooks.api.util.RaycastBuilder;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.render.SpellRenderingHelper;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
@@ -82,10 +81,9 @@ public final class SiphonRayVisuals {
             direction = anchor.getViewVector(partial);
         }
         Vec3 far = origin.add(direction.normalize().scale(data.range()));
-        var hit = RaycastBuilder.begin(level, anchor == null ? player : anchor).start(origin).end(far)
-                .checkForBlocks(true).bbInflation(.15f)
-                .filter(e -> !e.getUUID().equals(data.ownerUuid()) && !e.getUUID().equals(data.anchorUuid())
-                        && e.canBeHitByProjectile()).build();
+        var hit = dev.ironsnouveau.casting.RayGeometry.trace(level, anchor, origin, far, .15f,
+                e -> !e.getUUID().equals(data.ownerUuid()) && !e.getUUID().equals(data.anchorUuid())
+                        && e.canBeHitByProjectile());
         Vec3 visualOrigin = anchor != null && data.eyeAnchored() ? origin.add(0, -.2 * anchor.getEyeHeight(), 0) : origin;
         return new Frame(anchor == null ? player : anchor, origin, far, visualOrigin, hit);
     }

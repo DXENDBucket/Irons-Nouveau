@@ -6,7 +6,6 @@ import io.redspace.ironsspellbooks.api.spells.CastSource;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.spells.ice.RayOfFrostSpell;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.*;
 
 /** Substitute only spatial input while executing Iron's complete instantaneous ray spell. */
@@ -23,19 +22,8 @@ public final class NativeRayGeometry {
         Vec3 start = aim.origin(), end = start.add(aim.direction().normalize()
                 .scale(RayOfFrostSpell.getRange(ctx.level(), ctx.caster())));
         if (!ctx.world().hasChunksAt(BlockPos.containing(start), BlockPos.containing(end))) return false;
-        HitResult hit = ctx.world().clip(new ClipContext(start, end, ClipContext.Block.COLLIDER,
-                ClipContext.Fluid.NONE, ctx.caster()));
-        Vec3 clippedEnd = hit.getLocation();
-        // Native RaycastBuilder searches from the owner's bounding box. Remote triggers must
-        // instead search the actual ray, retaining Iron's filtering and intersection routine.
-        double nearest = start.distanceToSqr(clippedEnd);
-        for (var entity : ctx.world().getEntities(ctx.caster(), new AABB(start, clippedEnd).inflate(.15),
-                e -> e != pose.anchor() && Utils.canHitWithRaycast(e))) {
-            var candidate = Utils.checkEntityIntersecting(entity, start, clippedEnd, .15f);
-            if (candidate.getType() == HitResult.Type.MISS) continue;
-            double distance = start.distanceToSqr(candidate.getLocation());
-            if (distance < nearest) { nearest = distance; hit = candidate; }
-        }
+        HitResult hit = RayGeometry.trace(ctx.world(), pose.anchor(), start, end, .15f,
+                entity -> entity != ctx.caster() && entity != pose.anchor() && Utils.canHitWithRaycast(entity));
         var previous = VIEW.get(); VIEW.set(new View(start, hit));
         try {
             var selected = ctx.withTarget(trigger).withExecutor(pose.anchor());

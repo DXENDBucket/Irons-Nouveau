@@ -40,6 +40,7 @@ public final class CastSession {
             }
             public net.minecraft.world.phys.Vec3 incomingDirection() { return execution.incomingDirection(); }
             public boolean occupiesCaster() { return execution.occupiesCaster(); }
+            public java.util.List<ExecutionClaim> claims(ExecutionSession<CastPlan> session){return execution.claims(CastSession.this);}
         }, new dev.arsconflux.api.execution.ImpactContinuation() {
             public void resolve(HitResult hit) { continuation.resolve(hit); }
             public void close() { continuation.close(); }

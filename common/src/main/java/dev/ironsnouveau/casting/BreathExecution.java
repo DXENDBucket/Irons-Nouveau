@@ -22,6 +22,9 @@ public final class BreathExecution implements CastExecution {
     public BreathExecution(AbstractConeProjectile cone, BreathPose pose, float scale) { this.cone = cone; this.pose = pose; this.scale = scale; }
     public AbstractConeProjectile cone() { return cone; }
     @Override public boolean occupiesCaster() { return true; }
+    @Override public java.util.List<dev.arsconflux.api.execution.ExecutionClaim> claims(CastSession session) {
+        return pose.anchor()==null?java.util.List.of():java.util.List.of(dev.arsconflux.api.execution.ExecutionClaim.channel(pose.anchor()));
+    }
     @Override public boolean start(CastSession session) {
         if (!pose.valid(session)) return false;
         var aim = pose.sample();

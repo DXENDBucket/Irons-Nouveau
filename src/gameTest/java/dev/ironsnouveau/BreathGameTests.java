@@ -93,6 +93,7 @@ public final class BreathGameTests {
         player.setGameMode(net.minecraft.world.level.GameType.CREATIVE);
         h.getLevel().addNewPlayer(player);
         var caster = cow(h, 1, 6);
+        BeneficialExecutorCases.ally(h,caster,player);
         var cones = new java.util.ArrayList<AbstractConeProjectile>();
         for (String id : java.util.List.of("fire_breath", "poison_breath", "dragon_breath", "cone_of_cold")) {
             var glyph = glyph(id);

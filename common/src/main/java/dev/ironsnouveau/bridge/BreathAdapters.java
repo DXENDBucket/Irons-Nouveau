@@ -13,6 +13,7 @@ public final class BreathAdapters {
     public static LocationSpellAdapter of(String id) { return (ctx, hit) -> {
         if (!dev.ironsnouveau.bridge.Targeting.beneficialHost(ctx.caster(), hit)) return false;
         var pose = BreathPose.forBreath(ctx, hit);
+        if(pose==null)return false;
         AbstractConeProjectile cone = switch (id) {
             case "fire_breath" -> new FireBreathProjectile(ctx.world(), ctx.caster());
             case "poison_breath" -> new PoisonBreathProjectile(ctx.world(), ctx.caster());
