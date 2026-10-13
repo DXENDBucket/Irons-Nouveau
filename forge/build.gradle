@@ -27,7 +27,20 @@ minecraft {
             args '--mixin.config', 'ars_conflux.mixins.json'
         }
         gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
-        client { workingDirectory project.file('run/client'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }
+        client {
+            workingDirectory project.file(providers.gradleProperty('iconPreview').getOrElse('false').toBoolean() ? 'run/icon-preview' : 'run/client')
+            if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
+                property 'ironsnouveau.icon_preview', 'true'
+                args '--width', '1100', '--height', '800'
+            }
+            mods {
+                ars_conflux { source confluxMain }
+                irons_nouveau {
+                    source sourceSets.main
+                    if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) source sourceSets.forgeTest
+                }
+            }
+        }
         server { workingDirectory project.file('run/server'); args '--nogui'; mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main } } }
     }
 }

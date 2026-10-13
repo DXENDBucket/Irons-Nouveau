@@ -22,7 +22,14 @@ neoForge {
     version = '21.1.250'
     addModdingDependenciesTo sourceSets.gameTest
     runs {
-        client { client() }
+        client {
+            client()
+            if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
+                systemProperty 'ironsnouveau.icon_preview', 'true'
+                programArguments.addAll('--width', '1100', '--height', '800')
+                gameDirectory = file('run/icon-preview')
+            }
+        }
         server { server(); programArgument '--nogui' }
         gameTestServer {
             type = 'gameTestServer'
@@ -36,6 +43,9 @@ neoForge {
 }
 dependencies {
     implementation project(':ars-conflux')
+    if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
+        runtimeOnly fileTree(dir: 'libs/icon-preview', include: '*.jar')
+    }
     compileOnly fileTree(dir: 'libs', include: '*.jar')
     runtimeOnly fileTree(dir: 'libs', include: '*.jar',
             excludes: providers.gradleProperty('standalone').getOrElse('false').toBoolean()

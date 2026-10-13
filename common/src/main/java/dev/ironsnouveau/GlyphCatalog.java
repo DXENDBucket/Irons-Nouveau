@@ -35,6 +35,7 @@ public final class GlyphCatalog {
     private GlyphCatalog() {}
     public static void register() {
         dev.arsconflux.api.glyph.GlyphPresentation.register(MOD_ID, dev.ironsnouveau.glyph.GlyphDisplayOrder::schoolKey);
+        dev.arsconflux.api.glyph.GlyphVisuals.register(MOD_ID, dev.ironsnouveau.glyph.GlyphIcons::source);
         AdditionalGlyphs.register();
         ExpansionGlyphs.register();
         addForm(new NativeFormAugment("ball_lightning", "Ball Lightning", SpellSchools.ELEMENTAL_AIR,
