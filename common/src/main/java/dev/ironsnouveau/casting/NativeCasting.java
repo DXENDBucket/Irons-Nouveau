@@ -36,6 +36,15 @@ public final class NativeCasting {
                 continue;
             }
             var form = (NativeFormAugment) phrase.getAugments().stream().filter(NativeFormAugment.class::isInstance).findFirst().orElseThrow();
+            if (phrase.getAction() == null) {
+                // Ars accepts a leading augment phrase as an inscription template. Tools
+                // such as the wand prepend their own method before this spell is cast.
+                // Keep checks that do not depend on that still-unknown method; actual
+                // casting continues to require a valid Ars cast method and carrier.
+                String reason = forms != 1 ? "one_form" : !form.isEnabled() ? "disabled" : null;
+                if (reason != null) errors.add(new Error(phrase.getFirstPosition(), form, reason));
+                continue;
+            }
             var profile = dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction());
             String reason = !form.adapter().supportsMethod(phrase.getAction()) || profile == null
                     || (phrase.getFirstPosition() != 0 && profile != CarrierProfiles.ORBIT.core() && !profile.propagator())

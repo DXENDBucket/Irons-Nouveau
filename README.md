@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.21**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.22**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.21-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.21-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.22-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.22-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.22 允许待抄写的无形态模板以 Iron 弹射物替换增强开头，恢复 Ars 魔杖这类自带形态工具的编排方式。工具补上原生形态后仍执行完整校验；重复替换、禁用和不支持的形态保持限制。详见 [隐含形态](docs/implicit-tool-forms.md)。
 
 0.17.21 将魔符中心改为 Iron 原生法术图标，使用 Conflux 统一 GUI 外框。需 **Conflux 0.1.25 或更新的 0.1.x**；外框、中心缩放和分类配色在 `config/ars_conflux-client.toml` 配置，两个开关同时关闭可恢复旧版外观。不改变获取、等级与施法，素材仅运行时引用。见 [图标配置](docs/glyph-visuals.md)。
 
