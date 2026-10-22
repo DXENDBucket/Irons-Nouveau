@@ -13,7 +13,7 @@
 | 数值 | `CastModifiers` 保存待结算等级和速度；`CastPlan` 保存最终等级、强度、期限 |
 | 空间与生命周期 | `AimSource`、`CastAim`、`CastSession`、`CastExecution` 提供公共 start/tick/close |
 | 轨迹 | `CarrierProfiles` 声明载体能力；`ProjectileExecution` 使用 Iron 物理；`ArsTrajectoryExecution` 委托 Ars 轨迹 |
-| 命中 | `ProjectilePayload` 配置简单载荷；`ComplexProjectilePayload` 调用原生爆炸／状态回调；`ComplexImpacts` 管理接续去重 |
+| 命中 | `ProjectilePayload` 配置简单载荷；`ComplexProjectilePayload` 调用原生爆炸／状态回调；`ComplexImpacts` 仅在同一次原生回调内按目标去重 |
 | 目标与位置 | `SpellAdapter` 应用到目标；`LocationSpellAdapter` 每个命中执行一次，避免按范围内目标重复生成整个区域 |
 | 费用 | `TriggerMana` 检查、预留、执行并提交每次费用；`ProjectileVolley` 限制实际分裂数，散布仍由 Ars 生成 |
 | 长期资源 | `EffectResources` 管理所有权、租期、权限、数量和逐轮计费；`StatusBilling` 管理雷暴状态的施法者账本 |
@@ -40,7 +40,7 @@ Ars 的施放方式原本先生成实体、再结算蓝量。本模组仅在包�
 
 ## 命中与持续资源
 
-普通原生形态对成功伤害的目标接续 Ars；复杂爆炸共享一次命中作用域，成功伤害／状态的目标按 UUID 去重。对于溅射载体，复杂爆炸按一个原生溅射轮运行一次。普通未转换 Iron 实体不会进入本模组的计费或接续作用域。
+0.17.23 起不再对一枚原生弹体整个生命期内的目标额外去重，也没有额外的 128 目标上限。原生允许再次命中且伤害成功时，可对同一目标再次续接；原生伤害失败、命中冷却及贯穿限制保持不变。普通原生形态对成功伤害的目标接续 Ars；复杂爆炸共享一次命中作用域，成功伤害／状态的目标按 UUID 去重。对于溅射载体，复杂爆炸按一个原生溅射轮运行一次。普通未转换 Iron 实体不会进入本模组的计费或接续作用域。
 
 子区域继承原施法者、魔符、法术等级和支付来源，避免直到后来爆炸时丢失账本。所有被管理实体写入租期 NBT，区块重载后可以恢复权限和到期检查。无法重新取得原有装置账本时，使用所有者的 Ars 蓝池；当前主要支持玩家和生物施法来源，不保证任意装置专属资源持久恢复。
 

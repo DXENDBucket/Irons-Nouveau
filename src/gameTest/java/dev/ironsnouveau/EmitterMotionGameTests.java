@@ -178,26 +178,7 @@ public final class EmitterMotionGameTests {
     }
     @GameTest(template = "empty", batch = "repeat_ball", timeoutTicks = 35)
     public static void ballRepeatsRequireManaAndHammerRespectsDeniedBlocks(GameTestHelper h) {
-        var caster = cow(h, 1, 1); var target = cow(h, 8, 8);
-        var form = IronsNouveau.forms().stream().filter(f -> f.spellId().getPath().equals("ball_lightning")).findFirst().orElseThrow();
-        var mana = new AtomicInteger(100000);
-        h.assertTrue(resolver(h, caster, new Spell(MethodProjectile.INSTANCE, form), mana).onCast(ItemStack.EMPTY, h.getLevel()), "Ars launch succeeds");
-        var balls = h.getLevel().getEntitiesOfClass(BallLightning.class, caster.getBoundingBox().inflate(5));
-        h.assertTrue(!balls.isEmpty(), "Native ball exists after paid Ars launch");
-        var ball = balls.getFirst(); mana.set(0);
-        ball.setPos(h.absoluteVec(new Vec3(3, 5, 3))); ball.setDeltaMovement(Vec3.ZERO);
-        var hitAccess = (dev.ironsnouveau.mixin.NativeProjectileHitAccess)ball;
-        hitAccess.ironsNouveau$hit(new EntityHitResult(target));
-        float afterFirst = target.getHealth();
-        h.assertTrue(afterFirst < 1000 && mana.get() == 0, "Ball first impact already paid at launch");
-        h.runAtTickTime(12, () -> {
-            target.invulnerableTime = 0;
-            hitAccess.ironsNouveau$hit(new EntityHitResult(target));
-            h.assertTrue(target.getHealth() == afterFirst, "Later ball damage requires another fee");
-            mana.set(cost("ball_lightning"));
-            hitAccess.ironsNouveau$hit(new EntityHitResult(target));
-            h.assertTrue(target.getHealth() < afterFirst && mana.get() == 0, "Paid ball damage resumes");
-            ball.discard(); caster.discard(); target.discard();
+        ballRepeatsRequireManaAndContinue(h, () -> {
             var player = ScrollProgressGameTests.player(h); player.setGameMode(GameType.CREATIVE);
             var pos = h.absolutePos(new BlockPos(6, 1, 6)); h.setBlock(new BlockPos(6, 1, 6), Blocks.STONE);
             var hit = new BlockHitResult(Vec3.atCenterOf(pos), Direction.UP, pos, false);
@@ -218,6 +199,34 @@ public final class EmitterMotionGameTests {
             for (int i = 0; i < 13; i++) allowed.tick();
             h.assertTrue(h.getLevel().getBlockState(pos).isAir(), "Native hammer mines allowed block");
             allowed.discard(); player.discard(); h.succeed();
+        });
+    }
+    /** Shared by the existing broad case and the focused continuation regression namespace. */
+    static void ballRepeatsRequireManaAndContinue(GameTestHelper h, Runnable finish) {
+        var caster = cow(h, 1, 1); var target = cow(h, 8, 8);
+        var form = IronsNouveau.forms().stream().filter(f -> f.spellId().getPath().equals("ball_lightning")).findFirst().orElseThrow();
+        var mana = new AtomicInteger(100000);
+        h.assertTrue(resolver(h, caster, new Spell(MethodProjectile.INSTANCE, form, EffectLight.INSTANCE), mana).onCast(ItemStack.EMPTY, h.getLevel()), "Ars launch succeeds");
+        var balls = h.getLevel().getEntitiesOfClass(BallLightning.class, caster.getBoundingBox().inflate(5));
+        h.assertTrue(!balls.isEmpty(), "Native ball exists after paid Ars launch");
+        var ball = balls.getFirst(); mana.set(0);
+        ball.setPos(h.absoluteVec(new Vec3(3, 5, 3))); ball.setDeltaMovement(Vec3.ZERO);
+        var hitAccess = (dev.ironsnouveau.mixin.NativeProjectileHitAccess)ball;
+        hitAccess.ironsNouveau$hit(new EntityHitResult(target));
+        float afterFirst = target.getHealth();
+        h.assertTrue(afterFirst < 1000 && mana.get() == 0 && target.hasEffect(MobEffects.GLOWING), "First successful impact continues and was paid at launch");
+        target.removeEffect(MobEffects.GLOWING);
+        hitAccess.ironsNouveau$hit(new EntityHitResult(target));
+        h.assertTrue(target.getHealth() == afterFirst && !target.hasEffect(MobEffects.GLOWING), "Invulnerable-frame failure does not continue Ars effects");
+        h.runAtTickTime(12, () -> {
+            target.invulnerableTime = 0;
+            hitAccess.ironsNouveau$hit(new EntityHitResult(target));
+            h.assertTrue(target.getHealth() == afterFirst && !target.hasEffect(MobEffects.GLOWING), "Unpaid later damage does not continue Ars effects");
+            mana.set(cost("ball_lightning"));
+            hitAccess.ironsNouveau$hit(new EntityHitResult(target));
+            h.assertTrue(target.getHealth() < afterFirst && mana.get() == 0 && target.hasEffect(MobEffects.GLOWING), "Same surviving ball damages the same target again and continues its Ars recipe");
+            ball.discard(); caster.discard(); target.discard();
+            finish.run();
         });
     }
 }

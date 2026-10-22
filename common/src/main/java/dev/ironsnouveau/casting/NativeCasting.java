@@ -137,7 +137,6 @@ public final class NativeCasting {
             CastContexts.bind(child.spellContext, CastContexts.current().withAccount(inheritedAccount));
             child.onResolveEffect(world, hit);
         };
-        if (!profile.arsDriven()) continuation = new OncePerTargetContinuation(continuation);
         var session = new CastSession(world, context, plan,
                 AimSource.fixed(new CastAim(ars.position(), velocity.normalize(), null)),
                 execution, continuation).billing(TriggerMana.of(context), profile.repeated());
