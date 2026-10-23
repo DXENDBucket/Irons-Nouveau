@@ -19,3 +19,15 @@
 本次仅登录消息与已读标记，收拢后验证两版编译、资源处理、Neo JAR、Forge重混淆Jar-in-Jar与源码包，静态检查两端事件接线、翻译键和可选依赖边界，不重跑战斗GameTest。没有实际客户端登录/死亡重连人工测试；持久化语义沿用加载器的 PlayerPersisted。构建与发布结果记在本文件后续段落。
 
 验证完成：NeoForge编译/JAR/源码包与Forge编译/重混淆Jar-in-Jar/源码包全部通过。核对发行包中的公共提示类、两种语言与MIT许可；没有新增ANS硬依赖或打包ANS资源/实现。Forge内嵌MixinExtras范围仍是 `[0.4.1,)`。哈希见 `ans-coexistence-build.json`。
+
+## CurseForge上传
+
+2026-10-23，用户已明确授权上传。直接使用上述通过验证的发行包，没有重新构建；计划 `C:/Users/57991/Documents/MinecraftDev/Ars-Conflux/build/curseforge/20261023-213343-a11113a9/plan.json`。依赖关系核对为 Ars Nouveau、Iron's Spells 'n Spellbooks、Ars Conflux 必需，NEG可选，没有给ANS增加必需关系。
+
+- NeoForge 1.21.1：文件ID `9297929`。
+- Forge 1.20.1：文件ID `9297931`。
+- 上传进程退出码0，两项台账状态均为 `uploaded`，SHA-256与构建记录一致。
+- release类型，非手动发布，审核通过后自动公开；API接收成功不等于已经审核公开。
+- 发行说明：Core仓库 `release-notes/iron/0.17.24.md`。
+
+功能提交 `b39b664` 已快进合并主分支。四份构建产物按哈希复制回主仓库。此次未部署共享实例或修改其配置，没有推送Git远程。
