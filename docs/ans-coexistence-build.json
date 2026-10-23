@@ -1,0 +1,36 @@
+{
+  "version": "0.17.24",
+  "core_fixed_commit": "ed44ebb86bd087f3546a1bc6a315d2692f70262c",
+  "core_tracked_files_clean": true,
+  "validation": {
+    "neoforge_compile_jar_sources": "passed",
+    "forge_compile_reobfJarJar_sources": "passed",
+    "two_platform_login_hooks_and_translations": "passed static inspection",
+    "optional_ans_dependency": "no hard dependency or ANS class references",
+    "forge_mixinextras_range": "[0.4.1,)",
+    "game_tests": "not rerun; informational login change",
+    "client_login": "not manually tested"
+  },
+  "artifacts": [
+    {
+      "file": "build/libs/irons-nouveau-0.17.24-mc1.21.1-neoforge.jar",
+      "sha256": "0c34c9e88a0f75f4f2104084700936c6fcadb92d3ba65bb12740dbe064e50bec",
+      "bytes": 1788502
+    },
+    {
+      "file": "build/libs/irons-nouveau-0.17.24-sources.jar",
+      "sha256": "88bf01d2a1f8e514e814f4f5c82c05c3347a927a35e8df7fa8de3371e714f6f7",
+      "bytes": 1593003
+    },
+    {
+      "file": "forge/build/libs/irons-nouveau-0.17.24-mc1.20.1-forge.jar",
+      "sha256": "c56c948e1f47b1debef272766992149937f9bcde5bb72b8153a026c709be155b",
+      "bytes": 1978888
+    },
+    {
+      "file": "forge/build/libs/irons-nouveau-0.17.24-sources.jar",
+      "sha256": "f08bf9ef766cc517538c5b8d791c8e56d5f6a041b1fb2319c288344909a39c1d",
+      "bytes": 1593868
+    }
+  ]
+}

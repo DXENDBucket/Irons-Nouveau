@@ -98,6 +98,8 @@ public final class SpellProgress {
         }
     }
     private static void login(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer joining)
+            dev.ironsnouveau.compat.AnsCoexistenceNotice.onLogin(joining, net.neoforged.fml.ModList.get().isLoaded("ars_n_spells"));
         if (SpellLevelConfig.requiresCrafting() && event.getEntity() instanceof ServerPlayer player && !player.isCreative())
             player.getData(CRAFTED).levels().keySet().forEach(spell -> unlock(player, spell));
     }

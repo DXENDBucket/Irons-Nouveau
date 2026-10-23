@@ -222,5 +222,8 @@
   "irons_nouveau.glyph_name.glyph_telekinesis": "Telekinesis",
   "irons_nouveau.glyph_desc.glyph_telekinesis": "Hold a selected creature along the original caster's live aim, with native targeting visuals. Runs for a fixed duration, paying mana every half second. A new controller replaces the old one; casting restricts movement.",
   "irons_nouveau.glyph_name.glyph_arcane_shackle": "Arcane Shackle",
-  "irons_nouveau.glyph_desc.glyph_arcane_shackle": "Replace an Ars projectile with a native Arcane Shackle projectile. Entity or block impacts create breakable native chains and continue the remaining Ars effects."
+  "irons_nouveau.glyph_desc.glyph_arcane_shackle": "Replace an Ars projectile with a native Arcane Shackle projectile. Entity or block impacts create breakable native chains and continue the remaining Ars effects.",
+  "irons_nouveau.compat.ans_overlap": "[Iron & Nouveau] Ars 'n Spells is also installed. Ars 'n Spells 3.4.0+ includes its own Iron spell glyphs, so some features overlap. Older versions can ignore this notice.",
+  "irons_nouveau.compat.ans_disable_glyphs": "To use only Iron & Nouveau's Iron glyphs, set enable_iron_glyphs = false and enable_glyph_press = false under [\"Imported Iron's Glyphs\"] in <world>/serverconfig/ars_n_spells-server.toml. Ars 'n Spells' mana and attribute integration can remain enabled.",
+  "irons_nouveau.compat.ans_server_setting": "On multiplayer servers, ask the server administrator to change those settings. Nothing is changed automatically. This notice is shown once per player in each world."
 }

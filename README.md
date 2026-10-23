@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.23**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.24**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.23-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.23-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.24-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.24-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.24 新增与 Ars 'n Spells 共装时的首次进入世界提示：说明该模组3.4.0起新增的 Iron 魔符与本模组有部分功能重复，以及在其世界 `serverconfig/ars_n_spells-server.toml` 的 `["Imported Iron's Glyphs"]` 下关闭 `enable_iron_glyphs` 和 `enable_glyph_press` 的方法。每位玩家每个世界仅显示一次，死亡、换维度和重连不重复；仅提示，不改写其他模组配置。旧于3.4.0的 Ars 'n Spells 没有这两个选项，可忽略。详见 [共装提示](docs/ans-coexistence-notice.md)。
 
 0.17.23 移除原生弹射物对同一目标的额外终生续接限制。闪电球等仍存活的弹体再次成功造成原生伤害时，可以再次触发后续 Ars 效果；无敌帧等导致伤害失败时仍不续接，同一次复杂命中回调内仍按目标去重。原生命中冷却、贯穿次数、费用和生命周期不变。
 
