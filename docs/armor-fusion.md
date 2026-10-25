@@ -55,3 +55,10 @@ Forge 命令（`forge/`）：
 | `forge/build/libs/irons-nouveau-0.17.25-sources.jar` | `30528db797a5df84c319101cd4a79ab316cf6b0270d1609657dcddf10b89f1a4` |
 
 Neo 已部署到 `C:/Users/57991/Desktop/.minecraft/versions/1.21.1-万法归一/mods`；Core 保持原有 0.1.29，其他联动 JAR 未改。该实例 `config`、`defaultconfigs` 的 Iron 配置追加 `enabled = true`、`ars_toughness_per_tier = 1.0`；现有存档没有此文件，未额外创建覆盖。备份：`C:/Users/57991/Desktop/.minecraft/versions/1.21.1-万法归一/codex-backups/iron-armor-fusion-20261026-051406`。未改“万途归零”，未部署 Forge 人工测试实例，未推送或上传 CurseForge。
+
+
+## 2026-10-26 CurseForge 上传
+
+用户授权后复用上述二进制发行包上传，项目 `1726248`：NeoForge 文件 ID `9327416`，Forge 文件 ID `9327417`。台账均为 `uploaded`，进程退出码 0；release 类型，审核通过后自动公开。API 接收成功不等于已经审核。
+
+计划：`C:/Users/57991/Documents/MinecraftDev/Ars-Conflux/build/curseforge/20261026-060747-efa90a59/plan.json`；公开发行说明：相邻 Core 的 `release-notes/iron/0.17.25.md`。没有重新构建、重跑测试或改动发行包哈希，没有推送 Git。
