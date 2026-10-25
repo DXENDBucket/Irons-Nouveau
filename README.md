@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.24**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.25**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.24-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.24-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.25-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.25-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.25 新增可选的铁砧护甲融合：左侧 Ars 护甲＋右侧同部位 Iron 护甲，消耗 1 级经验，保留 Ars 外观、丝线及升级，加入 Iron 的非护甲／韧性属性和原生法术注入能力。默认禁用；另提供默认值为 0 的按 Ars 等级附加韧性配置。详见 [护甲融合](docs/armor-fusion.md)。
 
 0.17.24 新增与 Ars 'n Spells 共装时的首次进入世界提示：说明该模组3.4.0起新增的 Iron 魔符与本模组有部分功能重复，以及在其世界 `serverconfig/ars_n_spells-server.toml` 的 `["Imported Iron's Glyphs"]` 下关闭 `enable_iron_glyphs` 和 `enable_glyph_press` 的方法。每位玩家每个世界仅显示一次，死亡、换维度和重连不重复；仅提示，不改写其他模组配置。旧于3.4.0的 Ars 'n Spells 没有这两个选项，可忽略。详见 [共装提示](docs/ans-coexistence-notice.md)。
 

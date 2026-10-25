@@ -21,6 +21,7 @@ public final class IronsNouveau {
     public static final String MOD_ID = "irons_nouveau";
     public IronsNouveau(IEventBus bus, net.neoforged.fml.ModContainer container) {
         dev.ironsnouveau.platform.BoundSpellData.register(bus);
+        dev.ironsnouveau.platform.FusionPlatform.register(bus);
         bus.addListener(dev.ironsnouveau.network.ChantStatePayload::register);
         bus.addListener(dev.ironsnouveau.network.SiphonRayVisualPayload::register);
         bus.addListener(dev.ironsnouveau.network.TelekinesisVisualPayload::register);

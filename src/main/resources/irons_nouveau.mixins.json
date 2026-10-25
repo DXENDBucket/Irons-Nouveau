@@ -47,7 +47,8 @@
     "ArcaneShackleImpactMixin",
     "StepDistanceAccess",
     "StepLandingDirectionMixin",
-    "RecastCooldownMixin"
+    "RecastCooldownMixin",
+    "FusedArmorNameMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",

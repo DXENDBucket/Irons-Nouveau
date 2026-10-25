@@ -22,6 +22,7 @@ public final class IronsNouveau {
     public IronsNouveau() {
         IEventBus bus = net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
         dev.ironsnouveau.platform.BoundSpellData.register(bus);
+        dev.ironsnouveau.platform.FusionPlatform.register(bus);
         dev.ironsnouveau.network.ForgeNetwork.register();
         net.minecraftforge.fml.ModLoadingContext.get().registerConfig(net.minecraftforge.fml.config.ModConfig.Type.SERVER,
                 dev.ironsnouveau.config.SpellLevelConfig.SPEC, "irons_nouveau-server.toml");
