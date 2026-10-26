@@ -31,4 +31,12 @@
 | Forge JAR | `0661f221da1f6e134bc0887b3f69576772615f1798a6eeb71489b390fc287df3` |
 | Forge sources | `ae38ecdb0ea3bf7a210af3207363806dc2d8e05448991594910f9db1896264c7` |
 
-共享部署由协调者串行进行：仅更新“万法归一”和“1.20.1-模组测试”的 Iron & Nouveau，旧版置于实例 `codex-backups/iron-glyph-models-01727-*`；不修改“万途归零”、Core JAR 或配置。没有推送或发布 CurseForge。
+共享部署由协调者串行进行：仅更新“万法归一”和“1.20.1-模组测试”的 Iron & Nouveau，旧版置于实例 `codex-backups/iron-glyph-models-01727-*`；不修改“万途归零”、Core JAR 或配置。实现提交 `48ac65f` 已快进合并到 main；没有推送 Git。
+
+## CurseForge 上传
+
+随后用户明确要求发布，复用相同的已验证二进制，没有重建或改动配置。项目 ID `1726248`，上传计划位于本机 Core 忽略目录 `build/curseforge/20261026-141756-a6f9becd/plan.json`；发布说明存于本附属 [docs/releases/0.17.27.md](releases/0.17.27.md)，临时发布配置和说明副本均在本附属忽略的 `build/curseforge/` 中，不修改 Core 受版本控制文件。
+
+- NeoForge 1.21.1：API 接收成功，文件 ID `9330498`。
+- Forge 1.20.1：API 接收成功，文件 ID `9330499`。
+- 两文件为 release，带各自 MC／加载器与 Client + Server 标签；审核通过后自动公开。API 接收成功不代表审核已经完成。
