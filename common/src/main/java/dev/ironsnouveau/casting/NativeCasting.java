@@ -36,7 +36,8 @@ public final class NativeCasting {
                 if (phrase.getAugments().stream().anyMatch(dev.arsconflux.api.projectile.ProjectileForm.class::isInstance)) continue;
                 if (dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction()) != null && phrase.getAugments().stream()
                         .anyMatch(a -> !dev.arsconflux.api.projectile.CarrierRegistry.of(phrase.getAction()).originallySupported(a)
-                                && (a == AugmentAmplify.INSTANCE || a == AugmentDampen.INSTANCE)))
+                                && (dev.arsconflux.api.glyph.AugmentEquivalence.matches(a, AugmentAmplify.INSTANCE)
+                                    || dev.arsconflux.api.glyph.AugmentEquivalence.matches(a, AugmentDampen.INSTANCE))))
                     errors.add(new Error(phrase.getFirstPosition(), phrase.getAction(), "requires_form"));
                 continue;
             }

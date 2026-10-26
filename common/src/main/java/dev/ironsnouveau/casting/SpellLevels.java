@@ -10,12 +10,8 @@ public final class SpellLevels {
     public static final int DEFAULT = 1;
     private SpellLevels() {}
     public static int delta(List<AbstractAugment> augments) {
-        int delta = 0;
-        for (var augment : augments) {
-            if (augment == AugmentAmplify.INSTANCE) delta++;
-            else if (augment == AugmentDampen.INSTANCE) delta--;
-        }
-        return delta;
+        return (int)Math.round(dev.arsconflux.api.glyph.AugmentEquivalence.sum(augments, AugmentAmplify.INSTANCE)
+                - dev.arsconflux.api.glyph.AugmentEquivalence.sum(augments, AugmentDampen.INSTANCE));
     }
     public static int resolve(List<AbstractAugment> augments) {
         return new CastModifiers(delta(augments), 1).resolveLevel(DEFAULT);

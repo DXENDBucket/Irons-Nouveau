@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.27**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.28**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.27-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.27-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.28-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.28-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.28 需要 Conflux 0.1.31：通过共用增强等价接口识别 Adam's Ars Plus 的高阶增幅／减弱，II／III 分别改变 2／4 个 Iron 法术等级，替换弹射物也接受其支持的高阶增强。等级、学习与资源配置保持原规则；不需要安装 Goety。
 
 0.17.27 修复魔符在手持、掉落和展示框中的模型：统一引用原生法术图标，并将实际使用的图标登记到物品纹理图集，解决旧卷轴外观与通用魔符紫黑块。原模组缺图时，物品模型使用 Ars 空白魔符回退。JEI 的卷轴材料补齐原生全部等级的示例，高等级卷轴可查到用途；实际制作仍接受任意正等级的同名法术卷轴。见 [图标说明](docs/glyph-visuals.md)。
 
