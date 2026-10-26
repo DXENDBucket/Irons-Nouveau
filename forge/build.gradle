@@ -30,6 +30,13 @@ minecraft {
         gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
         client {
             workingDirectory project.file(providers.gradleProperty('iconPreview').getOrElse('false').toBoolean() ? 'run/icon-preview' : 'run/client')
+            if (providers.gradleProperty('glyphItemPreview').getOrElse('false').toBoolean()) {
+                workingDirectory project.file('run/glyph-item-preview')
+                property 'ironsnouveau.glyph_item_preview', 'true'
+                property 'ironsnouveau.native_self_test', 'true'
+                jvmArgs '-Xmx900m'
+                args '--width', '1100', '--height', '800'
+            }
             if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
                 property 'ironsnouveau.icon_preview', 'true'
                 args '--width', '1100', '--height', '800'
@@ -38,7 +45,7 @@ minecraft {
                 ars_conflux { source confluxMain }
                 irons_nouveau {
                     source sourceSets.main
-                    if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) source sourceSets.forgeTest
+                    if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean() || providers.gradleProperty('glyphItemPreview').getOrElse('false').toBoolean()) source sourceSets.forgeTest
                 }
             }
         }

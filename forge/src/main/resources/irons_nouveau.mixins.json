@@ -62,7 +62,8 @@
     "NativeSiphonRenderingMixin",
     "NativeElectrocuteRenderingMixin",
     "TelekinesisTargetColorMixin",
-    "NativeGlyphModelMixin"
+    "NativeGlyphModelMixin",
+    "NativeGlyphAtlasMixin"
   ],
   "injectors": {
     "defaultRequire": 1

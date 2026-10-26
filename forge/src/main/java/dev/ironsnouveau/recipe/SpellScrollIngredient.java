@@ -3,7 +3,6 @@ import com.google.gson.JsonObject;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.item.Scroll;
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -31,9 +30,7 @@ public final class SpellScrollIngredient extends Ingredient {
     @Override public ItemStack[] getItems() {
         var nativeSpell = SpellRegistry.getSpell(spell);
         if (nativeSpell == SpellRegistry.none()) return new ItemStack[0];
-        var example = new ItemStack(ItemRegistry.SCROLL.get());
-        ISpellContainer.createScrollContainer(nativeSpell, nativeSpell.getMinLevel(), example);
-        return new ItemStack[]{example};
+        return ScrollVariants.of(nativeSpell).toArray(ItemStack[]::new);
     }
     @Override public boolean isSimple() { return false; }
     @Override public boolean isEmpty() { return false; }

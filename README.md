@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.26**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.27**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.26-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.26-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.27-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.27-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.27 修复魔符在手持、掉落和展示框中的模型：统一引用原生法术图标，并将实际使用的图标登记到物品纹理图集，解决旧卷轴外观与通用魔符紫黑块。原模组缺图时，物品模型使用 Ars 空白魔符回退。JEI 的卷轴材料补齐原生全部等级的示例，高等级卷轴可查到用途；实际制作仍接受任意正等级的同名法术卷轴。见 [图标说明](docs/glyph-visuals.md)。
 
 0.17.26 新增 Iron 附属法术的通用自身施法：按标准 DeferredRegister 登记的外部法术自动生成效果魔符、原生图标与抄写台配方。当前仅支持玩家自身触发，由原法术决定朝向与目标；支持增幅／减弱，沿用等级与学习配置，实际触发和持续脉冲从所选资源池付费。物品提示及法术书说明标明限制；已有 103 个专门适配魔符保持原行为。可用 `native_self.enabled = false` 关闭。见 [通用自身施法](docs/native-self-fallback.md)。
 
@@ -19,7 +21,7 @@
 
 0.17.22 允许待抄写的无形态模板以 Iron 弹射物替换增强开头，恢复 Ars 魔杖这类自带形态工具的编排方式。工具补上原生形态后仍执行完整校验；重复替换、禁用和不支持的形态保持限制。详见 [隐含形态](docs/implicit-tool-forms.md)。
 
-0.17.21 将魔符中心改为 Iron 原生法术图标，使用 Conflux 统一 GUI 外框。需 **Conflux 0.1.25 或更新的 0.1.x**；外框、中心缩放和分类配色在 `config/ars_conflux-client.toml` 配置，两个开关同时关闭可恢复旧版外观。不改变获取、等级与施法，素材仅运行时引用。见 [图标配置](docs/glyph-visuals.md)。
+0.17.21 将魔符中心改为 Iron 原生法术图标，使用 Conflux 统一 GUI 外框。需 **Conflux 0.1.25 或更新的 0.1.x**；外框、中心缩放和分类配色在 `config/ars_conflux-client.toml` 配置，0.17.27 起，关闭 GUI 图标替换后使用的普通物品模型也为原生法术图标。不改变获取、等级与施法，素材仅运行时引用。见 [图标配置](docs/glyph-visuals.md)。
 
 0.17.20 接入 Conflux 0.1.20 的执行锚点、实际实体占用及统一友军查询。吐息／血吸光束只记录实际喷吐者的共享引导，固定位置不占用付款者；原费用与转向方式保持不变。血吸光束和冰霜射线共用按真实射线范围圈选目标的几何入口，修复远程血吸命中与不同观察者端点不一致。需搭配 **Conflux 0.1.20 或更新的0.1.x**，详见 [迁移记录](docs/execution-anchor-migration.md)。
 

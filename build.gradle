@@ -24,6 +24,13 @@ neoForge {
     runs {
         client {
             client()
+            if(providers.gradleProperty('glyphItemPreview').getOrElse('false').toBoolean()) {
+                systemProperty 'ironsnouveau.glyph_item_preview','true'
+                systemProperty 'ironsnouveau.native_self_test','true'
+                jvmArgument '-Xmx900m'
+                programArguments.addAll('--width','1100','--height','800')
+                gameDirectory=file('run/glyph-item-preview')
+            }
             if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
                 systemProperty 'ironsnouveau.icon_preview', 'true'
                 programArguments.addAll('--width', '1100', '--height', '800')

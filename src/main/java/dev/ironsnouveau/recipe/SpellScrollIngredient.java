@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.ISpellContainer;
 import io.redspace.ironsspellbooks.item.Scroll;
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
@@ -36,9 +35,7 @@ public record SpellScrollIngredient(ResourceLocation spell) implements ICustomIn
     @Override public Stream<ItemStack> getItems() {
         var nativeSpell = SpellRegistry.getSpell(spell);
         if (nativeSpell == SpellRegistry.none()) return Stream.empty();
-        var example = new ItemStack(ItemRegistry.SCROLL.get());
-        ISpellContainer.createScrollContainer(nativeSpell, nativeSpell.getMinLevel(), example);
-        return Stream.of(example);
+        return ScrollVariants.of(nativeSpell);
     }
     @Override public boolean isSimple() { return false; }
     @Override public IngredientType<?> getType() { return TYPE.get(); }
