@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.25**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.26**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.25-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.25-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.26-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.26-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.26 新增 Iron 附属法术的通用自身施法：按标准 DeferredRegister 登记的外部法术自动生成效果魔符、原生图标与抄写台配方。当前仅支持玩家自身触发，由原法术决定朝向与目标；支持增幅／减弱，沿用等级与学习配置，实际触发和持续脉冲从所选资源池付费。物品提示及法术书说明标明限制；已有 103 个专门适配魔符保持原行为。可用 `native_self.enabled = false` 关闭。见 [通用自身施法](docs/native-self-fallback.md)。
 
 0.17.25 新增可选的铁砧护甲融合：左侧 Ars 护甲＋右侧同部位 Iron 护甲，消耗 1 级经验，保留 Ars 外观、丝线及升级，加入 Iron 的非护甲／韧性属性和原生法术注入能力。默认禁用；另提供默认值为 0 的按 Ars 等级附加韧性配置。详见 [护甲融合](docs/armor-fusion.md)。
 

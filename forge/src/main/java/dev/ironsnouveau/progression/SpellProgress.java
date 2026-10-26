@@ -108,6 +108,8 @@ public final class SpellProgress {
             read(player).levels().keySet().forEach(spell -> unlock(player, spell));
     }
     private static void tooltip(ItemTooltipEvent event) {
+        if(event.getItemStack().getItem() instanceof Glyph glyph&&glyph.spellPart instanceof dev.ironsnouveau.glyph.AbstractBridgeGlyph bridge&&bridge.nativeSelf())
+            event.getToolTip().add(Component.translatable("irons_nouveau.native_self.only_self").withStyle(ChatFormatting.GOLD));
         if (event.getEntity() == null || !(event.getItemStack().getItem() instanceof Glyph glyph)) return;
         var spell = spellId(glyph.spellPart); if (spell == null) return;
         event.getToolTip().add(canUse(event.getEntity(), spell)

@@ -34,6 +34,11 @@ public final class IronsNouveau {
         dev.arsconflux.api.glyph.SpellValidators.register(
                 dev.arsconflux.api.projectile.CarrierRegistry.id("irons_nouveau:projectiles"), NativeCasting::validate);
         GlyphCatalog.register();
+        dev.ironsnouveau.platform.NativeSelfRegistration.register(bus);
+        if(Boolean.getBoolean("ironsnouveau.native_self_test")) {
+            try { Class.forName("dev.ironsnouveau.NativeSelfFixture").getMethod("register",IEventBus.class).invoke(null,bus); }
+            catch(ReflectiveOperationException error) { throw new IllegalStateException("Native self test fixture unavailable",error); }
+        }
         dev.ironsnouveau.casting.IronActiveCastProvider.register();
         bus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(GlyphCatalog::configureCarriers));
         dev.ironsnouveau.platform.CastingLifecycle.register(NeoForge.EVENT_BUS);

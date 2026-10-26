@@ -226,5 +226,8 @@
   "irons_nouveau.glyph_desc.glyph_arcane_shackle": "将 Ars 弹射物替换为原生奥术镣铐弹射物。命中实体或方块后生成可破坏的原生锁链，并继续后续 Ars 效果。",
   "irons_nouveau.compat.ans_overlap": "[Iron 与新生魔艺] 检测到同时安装了 Ars 'n Spells。它从 3.4.0 起也提供 Iron 法术魔符，与本模组有部分功能重复；旧版本可忽略此提示。",
   "irons_nouveau.compat.ans_disable_glyphs": "如希望仅使用本模组的 Iron 魔符，请在 <存档>/serverconfig/ars_n_spells-server.toml 的 [\"Imported Iron's Glyphs\"] 下设置 enable_iron_glyphs = false 和 enable_glyph_press = false。Ars 'n Spells 的魔力与属性联动可继续使用。",
-  "irons_nouveau.compat.ans_server_setting": "多人服务器请由管理员调整。本模组不会自动修改这些设置；每位玩家在每个世界仅提示一次。"
+  "irons_nouveau.compat.ans_server_setting": "多人服务器请由管理员调整。本模组不会自动修改这些设置；每位玩家在每个世界仅提示一次。",
+  "irons_nouveau.native_self.only_self": "通用适配：仅支持玩家自身施法",
+  "irons_nouveau.native_self.description": "仅支持玩家自身触发。按原法术从自身位置与朝向施法，由原法术选择目标。增幅／减弱改变原生等级；不支持范围、时长或弹速修饰，也不将原生弹射物接入后续命中编排。",
+  "irons_nouveau.validation.native_self": "此通用魔符仅支持自身形态"
 }

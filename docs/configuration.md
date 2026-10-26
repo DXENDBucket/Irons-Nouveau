@@ -24,7 +24,12 @@ enabled = true
 
 [mana]
 use_iron_mana = true
+
+[native_self]
+enabled = true
 ```
+
+`native_self.enabled` 默认开启，为标准登记的外部 Iron 法术自动生成仅支持玩家自身的效果魔符；已有专门适配魔符不受此开关影响。获取、等级、费用及特殊附属边界见 [通用自身施法](native-self-fallback.md)。
 
 ## 魔力来源
 

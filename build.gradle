@@ -37,6 +37,8 @@ neoForge {
                     ? 'run/gametest-no-addon' : providers.gradleProperty('standalone').getOrElse('false').toBoolean()
                     ? 'run/gametest-standalone' : 'run/gametest')
             systemProperty 'neoforge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau')
+            if(providers.gradleProperty('nativeSelfTests').getOrElse('false').toBoolean())systemProperty 'ironsnouveau.native_self_test','true'
+            jvmArgument '-Xmx'+providers.gradleProperty('gameTestHeap').getOrElse('1400m')
         }
     }
     mods { ars_conflux { sourceSet confluxMain }; irons_nouveau { sourceSet sourceSets.main; sourceSet sourceSets.gameTest } }

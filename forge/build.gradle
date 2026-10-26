@@ -21,6 +21,7 @@ minecraft {
     copyIdeResources = true
     runs {
         configureEach {
+            if(providers.gradleProperty('nativeSelfTests').getOrElse('false').toBoolean())property 'ironsnouveau.native_self_test','true'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             // Included source directories have no release-JAR manifest to register Core's mixins.

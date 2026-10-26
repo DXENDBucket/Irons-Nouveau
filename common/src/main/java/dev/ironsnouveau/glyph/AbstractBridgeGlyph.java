@@ -27,6 +27,7 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
     protected AbstractBridgeGlyph(GlyphDefinition definition) {
         super(definition.glyphId(), definition.name());
         this.definition = definition;
+        if(definition.adapter() instanceof NativeSelfAdapter)compatibleAugments.removeIf(a->a!=AugmentAmplify.INSTANCE&&a!=AugmentDampen.INSTANCE);
         spellSchools.add(definition.school());
         definition.school().addSpellPart(this);
         if (definition.supportsDuration()) {
@@ -36,11 +37,23 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
 
     }
     public GlyphDefinition definition() { return definition; }
+    public boolean nativeSelf() { return definition.adapter() instanceof NativeSelfAdapter; }
+    @Override public boolean isEnabled() { return super.isEnabled()&&(definition==null||!nativeSelf()||dev.ironsnouveau.config.SpellLevelConfig.nativeSelfEnabled()); }
+    @Override public String getLocalizationKey() {
+        if(definition==null||!nativeSelf())return super.getLocalizationKey();
+        var spell=SpellRegistry.getSpell(definition.spellId());
+        return spell==SpellRegistry.none()?"spell."+definition.spellId().getNamespace()+"."+definition.spellId().getPath():spell.getComponentId();
+    }
+    @Override public net.minecraft.network.chat.Component getBookDescLang() {
+        return nativeSelf()?net.minecraft.network.chat.Component.translatable("irons_nouveau.native_self.description"):super.getBookDescLang();
+    }
     @Override public dev.arsconflux.api.resource.ResourceCharge firstCharge(SpellContext context, java.util.List<AbstractAugment> augments) {
         return dev.ironsnouveau.casting.PresetTools.scoped(context, () -> {
             var caster = CastContext.of(context, null, null).caster();
             if (caster == null) return null; // A client device/dehydrated context cannot identify its account yet.
             int level = dev.ironsnouveau.casting.SpellLevels.resolve(caster, definition.spellId(), augments);
+            if(nativeSelf()&&io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster).getPlayerRecasts().hasRecastForSpell(definition.spellId().toString()))
+                return new dev.arsconflux.api.resource.ResourceCharge(TriggerMana.of(context,caster).account(),0);
             return TriggerMana.of(context, caster).charge(definition.spellId(), level);
         });
     }
@@ -87,8 +100,9 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
         var spell = SpellRegistry.getSpell(definition.spellId());
         var resolution = new Resolution(server, frame, spell, definition, stats);
         if (!permitted(frame.caster(), resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;
-        boolean applied = CastContexts.scoped(frame, () -> mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit)));
-        if (applied) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
+        boolean applied = CastContexts.scoped(frame, () -> nativeSelf()?apply(resolution,hit)
+                :mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit)));
+        if (applied&&!nativeSelf()) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
                 hit.getLocation().x, hit.getLocation().y, hit.getLocation().z, sound, SoundSource.PLAYERS, .7f, 1f));
     }
     private boolean apply(Resolution resolution, HitResult hit) {

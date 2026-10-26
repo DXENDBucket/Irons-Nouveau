@@ -24,7 +24,12 @@ public final class NativeCasting {
 
     public static List<SpellValidationError> validate(List<AbstractSpellPart> recipe) {
         var errors = new ArrayList<SpellValidationError>();
+        AbstractCastMethod method=null;
         for (var phrase : SpellPhraseValidator.splitSpellIntoPhrases(recipe)) {
+            if(phrase.getAction() instanceof AbstractCastMethod castMethod)method=castMethod;
+            if(phrase.getAction() instanceof dev.ironsnouveau.glyph.AbstractBridgeGlyph glyph&&glyph.nativeSelf()
+                    &&method!=null&&method!=com.hollingsworth.arsnouveau.common.spell.method.MethodSelf.INSTANCE)
+                errors.add(new Error(phrase.getFirstPosition(),phrase.getAction(),"native_self"));
             long forms = phrase.getAugments().stream().filter(NativeFormAugment.class::isInstance).count();
             if (forms == 0) {
                 // Another Conflux provider owns this payload and its modifier rules.

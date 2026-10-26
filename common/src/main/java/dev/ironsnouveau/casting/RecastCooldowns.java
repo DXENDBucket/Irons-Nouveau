@@ -30,6 +30,7 @@ public final class RecastCooldowns {
             var parts = dev.arsconflux.api.glyph.ArsSpellAccess.parts(recipe);
             for (int i = 0; i < parts.size(); i++) {
                 var part = parts.get(i);
+                if(part instanceof dev.ironsnouveau.glyph.AbstractBridgeGlyph glyph&&glyph.nativeSelf())continue;
                 if (!(part instanceof AbstractAugment)) action = i;
                 var id = BoundSpellSupport.ironSpell(part);
                 if (id == null) continue;

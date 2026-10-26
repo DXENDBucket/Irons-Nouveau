@@ -110,6 +110,12 @@ public final class GlyphCatalog {
     }
     public static List<BridgeGlyph> glyphs() { return List.copyOf(GLYPHS); }
     public static List<NativeFormAugment> forms() { return List.copyOf(FORMS); }
+    public static BridgeGlyph addNative(net.minecraft.resources.ResourceLocation spell) {
+        if(GLYPHS.stream().anyMatch(g->g.definition().spellId().equals(spell))||FORMS.stream().anyMatch(g->g.spellId().equals(spell)))return null;
+        var definition=new GlyphDefinition(dev.ironsnouveau.compat.NativeSpellIndex.glyphId(spell),spell,spell.toString(),1,0,SpellTier.ONE,
+                SpellSchools.MANIPULATION,false,false,dev.ironsnouveau.bridge.NativeSelfAdapter.INSTANCE);
+        var glyph=new BridgeGlyph(definition);GlyphRegistry.registerSpell(glyph);GLYPHS.add(glyph);return glyph;
+    }
     private static void addForm(NativeFormAugment form) { GlyphRegistry.registerSpell(form); FORMS.add(form); }
     private static void complex(String id, String name, SpellSchool school, SpellTier tier) {
         var payload = new ComplexProjectilePayload(id);

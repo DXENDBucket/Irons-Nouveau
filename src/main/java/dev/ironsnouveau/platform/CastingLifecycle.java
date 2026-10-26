@@ -12,6 +12,7 @@ import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 public final class CastingLifecycle {
     private CastingLifecycle() {}
     public static void register(IEventBus bus) {
+        bus.addListener((net.neoforged.neoforge.event.tick.ServerTickEvent.Pre event) -> dev.ironsnouveau.casting.NativeSelfCasts.tick());
         bus.addListener(EventPriority.LOWEST, (EntityJoinLevelEvent event) -> {
             if (!event.isCanceled() && EffectResources.joined(event.getEntity(), event.getLevel())) event.setCanceled(true);
         });
@@ -20,7 +21,7 @@ public final class CastingLifecycle {
             MovementRestrictions.tick();
         });
         bus.addListener((ServerStoppingEvent event) -> EffectResources.stop());
-        bus.addListener((ServerStoppedEvent event) -> { MovementRestrictions.stop(); });
+        bus.addListener((ServerStoppedEvent event) -> { MovementRestrictions.stop();dev.ironsnouveau.casting.NativeSelfCasts.stop(); });
         bus.addListener((LevelEvent.Unload event) -> {
             MovementRestrictions.unload(event.getLevel());
         });

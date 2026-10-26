@@ -49,14 +49,20 @@
     "StepDistanceAccess",
     "StepLandingDirectionMixin",
     "RecastCooldownMixin",
-    "FusedArmorNameMixin"
+    "FusedArmorNameMixin",
+    "NativeSpellRegistrationMixin",
+    "NativeSelfSpellMixin",
+    "NativeSelfManagerMixin",
+    "NativeGlyphRecipeMixin",
+    "OptionalAnsSelfPriceMixin"
   ],
   "client": [
     "NativeCastingMovementMixin",
     "NativeChantBarMixin",
     "NativeSiphonRenderingMixin",
     "NativeElectrocuteRenderingMixin",
-    "TelekinesisTargetColorMixin"
+    "TelekinesisTargetColorMixin",
+    "NativeGlyphModelMixin"
   ],
   "injectors": {
     "defaultRequire": 1

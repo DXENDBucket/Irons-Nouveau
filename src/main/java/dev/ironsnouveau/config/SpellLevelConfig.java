@@ -22,6 +22,7 @@ public final class SpellLevelConfig {
     public static final ModConfigSpec.BooleanValue COOLDOWNS_ENABLED;
     public static final ModConfigSpec.BooleanValue MOVEMENT_ENABLED;
     public static final ModConfigSpec.BooleanValue USE_IRON_MANA;
+    public static final ModConfigSpec.BooleanValue NATIVE_SELF_ENABLED;
     public static final ModConfigSpec.BooleanValue ARMOR_FUSION_ENABLED;
     public static final ModConfigSpec.DoubleValue ARS_ARMOR_TOUGHNESS_PER_TIER;
     private static List<? extends String> cachedEntries = List.of();
@@ -81,6 +82,11 @@ public final class SpellLevelConfig {
                 "Non-player and fake-player casters retain their previous resource route.")
                 .define("use_iron_mana", true);
         builder.pop();
+        builder.push("native_self");
+        NATIVE_SELF_ENABLED=builder.comment("Enable automatically generated glyphs for external Iron spell registries. Only player self triggers are supported.",
+                "Uses native targeting, channel callbacks and recasts. Individual glyphs also have their usual enabled config.")
+                .define("enabled",true);
+        builder.pop();
         builder.push("armor_fusion");
         ARMOR_FUSION_ENABLED = builder.comment("Allow one vanilla-anvil fusion: Ars armor on the left, same-slot Iron armor on the right, for one level.",
                 "Disabled by default. Existing fused items retain their data and abilities when new fusion crafting is disabled.",
@@ -103,6 +109,7 @@ public final class SpellLevelConfig {
     public static boolean movementEnabled() { return read(MOVEMENT_ENABLED); }
     public static boolean useIronMana() { return read(USE_IRON_MANA); }
     public static boolean armorFusionEnabled() { return read(ARMOR_FUSION_ENABLED); }
+    public static boolean nativeSelfEnabled() { return read(NATIVE_SELF_ENABLED); }
     public static double arsArmorToughnessPerTier() { return read(ARS_ARMOR_TOUGHNESS_PER_TIER); }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
@@ -128,7 +135,7 @@ public final class SpellLevelConfig {
         int separator = entry.lastIndexOf('=');
         if (separator <= 0) return false;
         String id = entry.substring(0, separator).trim();
-        if (!id.startsWith("irons_spellbooks:") || ResourceLocation.tryParse(id) == null) return false;
+        if (ResourceLocation.tryParse(id) == null) return false;
         try { return Integer.parseInt(entry.substring(separator + 1).trim()) > 0; }
         catch (NumberFormatException ignored) { return false; }
     }
