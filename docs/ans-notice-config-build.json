@@ -1,0 +1,49 @@
+{
+  "version": "0.17.29",
+  "date": "2026-10-29",
+  "core_commit": "a4abd202cbfbd99bd3651ca4db7ac18977e50424",
+  "source_base": "6bb78d0b6c0c847089fe169726a7d83a2afe7295",
+  "branch": "fix/ans-notice-config",
+  "config": {
+    "file": "irons_nouveau-server.toml",
+    "key": "compatibility.show_ars_n_spells_notice",
+    "default": true,
+    "disable_value": false,
+    "scope": "server-owned; shared by all players"
+  },
+  "behavior": "False returns before messages and persisted read marker. Existing one-time-per-world behavior remains when true.",
+  "validation": {
+    "neoforge_build": true,
+    "forge_reobf_jarjar_build": true,
+    "both_config_definitions_and_common_guard_packaged": true,
+    "translations_preserved": true,
+    "forge_refmap_present_and_nonempty": true,
+    "game_or_gametest_started": false,
+    "reason": "Reversible login-message config only; no casting or gameplay changes."
+  },
+  "core_tracked_files_changed": false,
+  "artifacts": [
+    {
+      "platform": "neoforge1211",
+      "file": "irons-nouveau-0.17.29-mc1.21.1-neoforge.jar",
+      "sha256": "d23f28c4a79faf34dbb57ea55e133047fb29f9a9c283774b4058a9fa3b8f1b54"
+    },
+    {
+      "platform": "neoforge1211",
+      "file": "irons-nouveau-0.17.29-sources.jar",
+      "sha256": "b57ce2644c6d231a4af3e7175d4170f9b234a726adc3861caef70a85a8d452da"
+    },
+    {
+      "platform": "forge1201",
+      "file": "irons-nouveau-0.17.29-mc1.20.1-forge.jar",
+      "sha256": "cf8a589fb9c1e7b946c894126969d70d22a9d74f3a9af48a3331668c19fa02d4"
+    },
+    {
+      "platform": "forge1201",
+      "file": "irons-nouveau-0.17.29-sources.jar",
+      "sha256": "6ef79248fc531153ebac1af1a180a1d34481523f1451e72d252eb91ce108787b"
+    }
+  ],
+  "curseforge_uploaded": false,
+  "shared_instances_modified": false
+}

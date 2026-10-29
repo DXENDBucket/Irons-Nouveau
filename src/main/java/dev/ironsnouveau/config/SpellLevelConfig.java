@@ -23,6 +23,7 @@ public final class SpellLevelConfig {
     public static final ModConfigSpec.BooleanValue MOVEMENT_ENABLED;
     public static final ModConfigSpec.BooleanValue USE_IRON_MANA;
     public static final ModConfigSpec.BooleanValue NATIVE_SELF_ENABLED;
+    public static final ModConfigSpec.BooleanValue SHOW_ARS_N_SPELLS_NOTICE;
     public static final ModConfigSpec.BooleanValue ARMOR_FUSION_ENABLED;
     public static final ModConfigSpec.DoubleValue ARS_ARMOR_TOUGHNESS_PER_TIER;
     private static List<? extends String> cachedEntries = List.of();
@@ -96,6 +97,11 @@ public final class SpellLevelConfig {
                 "Zero leaves native armor unchanged. One grants +1/+2/+3 toughness per piece. Re-equip after changing at runtime.")
                 .defineInRange("ars_toughness_per_tier", 0.0, 0.0, 1000.0);
         builder.pop();
+        builder.push("compatibility");
+        SHOW_ARS_N_SPELLS_NOTICE = builder.comment("Show the one-time login notice when Ars 'n Spells is installed alongside Iron & Nouveau.",
+                "False hides only the notice. A hidden notice is not marked as read.")
+                .define("show_ars_n_spells_notice", true);
+        builder.pop();
         SPEC = builder.build();
     }
     private SpellLevelConfig() {}
@@ -108,6 +114,7 @@ public final class SpellLevelConfig {
     public static boolean cooldownsEnabled() { return read(COOLDOWNS_ENABLED); }
     public static boolean movementEnabled() { return read(MOVEMENT_ENABLED); }
     public static boolean useIronMana() { return read(USE_IRON_MANA); }
+    public static boolean showArsNSpellsNotice() { return read(SHOW_ARS_N_SPELLS_NOTICE); }
     public static boolean armorFusionEnabled() { return read(ARMOR_FUSION_ENABLED); }
     public static boolean nativeSelfEnabled() { return read(NATIVE_SELF_ENABLED); }
     public static double arsArmorToughnessPerTier() { return read(ARS_ARMOR_TOUGHNESS_PER_TIER); }

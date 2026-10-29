@@ -10,7 +10,7 @@ public final class AnsCoexistenceNotice {
     private static final String SEEN = "irons_nouveau:ans_overlap_notice_v1";
 
     public static void onLogin(ServerPlayer player, boolean arsNSpellsLoaded) {
-        if (!arsNSpellsLoaded) return;
+        if (!arsNSpellsLoaded || !dev.ironsnouveau.config.SpellLevelConfig.showArsNSpellsNotice()) return;
         // Forge/NeoForge preserve PlayerPersisted across death. Player saves are world-local,
         // so reconnects, dimension changes and respawns cannot repeat this world's notice.
         var persisted = player.getPersistentData().getCompound(Player.PERSISTED_NBT_TAG);
