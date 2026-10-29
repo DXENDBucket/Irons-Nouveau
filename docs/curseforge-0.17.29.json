@@ -1,0 +1,31 @@
+{
+  "version": "0.17.29",
+  "date": "2026-10-29",
+  "project_id": 1726248,
+  "source_commit": "b81c801b2c6ab0c1c585a09807e8230b1601de2b",
+  "core_commit": "a4abd202cbfbd99bd3651ca4db7ac18977e50424",
+  "upload_plan": "C:\\Users\\57991\\Documents\\MinecraftDev\\Ars-Conflux\\build\\curseforge\\20261029-131253-47ade0ea\\plan.json",
+  "release_notes": "release-notes/iron/0.17.29.md",
+  "release_type": "release",
+  "manual_release": false,
+  "api_accepted": true,
+  "moderation_status_verified": false,
+  "publishing": "Automatically public after CurseForge approval",
+  "files": [
+    {
+      "platform": "neoforge",
+      "filename": "irons-nouveau-0.17.29-mc1.21.1-neoforge.jar",
+      "sha256": "d23f28c4a79faf34dbb57ea55e133047fb29f9a9c283774b4058a9fa3b8f1b54",
+      "file_id": 9359194,
+      "url": "https://www.curseforge.com/minecraft/mc-mods/irons-nouveau/files/9359194"
+    },
+    {
+      "platform": "forge",
+      "filename": "irons-nouveau-0.17.29-mc1.20.1-forge.jar",
+      "sha256": "cf8a589fb9c1e7b946c894126969d70d22a9d74f3a9af48a3331668c19fa02d4",
+      "file_id": 9359195,
+      "url": "https://www.curseforge.com/minecraft/mc-mods/irons-nouveau/files/9359195"
+    }
+  ],
+  "notes": "Uploaded previously verified artifacts without rebuilding; no Git push or shared modpack deployment."
+}

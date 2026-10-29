@@ -44,6 +44,7 @@
       "sha256": "6ef79248fc531153ebac1af1a180a1d34481523f1451e72d252eb91ce108787b"
     }
   ],
-  "curseforge_uploaded": false,
-  "shared_instances_modified": false
+  "curseforge_uploaded": true,
+  "shared_instances_modified": false,
+  "curseforge_receipt": "curseforge-0.17.29.json"
 }
