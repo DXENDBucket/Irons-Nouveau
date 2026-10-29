@@ -14,6 +14,14 @@ public class ProjectilePayload {
     private final BiConsumer<CastSession, Entity> afterHit;
     public ProjectilePayload(float powerFactor, BiConsumer<CastSession, Entity> afterHit) { this.powerFactor = powerFactor; this.afterHit = afterHit; }
     public static final ProjectilePayload HALF_POWER = damage(.5f);
+    /** Ball Lightning survives entity contacts and revisits a victim only after its native 10-tick interval. */
+    public static final ProjectilePayload BALL_LIGHTNING = new ProjectilePayload(.5f,(s,e)->{}) {
+        @Override public boolean retainsEntityContacts(){return true;}
+        @Override public int entityContactInterval(){return 10;}
+        @Override protected void beforeHit(Entity target){
+            if(target instanceof LivingEntity living)DamageSources.ignoreNextKnockback(living);
+        }
+    };
     public static final ProjectilePayload FULL_POWER = damage(1);
     public static final ProjectilePayload FLAMING_BARRAGE = new ProjectilePayload(1, (session, target) -> {}) {
         @Override public void configure(CastSession session, AbstractMagicProjectile projectile) {
@@ -29,9 +37,13 @@ public class ProjectilePayload {
     public static ProjectilePayload damage(float factor) { return new ProjectilePayload(factor, (session, target) -> {}); }
     public float damage(CastPlan plan) { return plan.nativePower() * powerFactor; }
     public double launchSpeedMultiplier() { return 1; }
+    public boolean retainsEntityContacts(){return false;}
+    public int entityContactInterval(){return 0;}
+    protected void beforeHit(Entity target){}
     public void configure(CastSession session, AbstractMagicProjectile projectile) { projectile.setDamage(damage(session.plan())); }
     public boolean apply(CastSession session, AbstractMagicProjectile projectile, Entity target) {
         if (target == projectile) return false;
+        beforeHit(target);
         var spell = SpellRegistry.getSpell(session.plan().spellId());
         boolean success = DamageSources.applyDamage(target, projectile.getDamage(), spell.getDamageSource(projectile, session.damageOwner()));
         if (success) afterHit.accept(session, target);
