@@ -94,5 +94,13 @@
       "sha256": "0ddd5cd69fe4520b14945b0cbba533eb401745ff81c7d720a1f4f07ad1ed9893",
       "size": 2016352
     }
-  ]
+  ],
+  "release_status": "held after user-reported orbit size regression",
+  "manual_visual_feedback": {
+    "date": "2026-10-30",
+    "reported": "Orbit projectile unexpectedly becomes large",
+    "root_cause": "unconfirmed",
+    "instance_action": "restored pre-deployment Core 0.1.37 and Iron 0.17.28; hashes verified",
+    "new_builds": "preserved outside mods; do not redeploy or publish without resolving feedback"
+  }
 }

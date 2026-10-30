@@ -26,3 +26,11 @@ Conflux 提供中立的物理接触/形态脉冲范围、显式保留策略与�
 ## 下一步
 
 按需要进行游戏内环绕/溅射闪电球外观体验验收；其他附属采用 `ArsTrajectory.contactPolicy` 与 `TrajectoryContact.activate`，无需分别编写 NEG/Orbit 的碰撞保留兼容。不要从“原生 onHitEntity 没有 discard”自动推断无限穿透，Iron 有多种弹体在外层 onHit 或辅助方法中扣减命中预算。
+
+## 2026-10-30 游戏内反馈与回退
+
+用户在“万法归一”观察到环绕之球突然变得很大，并要求不行就先回退。尚未确认是模型尺寸、环绕半径、具体编排或其他联动引起，不能认定根因。
+
+已将共享实例恢复为本次部署前的 Conflux 0.1.37 与 Iron 0.17.28；旧包由原始备份复制恢复并核对 SHA-256，新包移到实例 `.codex-backups/trajectory-contacts-regression-*` 保留。源码和已通过的服务端测试保留，当前 0.1.39 / 0.17.30 构建暂缓发布、暂不重新部署。
+
+此前的服务端测试和 Forge 主菜单启动验证仍属实，但没有覆盖该客户端实际施法表现。下一步若继续，应先复现具体编排并确认“变大”的对象，再决定修复范围，不以现有服务端通过记录替代视觉验收。部署回退记录在 `MinecraftDev/releases/trajectory-contacts-20261030/wanfaguiyi-rollback.json`。
