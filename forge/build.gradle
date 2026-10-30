@@ -53,6 +53,13 @@ minecraft {
     }
 }
 mixin { add sourceSets.main, 'irons_nouveau.refmap.json'; config 'irons_nouveau.mixins.json' }
+// Preserve MixinGradle side outputs when Gradle restores compilation from cache.
+tasks.named('compileJava', JavaCompile) {
+    outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json')).withPropertyName('mixinRefmap')
+    outputs.file(layout.buildDirectory.file('tmp/compileJava/irons_nouveau.refmap.json')).withPropertyName('packagedMixinRefmap')
+    outputs.file(layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg')).withPropertyName('mixinMappings')
+}
+
 dependencies {
     implementation project(':ars-conflux')
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'

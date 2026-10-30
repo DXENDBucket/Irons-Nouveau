@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
+0.17.35 提供首批 Conflux 能力标签，供 Ars Instinct 等可选 AI 使用；不改变原有施法、解锁或资源规则。
+
 0.17.34 接入 Conflux 0.1.43 的节魔之戒百分比报价：首次施法预算、散射预算与实际费用保持一致，Ars／Iron Mana 账户均生效。戒指转换在 Core 默认开启，可配置关闭；不改变原生 Iron 法术书施法。
 
-两个平台统一采用版本号 **0.17.34**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.35**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.34-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.34-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.35-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.35-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
 
