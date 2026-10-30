@@ -11,6 +11,12 @@ public final class StatusBilling {
     private static final String KEY = "irons_nouveau_thunderstorm";
     private static final Map<LivingEntity, TriggerMana> ACCOUNTS = new WeakHashMap<>();
     private StatusBilling() {}
+    /** A transferred storm follows its host, but its caster and payment owner do not change. */
+    public static LivingEntity stormOwner(LivingEntity host) {
+        if(!(host.level() instanceof ServerLevel world)||!host.getPersistentData().contains(KEY))return host;
+        var data=host.getPersistentData().getCompound(KEY);
+        return data.hasUUID("owner")&&world.getEntity(data.getUUID("owner")) instanceof LivingEntity caster?caster:host;
+    }
     public static void mark(Resolution ctx, LivingEntity target, int duration) {
         var tag = new CompoundTag(); tag.putUUID("owner", ctx.caster().getUUID());
         tag.putLong("expires", ctx.world().getGameTime() + duration);
