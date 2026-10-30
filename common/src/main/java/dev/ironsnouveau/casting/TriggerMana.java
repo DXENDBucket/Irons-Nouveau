@@ -24,7 +24,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAc
     }
     /** Ars upfront cost belongs to this account only when using Ars mana. */
     public boolean canBegin(ResourceLocation spell, int level, int arsUpfrontCost) {
-        return ResourceTransactions.canSpend(account(), (long)cost(spell, level) + (account().reservationKey().equals(new ArsManaAccount(source).reservationKey()) ? Math.max(0, arsUpfrontCost) : 0));
+        return ResourceTransactions.canSpend(account(), (long)charge(spell, level).amount() + (account().reservationKey().equals(new ArsManaAccount(source).reservationKey()) ? Math.max(0, arsUpfrontCost) : 0));
     }
     private int cost(ResourceLocation spell, int level) { return Math.max(0, SpellRegistry.getSpell(spell).getManaCost(level)); }
     public ResourceCharge charge(ResourceLocation spell, int level) { return new ResourceCharge(account(), cost(spell, level)); }
@@ -39,6 +39,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAc
                 source instanceof LivingCaster living ? living.livingEntity : source,
                 caster instanceof Player player && player.isCreative());
         return new ResourceAccount() {
+            public int quoteCost(int raw) { return ArsManaDiscounts.quote(caster,raw); }
             public Object reservationKey() { return ResourcePoolKey.of("irons_spellbooks:mana", caster); }
             public boolean free() { return caster instanceof Player player && player.isCreative(); }
             public boolean canSpend(int amount) { return enoughMana(amount); }
