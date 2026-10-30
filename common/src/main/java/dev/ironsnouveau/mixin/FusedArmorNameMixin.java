@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class FusedArmorNameMixin {
     @Inject(method="getHoverName",at=@At("RETURN"),cancellable=true)
     private void ironsNouveau$fusionName(CallbackInfoReturnable<Component> cir) {
-        cir.setReturnValue(ArmorFusion.name((ItemStack)(Object)this,cir.getReturnValue()));
+        var original=cir.getReturnValue();
+        var name=ArmorFusion.name((ItemStack)(Object)this,original);
+        if(name!=original)cir.setReturnValue(name);
     }
 }

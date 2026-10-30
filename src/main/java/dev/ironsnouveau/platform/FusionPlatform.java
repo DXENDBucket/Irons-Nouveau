@@ -25,21 +25,17 @@ public final class FusionPlatform {
     private static final java.util.function.Supplier<DataComponentType<ItemContainerContents>> TYPE=TYPES.register("armor_fusion",()->DataComponentType.<ItemContainerContents>builder()
             .persistent(ItemContainerContents.CODEC).networkSynchronized(ItemContainerContents.STREAM_CODEC).build());
     private FusionPlatform() {}
+    public static boolean externalOwner(){return net.neoforged.fml.ModList.get().isLoaded("ars_fusion");}
     public static boolean has(ItemStack stack){return stack.has(TYPE.get());}
     public static ItemStack donor(ItemStack stack){return stack.getOrDefault(TYPE.get(),ItemContainerContents.EMPTY).copyOne();}
     public static void set(ItemStack stack,ItemStack donor){stack.set(TYPE.get(),ItemContainerContents.fromItems(java.util.List.of(donor)));}
     public static boolean customName(ItemStack stack){return stack.has(DataComponents.CUSTOM_NAME);}
     public static int tier(ItemStack stack){var perks=PerkUtil.getPerkHolder(stack);return perks==null?0:perks.getTier()+1;}
     public static void register(IEventBus bus) {
-        TYPES.register(bus);NeoForge.EVENT_BUS.addListener(FusionPlatform::anvil);NeoForge.EVENT_BUS.addListener(FusionPlatform::attributes);
-    }
-    private static void anvil(AnvilUpdateEvent event) {
-        var output=ArmorFusion.fuse(event.getLeft(),event.getRight());if(output.isEmpty())return;
-        String name=event.getName();
-        if(name!=null&&!name.isBlank()&&!name.equals(event.getLeft().getHoverName().getString()))output.set(DataComponents.CUSTOM_NAME,Component.literal(name));
-        event.setOutput(output);event.setCost(1);event.setMaterialCost(1);
+        TYPES.register(bus);NeoForge.EVENT_BUS.addListener(FusionPlatform::attributes);
     }
     private static void attributes(ItemAttributeModifierEvent event) {
+        if(externalOwner())return;
         var stack=event.getItemStack();if(!ArmorFusion.ars(stack))return;
         var slot=ArmorFusion.slot(stack);var group=EquipmentSlotGroup.bySlot(slot);var donor=ArmorFusion.donor(stack);
         if(!donor.isEmpty())donor.forEachModifier(slot,(attribute,modifier)->{

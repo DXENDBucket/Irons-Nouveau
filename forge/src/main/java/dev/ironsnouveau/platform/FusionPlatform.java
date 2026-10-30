@@ -17,19 +17,15 @@ import java.util.UUID;
 public final class FusionPlatform {
     private static final String KEY="irons_nouveau:armor_fusion";
     private FusionPlatform() {}
+    public static boolean externalOwner(){return net.minecraftforge.fml.ModList.get().isLoaded("ars_fusion");}
     public static boolean has(ItemStack stack){return stack.hasTag()&&stack.getTag().contains(KEY,net.minecraft.nbt.Tag.TAG_COMPOUND);}
     public static ItemStack donor(ItemStack stack){return has(stack)?ItemStack.of(stack.getTag().getCompound(KEY)):ItemStack.EMPTY;}
     public static void set(ItemStack stack,ItemStack donor){stack.getOrCreateTag().put(KEY,donor.save(new net.minecraft.nbt.CompoundTag()));}
     public static boolean customName(ItemStack stack){return stack.hasCustomHoverName();}
     public static int tier(ItemStack stack){var perks=PerkUtil.getPerkHolder(stack);return perks==null?0:perks.getTier()+1;}
-    public static void register(IEventBus bus) {MinecraftForge.EVENT_BUS.addListener(FusionPlatform::anvil);MinecraftForge.EVENT_BUS.addListener(FusionPlatform::attributes);}
-    private static void anvil(AnvilUpdateEvent event) {
-        var output=ArmorFusion.fuse(event.getLeft(),event.getRight());if(output.isEmpty())return;
-        String name=event.getName();
-        if(name!=null&&!name.isBlank()&&!name.equals(event.getLeft().getHoverName().getString()))output.setHoverName(Component.literal(name));
-        event.setOutput(output);event.setCost(1);event.setMaterialCost(1);
-    }
+    public static void register(IEventBus bus) {MinecraftForge.EVENT_BUS.addListener(FusionPlatform::attributes);}
     private static void attributes(ItemAttributeModifierEvent event) {
+        if(externalOwner())return;
         var stack=event.getItemStack();if(!ArmorFusion.ars(stack)||event.getSlotType()!=ArmorFusion.slot(stack))return;
         var slot=ArmorFusion.slot(stack);var donor=ArmorFusion.donor(stack);
         if(!donor.isEmpty())donor.getAttributeModifiers(slot).forEach((attribute,modifier)->{

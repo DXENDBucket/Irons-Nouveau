@@ -38,6 +38,7 @@ public final class ArmorFusion {
         return result;
     }
     public static Component name(ItemStack stack,Component original) {
+        if(FusionPlatform.externalOwner())return original;
         var donor=donor(stack);
         return donor.isEmpty()||FusionPlatform.customName(stack)?original:
                 Component.translatable("item.irons_nouveau.fused_armor",original,donor.getHoverName());

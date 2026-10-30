@@ -88,7 +88,7 @@ public final class SpellLevelConfig {
                 "Uses native targeting, channel callbacks and recasts. Individual glyphs also have their usual enabled config.")
                 .define("enabled",true);
         builder.pop();
-        builder.push("armor_fusion");
+        builder.comment("Deprecated: armor fusion and tier toughness have moved to the standalone Ars Fusion mod.", "These historical values are retained for configuration compatibility and no longer create new effects.").push("armor_fusion");
         ARMOR_FUSION_ENABLED = builder.comment("Allow one vanilla-anvil fusion: Ars armor on the left, same-slot Iron armor on the right, for one level.",
                 "Disabled by default. Existing fused items retain their data and abilities when new fusion crafting is disabled.",
                 "Keeps the Ars item, appearance, threads, upgrades, durability and enchantments; adds donor attributes except armor/toughness and its native spell container.")
@@ -115,9 +115,10 @@ public final class SpellLevelConfig {
     public static boolean movementEnabled() { return read(MOVEMENT_ENABLED); }
     public static boolean useIronMana() { return read(USE_IRON_MANA); }
     public static boolean showArsNSpellsNotice() { return read(SHOW_ARS_N_SPELLS_NOTICE); }
-    public static boolean armorFusionEnabled() { return read(ARMOR_FUSION_ENABLED); }
+    /** New fusion crafting moved to Ars Fusion. Kept for source/config compatibility only. */
+    public static boolean armorFusionEnabled() { return false; }
     public static boolean nativeSelfEnabled() { return read(NATIVE_SELF_ENABLED); }
-    public static double arsArmorToughnessPerTier() { return read(ARS_ARMOR_TOUGHNESS_PER_TIER); }
+    public static double arsArmorToughnessPerTier() { return 0.0; }
     public static Mode mode() { return read(MODE); }
     public static boolean creativeNativeMax() { return read(CREATIVE_NATIVE_MAX); }
     public static int configuredLevel(ResourceLocation spell) {
