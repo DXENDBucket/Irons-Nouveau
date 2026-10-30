@@ -34,3 +34,13 @@ Conflux 提供中立的物理接触/形态脉冲范围、显式保留策略与�
 已将共享实例恢复为本次部署前的 Conflux 0.1.37 与 Iron 0.17.28；旧包由原始备份复制恢复并核对 SHA-256，新包移到实例 `.codex-backups/trajectory-contacts-regression-*` 保留。源码和已通过的服务端测试保留，当前 0.1.39 / 0.17.30 构建暂缓发布、暂不重新部署。
 
 此前的服务端测试和 Forge 主菜单启动验证仍属实，但没有覆盖该客户端实际施法表现。下一步若继续，应先复现具体编排并确认“变大”的对象，再决定修复范围，不以现有服务端通过记录替代视觉验收。部署回退记录在 `MinecraftDev/releases/trajectory-contacts-20261030/wanfaguiyi-rollback.json`。
+
+## 2026-10-30 模型变大原因核查
+
+用户进一步确认是球体模型本身变大（例如“环绕→闪电球”），不是环绕半径。已核对实际 Iron 1.21.1-3.16.3 发布 JAR，其 SHA-256 与万法归一安装文件一致；Forge 1.20.1-3.16.3 也有相同渲染逻辑。
+
+明确的代码缺陷在 Iron 联动的寿命扩展与原生渲染之间：`BallLightning.tick()` 原本在超过 100 tick 时删除实体；`BallLightningRenderer.render()` 在超过 90 tick 时启用消失动画，外层缩放为 `2 + (tickCount + partialTicks - 95) * 0.4`，内层则减去该项。0.17.30 的 `BallLightningImpactMixin` 仅让 Ars 托管弹体跳过 100 tick 删除，未关闭原生结束动画，实际实体年龄仍持续增长，故渲染比例无界增长，内层还会变成负缩放。以 partialTicks=0 计算，120 tick 外层缩放为 12，200 tick 为 44，而稳定外层缩放为 2。
+
+修复边界：仅对 `NativeCastCarrier.ironsNouveau$arsDriven()` 的闪电球跳过原生固定 5 秒结束动画，保留真实年龄、纹理帧切换和旋转。不要把渲染方法内所有 tickCount 一律封顶或重置，也不需要改 Conflux 的环绕半径。若以后要按 Ars 形态剩余寿命做结束动画，应单独同步寿命进度。
+
+本次是源码/发布 JAR 核查，未启动新的客户端或重新部署；尚未实施该修复。整套弹体存续推广仍搁置，万法归一维持回退版本。已识别的渲染缺陷不等于此前提及的所有其他异常都已解释。

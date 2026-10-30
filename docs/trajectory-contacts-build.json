@@ -99,8 +99,11 @@
   "manual_visual_feedback": {
     "date": "2026-10-30",
     "reported": "Orbit projectile unexpectedly becomes large",
-    "root_cause": "unconfirmed",
+    "root_cause": "Confirmed code defect: managed Ball Lightning outlives native 100-tick lifetime while native renderer continues unbounded expiration scaling after 90 ticks; no renderer hook was added.",
     "instance_action": "restored pre-deployment Core 0.1.37 and Iron 0.17.28; hashes verified",
-    "new_builds": "preserved outside mods; do not redeploy or publish without resolving feedback"
+    "new_builds": "preserved outside mods; do not redeploy or publish without resolving feedback",
+    "clarification": "User confirmed model enlargement, not orbit radius.",
+    "inspection": "Actual installed Iron 1.21.1-3.16.3 JAR matches dependency hash; Forge 1.20.1-3.16.3 renderer has same formula. No client reproduction claimed.",
+    "fix_status": "Identified narrow client rendering fix; not implemented or deployed in this inspection."
   }
 }
