@@ -20,6 +20,7 @@ import java.util.List;
 public final class IronsNouveau {
     public static final String MOD_ID = "irons_nouveau";
     public IronsNouveau() {
+        dev.ironsnouveau.platform.MobSpellAttributes.register(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus());
         IEventBus bus = net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get().getModEventBus();
         dev.ironsnouveau.platform.BoundSpellData.register(bus);
         dev.ironsnouveau.platform.FusionPlatform.register(bus);

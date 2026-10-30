@@ -41,6 +41,7 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAc
         return new ResourceAccount() {
             public int quoteCost(int raw) { return ArsManaDiscounts.quote(caster,raw); }
             public Object reservationKey() { return ResourcePoolKey.of("irons_spellbooks:mana", caster); }
+            public long capacity() { return caster==null?0:dev.ironsnouveau.platform.MobSpellAttributes.manaCapacity(caster); }
             public boolean free() { return caster instanceof Player player && player.isCreative(); }
             public boolean canSpend(int amount) { return enoughMana(amount); }
             public void spend(int amount) { expendMana(amount); }

@@ -27,6 +27,8 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
     protected AbstractBridgeGlyph(GlyphDefinition definition) {
         super(definition.glyphId(), definition.name());
         this.definition = definition;
+        if(definition.adapter() instanceof NativeSelfAdapter)dev.arsconflux.api.glyph.GlyphAbilities.declare(definition.glyphId(),
+                Set.of(dev.arsconflux.api.glyph.AbilityTags.UTILITY,dev.arsconflux.api.glyph.AbilityTags.SELF,dev.arsconflux.api.glyph.AbilityTags.PLAYER_ONLY));
         if(definition.adapter() instanceof NativeSelfAdapter)compatibleAugments.removeIf(a->
                 !dev.arsconflux.api.glyph.AugmentEquivalence.matches(a,AugmentAmplify.INSTANCE)
                 &&!dev.arsconflux.api.glyph.AugmentEquivalence.matches(a,AugmentDampen.INSTANCE));
