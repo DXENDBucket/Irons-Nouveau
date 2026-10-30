@@ -31,6 +31,7 @@ public final class MotionEffects {
         tag.putUUID("damage_owner", ctx.damageOwner().getUUID());
         tag.putString("spell", ctx.spell().getSpellResource().toString());
         tag.putString("glyph", ctx.definition().glyphId().toString());
+        tag.putString("schools",dev.arsconflux.api.school.SchoolDamage.current().toJson().toString());
         tag.putInt("level", ctx.level()); tag.putFloat("scale", damage / amplifier);
         tag.putLong("expires", ctx.world().getGameTime() + ticks);
         actor.getPersistentData().put(KEY, tag);
@@ -57,7 +58,10 @@ public final class MotionEffects {
                 .withExecutor(actor).withDamageOwner(damageOwner);
         CURRENT.set(new Binding(frame, SpellRegistry.getSpell(spellId), tag.getFloat("scale")));
         try {
-            boolean keep = CastContexts.scoped(frame, action::getAsBoolean);
+            dev.arsconflux.api.school.SchoolWeights stored;
+            try { stored=dev.arsconflux.api.school.SchoolWeights.fromJson(com.google.gson.JsonParser.parseString(tag.getString("schools")).getAsJsonObject()); }
+            catch(RuntimeException invalid) {stored=dev.arsconflux.api.school.SchoolWeights.EMPTY;}
+            boolean keep = dev.arsconflux.api.school.SchoolDamage.during(stored,()->CastContexts.scoped(frame, action::getAsBoolean));
             if (!keep) actor.getPersistentData().remove(KEY);
             return keep;
         } finally {

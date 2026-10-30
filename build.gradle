@@ -72,4 +72,4 @@ processResources {
 }
 
 tasks.named('jar') { from('LICENSE', 'THIRD_PARTY_NOTICES.md'); archiveFileName = "irons-nouveau-${project.version}-mc1.21.1-neoforge.jar" }
-tasks.named('sourcesJar') { from('LICENSE') }
+tasks.named('sourcesJar') { from('LICENSE', 'THIRD_PARTY_NOTICES.md') }

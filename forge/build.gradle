@@ -81,4 +81,4 @@ tasks.named('jarJar') {
     finalizedBy 'reobfJarJar'
 }
 reobf { jarJar {} }
-tasks.named('sourcesJar') { from('../LICENSE') }
+tasks.named('sourcesJar') { from('../LICENSE', '../THIRD_PARTY_NOTICES.md') }

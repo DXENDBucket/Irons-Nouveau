@@ -31,6 +31,14 @@ public final class EffectResources {
     public static boolean pulse(Entity entity, BooleanSupplier action) { return pulse(entity, 1, action); }
     public static boolean pulse(Entity entity, int period, BooleanSupplier action) {
         if (entity == null || !(entity.level() instanceof ServerLevel world) || !entity.getPersistentData().contains(KEY)) return action.getAsBoolean();
+        if (!(entity instanceof net.minecraft.world.entity.Mob) || entity instanceof io.redspace.ironsspellbooks.entity.spells.wisp.WispEntity)
+            restorePower(entity,world,entity.getPersistentData().getCompound(KEY));
+        var profile=dev.arsconflux.api.damage.SpellPower.profile(entity);
+        return profile==null?pulseManaged(entity,period,action):dev.arsconflux.api.school.SchoolDamage.during(profile.schools(),
+                ()->dev.arsconflux.api.damage.SpellPower.scoped(profile,()->pulseManaged(entity,period,action)));
+    }
+    private static boolean pulseManaged(Entity entity,int period,BooleanSupplier action) {
+        var world=(ServerLevel)entity.level();
         if (entity.getPersistentData().getCompound(KEY).getBoolean("one_shot")) return action.getAsBoolean();
         // Ordinary summoned creatures pay for their creation, not every autonomous attack.
         if (entity instanceof net.minecraft.world.entity.Mob && !(entity instanceof io.redspace.ironsspellbooks.entity.spells.wisp.WispEntity)) return action.getAsBoolean();
@@ -109,13 +117,23 @@ public final class EffectResources {
         var spell = ResourceLocation.tryParse(tag.getString("spell"));
         var glyph = ResourceLocation.tryParse(tag.getString("glyph"));
         if (spell == null || glyph == null) return;
-        PresetTools.scoped(preset(parent, owner), () -> scoped(new Origin(restored(parent, owner, ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), glyph, spell, tag.getInt("level"), ticks(duration),
-                ACCOUNTS.get(parent)), () -> { action.run(); return true; }));
+        restorePower(parent,world,tag);
+        dev.arsconflux.api.damage.SpellPower.tick(parent,()->PresetTools.scoped(preset(parent, owner), () -> scoped(new Origin(restored(parent, owner, ACCOUNTS.computeIfAbsent(parent, e -> TriggerMana.of(null, owner))), glyph, spell, tag.getInt("level"), ticks(duration),
+                ACCOUNTS.get(parent)), () -> { action.run(); return true; })));
+    }
+    private static void restorePower(Entity entity,ServerLevel world,CompoundTag tag) {
+        if(dev.arsconflux.api.damage.SpellPower.profile(entity)!=null || !tag.hasUUID("owner")
+                || !(world.getEntity(tag.getUUID("owner")) instanceof LivingEntity caster))return;
+        dev.arsconflux.api.school.SchoolWeights schools;
+        try {schools=dev.arsconflux.api.school.SchoolWeights.fromJson(com.google.gson.JsonParser.parseString(tag.getString("schools")).getAsJsonObject());}
+        catch(RuntimeException invalid){schools=dev.arsconflux.api.school.SchoolWeights.EMPTY;}
+        var frame=restored(entity,caster,null);
+        dev.arsconflux.api.damage.SpellPower.bind(entity,new dev.arsconflux.api.damage.SpellPower.Profile(frame,schools));
     }
     private static CastContext restored(Entity entity, LivingEntity owner, TriggerMana mana) {
         var tag = entity.getPersistentData().getCompound(KEY);
         var damage = tag.hasUUID("damage_owner") ? ((ServerLevel)entity.level()).getEntity(tag.getUUID("damage_owner")) : owner;
-        return CastContext.detached(owner, new net.minecraft.world.phys.EntityHitResult(entity), mana.account())
+        return CastContext.detached(owner, new net.minecraft.world.phys.EntityHitResult(entity), mana==null?null:mana.account())
                 .withDamageOwner(damage instanceof LivingEntity living ? living : owner);
     }
     public static void stop() {
@@ -137,6 +155,7 @@ public final class EffectResources {
             tag.putUUID("owner", origin.owner().getUUID());
             if (origin.context().damageOwner() != null) tag.putUUID("damage_owner", origin.context().damageOwner().getUUID());
             tag.putString("glyph", origin.glyph().toString());
+            tag.putString("schools",dev.arsconflux.api.school.SchoolDamage.current().toJson().toString());
             tag.putString("spell", origin.spell().toString()); tag.putInt("level", origin.level());
             tag.putLong("expires", world.getGameTime() + origin.ticks());
             var preset = PresetTools.current();
@@ -147,6 +166,8 @@ public final class EffectResources {
             entity.getPersistentData().put(KEY, tag);
         }
         if (entity.getPersistentData().contains(KEY)) {
+            if (!(entity instanceof net.minecraft.world.entity.Mob) || entity instanceof io.redspace.ironsspellbooks.entity.spells.wisp.WispEntity)
+                restorePower(entity,world,entity.getPersistentData().getCompound(KEY));
             ACTIVE.add(entity);
             var account = origin == null ? TriggerMana.current() : origin.mana();
             if (account != null) ACCOUNTS.put(entity, account);

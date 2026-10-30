@@ -21,6 +21,7 @@ public final class NativeSelfCasts {
     public static final class Lease {
         public final Resolution resolution;
         public final ServerPlayer player;
+        public final dev.arsconflux.api.school.SchoolWeights schools=dev.arsconflux.api.school.SchoolDamage.current();
         public boolean failed;
         Lease(Resolution resolution,ServerPlayer player) { this.resolution=resolution;this.player=player; }
     }
@@ -80,7 +81,7 @@ public final class NativeSelfCasts {
         if(lease==null){action.run();return;}
         var previous=FIRING.get();FIRING.set(lease);
         try {
-            dev.arsconflux.api.context.CastContexts.scoped(lease.resolution.context(),()->{action.run();return null;});
+            dev.arsconflux.api.school.SchoolDamage.during(lease.schools,()->dev.arsconflux.api.context.CastContexts.scoped(lease.resolution.context(),()->{action.run();return null;}));
             if(MagicData.getPlayerMagicData(player).getPlayerRecasts().hasRecastForSpell(spell.getSpellId()))
                 RECASTS.computeIfAbsent(player,p->new HashSet<>()).add(spell.getSpellId());
         }
