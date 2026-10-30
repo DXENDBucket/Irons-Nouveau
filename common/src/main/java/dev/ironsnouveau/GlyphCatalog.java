@@ -39,7 +39,7 @@ public final class GlyphCatalog {
         AdditionalGlyphs.register();
         ExpansionGlyphs.register();
         addForm(new NativeFormAugment("ball_lightning", "Ball Lightning", SpellSchools.ELEMENTAL_AIR,
-                new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.ball_lightning.BallLightning::new, ProjectilePayload.BALL_LIGHTNING), 0, SpellTier.ONE));
+                new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.ball_lightning.BallLightning::new, ProjectilePayload.HALF_POWER), 0, SpellTier.ONE));
         addForm(new NativeFormAugment("flaming_barrage", "Flaming Barrage", SpellSchools.ELEMENTAL_FIRE,
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.fireball.SmallMagicFireball::new, ProjectilePayload.FLAMING_BARRAGE), 0, SpellTier.ONE));
         add("fire_breath", "Fire Breath", 0, SpellTier.ONE, SpellSchools.ELEMENTAL_FIRE, true, true, dev.ironsnouveau.bridge.BreathAdapters.of("fire_breath"));

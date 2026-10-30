@@ -13,8 +13,6 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = BallLightning.class, remap = false)
 public abstract class BallLightningImpactMixin {
-    @com.llamalad7.mixinextras.injector.ModifyExpressionValue(method="tick",remap=true,at=@At(value="FIELD",target="Lio/redspace/ironsspellbooks/entity/spells/ball_lightning/BallLightning;tickCount:I",remap=true))
-    private int ironsNouveau$carrierLifetime(int age){return ((NativeCastCarrier)this).ironsNouveau$arsDriven()?0:age;}
     @Unique private long ironsNouveau$paidUntil = Long.MIN_VALUE;
     @org.spongepowered.asm.mixin.injection.Inject(method = "onHitBlock", at = @At("HEAD"))
     private void ironsNouveau$block(net.minecraft.world.phys.BlockHitResult hit, org.spongepowered.asm.mixin.injection.callback.CallbackInfo ci) {
