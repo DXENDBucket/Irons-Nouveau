@@ -133,7 +133,8 @@ public abstract class BoundSpellSupport {
             if (success && localCooldowns(caster) && !creativeFreeCooldown(caster))
                 RecastCooldowns.occurrences(List.of(spell), caster).forEach((nativeSpell, shots) ->
                         caster.getPersistentData().putLong(cooldownKey(nativeSpell.getSpellResource()),
-                                caster.level().getGameTime() + RecastCooldowns.perShot(nativeSpell.getSpellCooldown(), shots)));
+                                caster.level().getGameTime() + dev.arsconflux.api.casting.CastingTiming.cooldownTicks(caster,
+                                        RecastCooldowns.perShot(nativeSpell.getSpellCooldown(), shots))));
             return success;
         });
     }

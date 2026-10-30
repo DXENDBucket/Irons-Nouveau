@@ -56,7 +56,10 @@ public final class RecastCooldowns {
     /** Called after native CDR/sword modifiers, before native cooldown events and synchronization. */
     public static int adjust(AbstractSpell spell, Player player, CastSource source, int nativeTicks) {
         var release = RELEASE.get();
-        return release != null && release.player() == player && release.spell() == spell && release.source() == source
-                ? perShot(nativeTicks, release.shots()) : nativeTicks;
+        if (release != null && release.player() == player && release.spell() == spell && release.source() == source)
+            return dev.arsconflux.api.casting.CastingTiming.cooldownTicks(player, perShot(nativeTicks, release.shots()));
+        if (player instanceof ServerPlayer server && NativeSelfCasts.managedCooldown(spell, server))
+            return dev.arsconflux.api.casting.CastingTiming.cooldownTicks(player, nativeTicks);
+        return nativeTicks;
     }
 }

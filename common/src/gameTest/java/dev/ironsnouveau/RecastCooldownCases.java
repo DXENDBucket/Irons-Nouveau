@@ -21,6 +21,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 public final class RecastCooldownCases {
+    public static void nativeThenUniversal(GameTestHelper h, ServerPlayer player) {
+        var spell = nativeSpell("flaming_barrage");
+        int nativeTicks = MagicManager.getEffectiveSpellCooldown(spell,player,CastSource.SPELLBOOK);
+        int expected = dev.arsconflux.api.casting.CastingTiming.cooldownTicks(player,RecastCooldowns.perShot(nativeTicks,5));
+        var cooldowns = MagicData.getPlayerMagicData(player).getPlayerCooldowns();
+        RecastCooldowns.add(player,spell,CastSource.SPELLBOOK,5);
+        h.assertTrue(cooldowns.getSpellCooldowns().get(spell.getSpellId()).getCooldownRemaining()==expected,
+                "Native CDR and per-shot rules are followed by exactly one Conflux reduction");
+        cooldowns.clearCooldowns();
+        MagicHelper.MAGIC_MANAGER.addCooldown(player,spell,CastSource.SPELLBOOK);
+        h.assertTrue(cooldowns.getSpellCooldowns().get(spell.getSpellId()).getCooldownRemaining()==nativeTicks,
+                "Original Iron casts outside this bridge are not changed by the new attribute");
+        player.discard();h.succeed();
+    }
     private static AbstractSpellPart part(String id) {
         return java.util.stream.Stream.concat(IronsNouveau.forms().stream(), IronsNouveau.glyphs().stream())
                 .filter(p -> BoundSpellSupport.ironSpell(p).getPath().equals(id)).findFirst().orElseThrow();

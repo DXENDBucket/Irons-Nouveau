@@ -1,13 +1,15 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
-两个平台统一采用版本号 **0.17.29**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
+两个平台统一采用版本号 **0.17.31**，由同一个 `main` 分支、共享源码和根目录 `VERSION` 维护；游戏版本与加载器写入发行文件名。
 
 | 游戏版本 | 加载器 | 安装文件 |
 | --- | --- | --- |
-| 1.21.1 | NeoForge | `irons-nouveau-0.17.29-mc1.21.1-neoforge.jar` |
-| 1.20.1 | Forge | `irons-nouveau-0.17.29-mc1.20.1-forge.jar` |
+| 1.21.1 | NeoForge | `irons-nouveau-0.17.31-mc1.21.1-neoforge.jar` |
+| 1.20.1 | Forge | `irons-nouveau-0.17.31-mc1.20.1-forge.jar` |
 
 独立模组，将 Iron's Spells 'n Spellbooks 接入 Ars Nouveau 魔符编排。支持 Minecraft 1.21.1 / NeoForge 和 1.20.1 / Forge。作者 EndXiom，采用 [MIT 许可证](LICENSE)。
+
+0.17.31 接入 Conflux 0.1.40 的通用吟唱／冷却缩减属性，保留原生 Iron 装备缩减和冷却事件。详见 [时间属性](docs/timing-attributes.md)。
 
 0.17.29 新增共装提示开关：`irons_nouveau-server.toml` 的 `[compatibility]` 下设置 `show_ars_n_spells_notice = false` 可关闭与 Ars 'n Spells 共装时的首次登录提示，默认开启。
 
