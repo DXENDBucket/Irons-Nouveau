@@ -1,5 +1,7 @@
 package dev.ironsnouveau.bridge;
 
+import dev.arsconflux.api.execution.ExecutionAnchor;
+
 import dev.ironsnouveau.api.LocationSpellAdapter;
 import dev.ironsnouveau.casting.EffectResources;
 import dev.ironsnouveau.casting.TelekinesisExecution;
@@ -78,7 +80,7 @@ public final class EntitySelectionAdapters {
             float range = ((StepDistanceAccess)ctx.spell()).ironsNouveau$distance(ctx.level(), caster);
             if (!Float.isFinite(range) || range <= 0) return false;
             if (hit instanceof EntityHitResult selected && selected.getEntity() == caster) {
-                var end = caster.getEyePosition().add(caster.getLookAngle().scale(range));
+                var end = caster.getEyePosition().add(ExecutionAnchor.viewDirection(caster).scale(range));
                 if (!ctx.world().hasChunksAt(caster.blockPosition(), BlockPos.containing(end))) return false;
                 // Native Blood Step can select the creature under the caster's crosshair; Frost Step casts toward terrain.
                 if (!frost) {

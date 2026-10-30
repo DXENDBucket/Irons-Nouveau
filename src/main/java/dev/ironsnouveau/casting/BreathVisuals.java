@@ -1,4 +1,6 @@
 package dev.ironsnouveau.casting;
+
+import dev.arsconflux.api.execution.ExecutionAnchor;
 import io.redspace.ironsspellbooks.entity.spells.AbstractConeProjectile;
 import io.redspace.ironsspellbooks.entity.spells.fire_breath.FireBreathProjectile;
 import io.redspace.ironsspellbooks.entity.spells.poison_breath.PoisonBreathProjectile;
@@ -26,7 +28,7 @@ public final class BreathVisuals {
     }
     public static void tick(AbstractConeProjectile cone) {
         var state = (ConeState)cone; var anchor = cone.level().getEntity(state.ironsNouveau$anchor());
-        if (anchor != null) place(cone, anchor.getEyePosition().add(state.ironsNouveau$offset()), anchor.getLookAngle());
+        if (anchor != null) place(cone, anchor.getEyePosition().add(state.ironsNouveau$offset()), ExecutionAnchor.viewDirection(anchor));
         // Electrocute's subclass refreshes its native beam cache after this base tick.
         // It renders geometry, not breath particles; do not add the dragon fallback.
         if (cone instanceof io.redspace.ironsspellbooks.entity.spells.electrocute.ElectrocuteProjectile) return;
@@ -49,7 +51,7 @@ public final class BreathVisuals {
         var state = (ConeState)cone;
         var anchor = cone.level().getEntity(state.ironsNouveau$anchor());
         if (anchor != null) return anchor.position().add(0, anchor.getEyeHeight() * .9f, 0)
-                .add(anchor.getLookAngle().normalize().scale(cone instanceof ConeOfColdProjectile ? 1.5 : 1.6));
+                .add(ExecutionAnchor.viewDirection(anchor).normalize().scale(cone instanceof ConeOfColdProjectile ? 1.5 : 1.6));
         return cone.position().add(cone.getLookAngle().scale(.35));
     }
 }

@@ -1,5 +1,7 @@
 package dev.ironsnouveau.casting;
 
+import dev.arsconflux.api.execution.ExecutionAnchor;
+
 import dev.ironsnouveau.bridge.Resolution;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.spells.CastSource;
@@ -38,7 +40,7 @@ public final class NativeRayGeometry {
 
     public static BreathPose rayPose(Resolution ctx, HitResult hit) {
         if (hit instanceof EntityHitResult entity && entity.getEntity() instanceof net.minecraft.world.entity.LivingEntity living)
-            return new BreathPose(living, living.getEyePosition(), living.getLookAngle(), Vec3.ZERO, true);
+            return new BreathPose(living, living.getEyePosition(), ExecutionAnchor.viewDirection(living), Vec3.ZERO, true);
         return BreathPose.from(ctx, hit);
     }
 }

@@ -1,5 +1,7 @@
 package dev.ironsnouveau.casting;
 
+import dev.arsconflux.api.execution.ExecutionAnchor;
+
 import dev.ironsnouveau.bridge.EntitySelectionAdapters;
 import dev.ironsnouveau.bridge.Resolution;
 import dev.ironsnouveau.mixin.TelekinesisAccess;
@@ -34,7 +36,7 @@ public final class TelekinesisExecution implements CastExecution {
         var plan = new CastPlan(ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), (float)ctx.power(),
                 new CastModifiers(0, 1), ticks);
         return CastSessions.start(new CastSession(ctx.world(), frame, plan,
-                () -> new CastAim(ctx.caster().getEyePosition(), ctx.caster().getLookAngle(), target.getUUID()),
+                () -> new CastAim(ctx.caster().getEyePosition(), ExecutionAnchor.viewDirection(ctx.caster()), target.getUUID()),
                 new TelekinesisExecution(ctx, target, ticks), ignored -> {}).billing(TriggerMana.of(frame), true));
     }
     private boolean valid() { return EntitySelectionAdapters.target(resolution, new EntityHitResult(target)) != null; }

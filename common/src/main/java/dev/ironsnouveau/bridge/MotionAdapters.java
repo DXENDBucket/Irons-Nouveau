@@ -1,5 +1,7 @@
 package dev.ironsnouveau.bridge;
 
+import dev.arsconflux.api.execution.ExecutionAnchor;
+
 import dev.ironsnouveau.api.LocationSpellAdapter;
 import dev.ironsnouveau.casting.MotionEffects;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -54,7 +56,7 @@ public final class MotionAdapters {
         var effect = lightning ? MobEffectRegistry.VOLT_STRIKE : MobEffectRegistry.BURNING_DASH;
         if (!actor.addEffect(dev.ironsnouveau.platform.Effects.create(effect, ticks, amplifier, false, false, false), ctx.caster())) return false;
         MotionEffects.bind(ctx, actor, ticks, damage, amplifier);
-        Vec3 look = actor.getLookAngle(), impulse;
+        Vec3 look = ExecutionAnchor.viewDirection(actor), impulse;
         if (lightning) {
             impulse = look.scale(3 * (15 + ctx.power()) / 20);
             impulse = impulse.multiply(1, 1 - Math.max(look.y, 0) * .6, 1);
@@ -71,7 +73,7 @@ public final class MotionAdapters {
         sync(actor); return true;
     }
     private static boolean slash(Resolution ctx, LivingEntity actor) {
-        Vec3 forward = actor.getLookAngle(), start = actor.getEyePosition();
+        Vec3 forward = ExecutionAnchor.viewDirection(actor), start = actor.getEyePosition();
         Vec3 end = Utils.raycastForBlock(ctx.world(), start, start.add(forward.scale(12)), ClipContext.Fluid.NONE).getLocation();
         var candidates = ctx.world().getEntities(actor, actor.getBoundingBox().expandTowards(end.subtract(start)).inflate(2),
                 e -> enemy(ctx, actor, e) && (e instanceof LivingEntity || e instanceof Projectile)
@@ -128,7 +130,7 @@ public final class MotionAdapters {
             if (target instanceof LivingEntity living) living.knockback(.25 + damage / 10, actor.getX() - target.getX(), actor.getZ() - target.getZ());
         }
         actor.addEffect(dev.ironsnouveau.platform.Effects.create(MobEffectRegistry.ASCENSION, 80), ctx.caster());
-        actor.setDeltaMovement(actor.getDeltaMovement().add(actor.getLookAngle().multiply(1, 0, 1).normalize().add(0, 5, 0).scale(.125)));
+        actor.setDeltaMovement(actor.getDeltaMovement().add(ExecutionAnchor.viewDirection(actor).multiply(1, 0, 1).normalize().add(0, 5, 0).scale(.125)));
         sync(actor); return true;
     }
 }

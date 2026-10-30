@@ -18,8 +18,8 @@ public record BreathPose(LivingEntity anchor, Vec3 origin, Vec3 direction, Vec3 
     }
     public static BreathPose from(Resolution ctx, HitResult hit) {
         if (hit instanceof EntityHitResult entityHit && entityHit.getEntity() instanceof LivingEntity living)
-            return new BreathPose(living, hit.getLocation(), living.getLookAngle(), hit.getLocation().subtract(living.position()));
-        Vec3 direction = ctx.incomingDirection().lengthSqr() > 1.0e-10 ? ctx.incomingDirection() : ctx.caster().getLookAngle();
+            return new BreathPose(living, hit.getLocation(), ExecutionAnchor.viewDirection(living), hit.getLocation().subtract(living.position()));
+        Vec3 direction = ctx.incomingDirection().lengthSqr() > 1.0e-10 ? ctx.incomingDirection() : ExecutionAnchor.viewDirection(ctx.caster());
         return new BreathPose(null, hit.getLocation(), direction.normalize(), Vec3.ZERO);
     }
     @Override public CastAim sample() {

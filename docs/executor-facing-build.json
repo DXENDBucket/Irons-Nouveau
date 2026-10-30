@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-31",
+  "core_commit": "c21d48a9d44830a4c7ad5553124a952af9c3af1b",
+  "runtime_validation": "Not run: build-only requested. No GameTest, client/server launch or shared instance replacement.",
+  "deployed": false,
+  "checks": "Both loaders compiled/packaged; metadata/Core minimum, licenses, Mixin classes/refmaps and removed workaround checked. Cataclysm/Legendary distribution verification passed.",
+  "artifacts": [
+    {
+      "project": "Irons-Nouveau",
+      "version": "0.17.38",
+      "loader": "neoforge",
+      "minecraft": "1.21.1",
+      "jar": "Irons-Nouveau/build/libs/irons-nouveau-0.17.38-mc1.21.1-neoforge.jar",
+      "sha256": "3c18534c0e4d9f0ab06ba844c9c7d51a169472d2069496c8f6375fc0461ee31b",
+      "sources": "Irons-Nouveau/build/libs/irons-nouveau-0.17.38-sources.jar",
+      "sources_sha256": "591e446cfadd40cabd20d4d6473fe7aeb92b1b3cea6ac445fd6e7a4a2afd9d03"
+    },
+    {
+      "project": "Irons-Nouveau",
+      "version": "0.17.38",
+      "loader": "forge",
+      "minecraft": "1.20.1",
+      "jar": "Irons-Nouveau/forge/build/libs/irons-nouveau-0.17.38-mc1.20.1-forge.jar",
+      "sha256": "f2201f48eedff968923d9d9f2803b44454425935e859c008dfcc17fccb2091ae",
+      "sources": "Irons-Nouveau/forge/build/libs/irons-nouveau-0.17.38-sources.jar",
+      "sources_sha256": "8cd2bdba749b1414fb42a4b5a2fbe8cb8e21b99b00f864500badbe48eb6a0b25"
+    }
+  ]
+}
