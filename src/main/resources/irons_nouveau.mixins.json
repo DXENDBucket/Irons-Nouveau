@@ -56,7 +56,9 @@
     "OptionalAnsSelfPriceMixin",
     "AbilityDaggerMixin",
     "AbilityRiftMixin",
-    "AbilityWallMixin"
+    "AbilityWallMixin",
+    "AbilityOrbMixin",
+    "AbilityOrbClockMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",

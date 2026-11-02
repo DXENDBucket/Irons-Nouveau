@@ -78,6 +78,16 @@ public final class AbilityPayloads {
                     ((WallLifetime)wall).ironsNouveau$lifetime(ticks);
                     return EffectResources.spawnAbility(a,world,frame,wall,ticks+2,false);
                 }
+                case OMINOUS_FIRE_ORB -> {
+                    var orb=new io.redspace.ironsspellbooks.entity.mobs.wizards.fire_boss.fire_orb.OminousFireOrbEntity(world);
+                    orb.setOwner(frame.damageOwner());orb.setPos(point);
+                    orb.setChargeTime(20);orb.setFuse(EffectResources.ticks(500*duration(stats)));
+                    orb.setHealth(150);orb.setDamage(damage(frame.caster(),stats.getAmpMultiplier(),120));
+                    orb.setRadius((float)Math.max(1,Math.min(32,12+2*stats.getAoeMultiplier())));
+                    if(!EffectResources.spawnAbility(a,world,frame,orb,orb.getChargeTime()+orb.getFuse()+20,true))return false;
+                    sound(world,point,"irons_spellbooks:fire_boss_fireball",2,1);
+                    sound(world,point,"irons_spellbooks:soulcaller_toll_success",2,.75f);return true;
+                }
                 case EXPULSION -> {
                     double radius=Math.max(1,Math.min(16,4+stats.getAoeMultiplier()));
                     for(var entity:world.getEntities(frame.caster(),new AABB(point,point).inflate(radius),e->e.isAlive()&&!e.isSpectator()&&!Allies.areAllies(frame.caster(),e))){

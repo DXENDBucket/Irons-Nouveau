@@ -10,7 +10,8 @@ public enum IronAbility {
     FIERY_DAGGER("fiery_dagger", "Fiery Dagger", 35, 0, 0, 0, "cinder_essence"),
     DAGGER_ZONE("dagger_zone", "Dagger Zone", 180, 20, 100, 20, "fire_rune"),
     RING_OF_FIRE("ring_of_fire", "Ring of Fire", 100, 20, 160, 15, "divine_soulshard"),
-    EXPULSION("expulsion", "Expulsion", 25, 0, 40, 0, "expulsion_ring");
+    EXPULSION("expulsion", "Expulsion", 25, 0, 40, 0, "expulsion_ring"),
+    OMINOUS_FIRE_ORB("ominous_fire_orb", "Ominous Fire Orb", 600, 40, 500, 0, "divine_soulshard");
     public final String path, name, icon;
     public final int mana, chant, cooldown, pulse;
     IronAbility(String path,String name,int mana,int chant,int cooldown,int pulse,String icon) {

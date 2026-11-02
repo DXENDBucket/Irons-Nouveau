@@ -266,5 +266,13 @@
   "ars_nouveau.augment_desc.glyph_ring_of_fire_glyph_duration_down": "Shortens the native effect duration.",
   "ars_nouveau.augment_desc.glyph_expulsion_glyph_amplify": "Increases this ability's strength, not an Iron scroll level.",
   "ars_nouveau.augment_desc.glyph_expulsion_glyph_dampen": "Decreases this ability's strength.",
-  "ars_nouveau.augment_desc.glyph_expulsion_glyph_aoe": "Increases the area."
+  "ars_nouveau.augment_desc.glyph_expulsion_glyph_aoe": "Increases the area.",
+  "ars_nouveau.glyph_name.glyph_ominous_fire_orb": "Ominous Fire Orb",
+  "item.irons_nouveau.glyph_ominous_fire_orb": "Ominous Fire Orb",
+  "irons_nouveau.ability.glyph_ominous_fire_orb": "Places a soul-fire orb that charges briefly, then counts down to a powerful explosion. Enemies can destroy it after charging. Amplify increases damage; Area of Effect expands the blast. Extend Time and Duration Down change the fuse length.",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_amplify": "Increases this ability's strength, not an Iron scroll level.",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_dampen": "Decreases this ability's strength.",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_aoe": "Increases the area.",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_extend_time": "Lengthens the fuse.",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "Shortens the fuse."
 }

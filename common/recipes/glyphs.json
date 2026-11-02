@@ -1829,5 +1829,21 @@
       "id": "irons_nouveau:glyph_expulsion",
       "count": 1
     }
+  },
+  "glyph_ominous_fire_orb": {
+    "type": "ars_nouveau:glyph",
+    "exp": 55,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:divine_soulshard"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ominous_fire_orb",
+      "count": 1
+    }
   }
 }

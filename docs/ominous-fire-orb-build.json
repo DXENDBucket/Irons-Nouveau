@@ -1,0 +1,49 @@
+{
+  "version": "0.17.41",
+  "source_base": "dce6fa3",
+  "core_commit": "108706a2b8429935a91de214427b61bc956cac52",
+  "upstream": [
+    "1.21.1-3.16.3",
+    "1.20.1-3.16.3"
+  ],
+  "mana": 600,
+  "validation": {
+    "neoforge": "4/4 focused GameTests passed at initial 400-cost tuning; shared creation cost subsequently updated to user-requested 600 and release rebuilt",
+    "forge": "4/4 focused GameTests passed at final 600 Mana; cleanup forces native tick before end-of-tick lease cleanup",
+    "static": "109 shared recipes/models/hints; archive integrity, metadata, license/notices, native icon, localized fuse hints, actual Forge SRG mappings; no bundled Iron code or tests",
+    "commands": [
+      "Neo :runGameTestServer :jar :sourcesJar -PgameTestNamespaces=irons_nouveau_orb -PwithoutGlyphAddons=true -PgameTestHeap=1000m",
+      "Forge :runGameTestServer :jarJar :reobfJarJar :sourcesJar -PgameTestNamespaces=irons_nouveau_orb -PgameTestHeap=1000m",
+      "Neo final :jar :sourcesJar; python tools/check_shared_layout.py --generated; offline, max-workers=1, no-parallel, no-daemon, Gradle heap550m"
+    ],
+    "logs": "build/ominous-orb-20261102/{neoforge,forge-final,neoforge-package}.log",
+    "client": "not manually tested",
+    "deployed_pushed_published": false
+  },
+  "artifacts": [
+    {
+      "path": "build/libs/irons-nouveau-0.17.41-mc1.21.1-neoforge.jar",
+      "platform": "neoforge",
+      "sha256": "ec9f9d226391974dd7e59ba7585d483ba2525d78d444d4e550e856a495c119ac",
+      "hints": 109
+    },
+    {
+      "path": "build/libs/irons-nouveau-0.17.41-sources.jar",
+      "platform": "neoforge",
+      "sha256": "4607abe0e01e781c38fae5e1f2ca0feeb6a968629c4df4ec9d16212e7f75dbe3",
+      "hints": 109
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.41-mc1.20.1-forge.jar",
+      "platform": "forge",
+      "sha256": "64dc9b5e97548ba6afd770c12f6a9ddc59349c63fc88069f9e5053c874a9160b",
+      "hints": 109
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.41-sources.jar",
+      "platform": "forge",
+      "sha256": "5d07cb25c3fc8b6ebd972e880e54e9ee6abec0677929cb27d438dbce8255029a",
+      "hints": 109
+    }
+  ]
+}

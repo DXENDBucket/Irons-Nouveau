@@ -266,5 +266,13 @@
   "ars_nouveau.augment_desc.glyph_ring_of_fire_glyph_duration_down": "缩短原生效果的持续时间。",
   "ars_nouveau.augment_desc.glyph_expulsion_glyph_amplify": "增强此能力的强度，不改变 Iron 卷轴等级。",
   "ars_nouveau.augment_desc.glyph_expulsion_glyph_dampen": "降低此能力的强度。",
-  "ars_nouveau.augment_desc.glyph_expulsion_glyph_aoe": "扩大作用范围。"
+  "ars_nouveau.augment_desc.glyph_expulsion_glyph_aoe": "扩大作用范围。",
+  "ars_nouveau.glyph_name.glyph_ominous_fire_orb": "不祥灵火球",
+  "item.irons_nouveau.glyph_ominous_fire_orb": "不祥灵火球",
+  "irons_nouveau.ability.glyph_ominous_fire_orb": "在落点放置一颗灵火球，短暂蓄能后开始倒计时，最终引发强力爆炸。敌人可在蓄能结束后摧毁它。强化提升伤害，扩散扩大爆炸范围，延长／缩短时效改变引信长度。",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_amplify": "增强此能力的强度，不改变 Iron 卷轴等级。",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_dampen": "降低此能力的强度。",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_aoe": "扩大作用范围。",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_extend_time": "延长引信时间。",
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "缩短引信时间。"
 }

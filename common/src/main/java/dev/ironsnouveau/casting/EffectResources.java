@@ -72,6 +72,24 @@ public final class EffectResources {
         boolean added=scoped(new Origin(frame,ability.glyphId(),ability.id(),1,ticks,TriggerMana.of(frame)),()->world.addFreshEntity(entity));
         if(added&&prepaid)entity.getPersistentData().getCompound(KEY).putBoolean("one_shot",true);return added;
     }
+    /** Re-enter a paid delayed native payload, validating its lease before its own tick can explode. */
+    public static void executeOnce(Entity entity,Runnable action){
+        if(!managed(entity)){action.run();return;}
+        if(entity.isRemoved()||!(entity.level() instanceof ServerLevel world))return;
+        var tag=entity.getPersistentData().getCompound(KEY);
+        var owner=tag.hasUUID("owner")?world.getEntity(tag.getUUID("owner")):null;
+        var spell=ResourceLocation.tryParse(tag.getString("spell"));
+        var glyph=ResourceLocation.tryParse(tag.getString("glyph"));
+        var ability=dev.ironsnouveau.ability.IronAbility.of(spell);
+        if(!(owner instanceof LivingEntity caster)||!caster.isAlive()||world.getGameTime()>=tag.getLong("expires")
+                ||spell==null||glyph==null||ability==null||!ability.enabled()
+                ||!PresetTools.scoped(preset(entity,caster),()->GlyphAccessEvent.allowed(caster,glyph,spell,tag.getInt("level"),GlyphAccessEvent.Action.RESOLVE))){remove(entity);return;}
+        restorePower(entity,world,tag);
+        var mana=ACCOUNTS.computeIfAbsent(entity,e->TriggerMana.of(null,caster));
+        var frame=restored(entity,caster,mana);
+        dev.arsconflux.api.damage.SpellPower.tick(entity,()->PresetTools.scoped(preset(entity,caster),()->
+                CastContexts.scoped(frame,()->dev.arsconflux.api.damage.NativeSpellDamage.during(frame,()->{action.run();return null;}))));
+    }
     public static void prepaidChildren(Entity parent,int ticks,Runnable action){
         boolean before=PAID_CHILDREN.get();PAID_CHILDREN.set(true);
         try{children(parent,ticks,action);}finally{PAID_CHILDREN.set(before);}
