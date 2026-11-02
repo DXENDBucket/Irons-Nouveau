@@ -33,6 +33,10 @@ public record TriggerMana(LivingEntity caster, IWrappedCaster source, ResourceAc
         if (caster == null || !caster.isAlive() || caster.level().isClientSide) return false;
         return charge(spell, level).trigger(() -> run(action));
     }
+    public boolean triggerAmount(int amount,BooleanSupplier action){
+        return caster!=null&&caster.isAlive()&&!caster.level().isClientSide
+                &&new ResourceCharge(account(),Math.max(0,amount)).trigger(()->run(action));
+    }
     public ResourceAccount account() {
         if (paymentAccount != null) return paymentAccount;
         if (!usesIronMana()) return new ArsManaAccount(source,

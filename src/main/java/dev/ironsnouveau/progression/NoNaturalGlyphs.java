@@ -27,7 +27,8 @@ public final class NoNaturalGlyphs extends LootModifier {
         return stack.getItem() instanceof Glyph glyph && SpellProgress.spellId(glyph.spellPart) != null;
     }
     @Override protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> loot, LootContext context) {
-        if (dev.ironsnouveau.config.SpellLevelConfig.requiresCrafting()) loot.removeIf(NoNaturalGlyphs::isIronGlyph);
+        loot.removeIf(stack->stack.getItem() instanceof Glyph glyph&&dev.ironsnouveau.ability.IronAbility.of(glyph.spellPart)!=null
+                ||dev.ironsnouveau.config.SpellLevelConfig.requiresCrafting()&&isIronGlyph(stack));
         return loot;
     }
     @Override public MapCodec<? extends IGlobalLootModifier> codec() { return CODEC; }

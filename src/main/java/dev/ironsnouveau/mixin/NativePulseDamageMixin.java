@@ -11,6 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class NativePulseDamageMixin {
     @WrapMethod(method = "applyDamage")
     private static boolean ironsNouveau$pulse(Entity target, float amount, DamageSource source, Operation<Boolean> original) {
+        if(EffectResources.ability(source.getDirectEntity())!=null&&source.getEntity()!=null
+                &&dev.arsconflux.api.targeting.Allies.areAllies(source.getEntity(),target))return false;
         var motion = dev.ironsnouveau.casting.MotionEffects.current();
         if (motion != null && source.getEntity() == motion.actor()) {
             if (target == motion.actor() || target == motion.owner() || motion.owner().isAlliedTo(target)) return false;
@@ -28,7 +30,7 @@ public abstract class NativePulseDamageMixin {
             source = attributed;
         }
         DamageSource attributedSource = source;
-        boolean success = EffectResources.pulse(source.getDirectEntity(), () -> original.call(target, amount, attributedSource));
+        boolean success = EffectResources.pulse(source.getDirectEntity(), () -> dev.arsconflux.api.projectile.ImpactTriggers.damage(target, () -> original.call(target, amount, attributedSource)));
         if (success) ComplexImpacts.damaged(target, attributedSource);
         return success;
     }

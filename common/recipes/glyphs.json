@@ -1749,5 +1749,85 @@
       "id": "irons_nouveau:glyph_arcane_shackle",
       "count": 1
     }
+  },
+  "glyph_undead_rift": {
+    "type": "ars_nouveau:glyph",
+    "exp": 55,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:blood_staff"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_undead_rift",
+      "count": 1
+    }
+  },
+  "glyph_fiery_dagger": {
+    "type": "ars_nouveau:glyph",
+    "exp": 55,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:divine_soulshard"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_fiery_dagger",
+      "count": 1
+    }
+  },
+  "glyph_dagger_zone": {
+    "type": "ars_nouveau:glyph",
+    "exp": 55,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:divine_soulshard"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_dagger_zone",
+      "count": 1
+    }
+  },
+  "glyph_ring_of_fire": {
+    "type": "ars_nouveau:glyph",
+    "exp": 55,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:divine_soulshard"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_ring_of_fire",
+      "count": 1
+    }
+  },
+  "glyph_expulsion": {
+    "type": "ars_nouveau:glyph",
+    "exp": 27,
+    "inputs": [
+      {
+        "item": "irons_spellbooks:expulsion_ring"
+      },
+      {
+        "item": "ars_nouveau:source_gem"
+      }
+    ],
+    "output": {
+      "id": "irons_nouveau:glyph_expulsion",
+      "count": 1
+    }
   }
 }

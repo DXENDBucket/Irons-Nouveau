@@ -31,6 +31,8 @@ def generateGlyphResources = tasks.register('generateGlyphResources') {
             if (!(name ==~ /[a-z0-9_]+/)) throw new GradleException("Invalid glyph recipe name: ${name}")
             def output = recipe
             if (glyphRecipeFormat == 'ars4') {
+                // 1.20.1 includes the ring's art, but does not register the Expulsion Ring.
+                if(name=='glyph_expulsion')recipe.inputs=[[item:'irons_spellbooks:cooldown_ring'],[item:'minecraft:feather'],[item:'ars_nouveau:source_gem']]
                 output = [type: recipe.type, exp: recipe.exp,
                           output: recipe.output.id, count: recipe.output.count,
                           inputItems: recipe.inputs.collect { [item: it] }]

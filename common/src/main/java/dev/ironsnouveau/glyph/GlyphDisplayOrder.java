@@ -11,6 +11,8 @@ public final class GlyphDisplayOrder {
 
     /** Use the native Iron school, not Ars' broader mapped schools. Non-Iron ordering is unchanged. */
     public static String schoolKey(AbstractSpellPart part) {
+        var ability=dev.ironsnouveau.ability.IronAbility.of(part);
+        if(ability!=null)return ability==dev.ironsnouveau.ability.IronAbility.UNDEAD_RIFT?"irons_spellbooks:blood":ability==dev.ironsnouveau.ability.IronAbility.EXPULSION?"irons_spellbooks:evocation":"irons_spellbooks:fire";
         var id = SpellProgress.spellId(part);
         if (id == null) return "";
         var spell = SpellRegistry.getSpell(id);

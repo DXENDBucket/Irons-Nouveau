@@ -39,9 +39,13 @@ public final class EffectResources {
     }
     private static boolean pulseManaged(Entity entity,int period,BooleanSupplier action) {
         var world=(ServerLevel)entity.level();
+        // A multipart native tick can keep calling damage after its first unpaid part discards the emitter.
+        if(entity.isRemoved())return false;
         if (entity.getPersistentData().getCompound(KEY).getBoolean("one_shot")) return action.getAsBoolean();
         // Ordinary summoned creatures pay for their creation, not every autonomous attack.
         if (entity instanceof net.minecraft.world.entity.Mob && !(entity instanceof io.redspace.ironsspellbooks.entity.spells.wisp.WispEntity)) return action.getAsBoolean();
+        var ability=ability(entity);
+        if(ability!=null&&ability.pulse>0)period=Math.max(20,period);
         long round = entity.level().getGameTime() / period;
         if (PAYING.contains(entity)) return action.getAsBoolean();
         if (PAID.getOrDefault(entity, Long.MIN_VALUE) == round) {
@@ -52,15 +56,26 @@ public final class EffectResources {
         Entity owner = world.getEntity(tag.getUUID("owner"));
         if (!(owner instanceof LivingEntity living) || !living.isAlive()) return false;
         var mana = ACCOUNTS.computeIfAbsent(entity, e -> TriggerMana.of(null, living));
+        if(ability!=null&&ability.pulse>0&&new dev.arsconflux.api.resource.ResourceCharge(mana.account(),ability.pulse).affordableCount(1)==0){remove(entity);return false;}
         PAYING.add(entity);
         try {
             boolean applied = PresetTools.scoped(preset(entity, living), () ->
-                    CastContexts.scoped(restored(entity, living, mana), () -> mana.trigger(dev.ironsnouveau.platform.Locations.id(tag.getString("spell")), tag.getInt("level"), action)));
+                    CastContexts.scoped(restored(entity, living, mana), () -> ability!=null
+                            ?mana.triggerAmount(ability.pulse,action):mana.trigger(dev.ironsnouveau.platform.Locations.id(tag.getString("spell")), tag.getInt("level"), action)));
             if (applied) PAID.put(entity, round);
             return applied;
         } finally { PAYING.remove(entity); }
     }
     public static int ticks(double ticks) { return (int)net.minecraft.util.Mth.clamp(ticks, 1, 96000); }
+    public static dev.ironsnouveau.ability.IronAbility ability(Entity entity){return entity==null?null:dev.ironsnouveau.ability.IronAbility.of(ResourceLocation.tryParse(entity.getPersistentData().getCompound(KEY).getString("spell")));}
+    public static boolean spawnAbility(dev.ironsnouveau.ability.IronAbility ability,ServerLevel world,CastContext frame,Entity entity,int ticks,boolean prepaid){
+        boolean added=scoped(new Origin(frame,ability.glyphId(),ability.id(),1,ticks,TriggerMana.of(frame)),()->world.addFreshEntity(entity));
+        if(added&&prepaid)entity.getPersistentData().getCompound(KEY).putBoolean("one_shot",true);return added;
+    }
+    public static void prepaidChildren(Entity parent,int ticks,Runnable action){
+        boolean before=PAID_CHILDREN.get();PAID_CHILDREN.set(true);
+        try{children(parent,ticks,action);}finally{PAID_CHILDREN.set(before);}
+    }
     public static boolean scoped(CastSession session, BooleanSupplier action) {
         return scoped(new Origin(session.context(), session.plan().glyphId(), session.plan().spellId(), session.plan().spellLevel(), 1200, session.billingSource()), action);
     }
@@ -162,7 +177,8 @@ public final class EffectResources {
             if (preset != null && preset.caster() == origin.owner()
                     && PresetTools.level(origin.owner(), origin.spell()) > 0)
                 tag.put("preset_tool", dev.ironsnouveau.platform.BoundSpellData.saveItem(preset.stack(), level.registryAccess()));
-            if (PAID_CHILDREN.get()) tag.putBoolean("one_shot", true);
+            if (PAID_CHILDREN.get() && !(dev.ironsnouveau.ability.IronAbility.of(origin.spell())!=null
+                    && entity instanceof io.redspace.ironsspellbooks.entity.spells.AoeEntity)) tag.putBoolean("one_shot", true);
             entity.getPersistentData().put(KEY, tag);
         }
         if (entity.getPersistentData().contains(KEY)) {
@@ -186,7 +202,8 @@ public final class EffectResources {
             if (world.getGameTime() % 20 == 0) {
                 var spell = ResourceLocation.tryParse(tag.getString("spell"));
                 var glyph = ResourceLocation.tryParse(tag.getString("glyph"));
-                if (spell == null || glyph == null || !SpellRegistry.getSpell(spell).isEnabled()
+                var ability=dev.ironsnouveau.ability.IronAbility.of(spell);
+                if (spell == null || glyph == null || !(ability!=null?ability.enabled():SpellRegistry.getSpell(spell).isEnabled())
                         || !PresetTools.scoped(preset(entity, caster), () -> GlyphAccessEvent.allowed(caster, glyph, spell,
                                 tag.getInt("level"), GlyphAccessEvent.Action.RESOLVE))) remove(entity);
             }

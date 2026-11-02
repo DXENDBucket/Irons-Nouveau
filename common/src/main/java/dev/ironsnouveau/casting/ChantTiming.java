@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 public final class ChantTiming {
     private ChantTiming() {}
     public static boolean containsIron(Spell spell) {
-        return dev.arsconflux.api.glyph.ArsSpellAccess.parts(spell).stream().anyMatch(p -> p instanceof BridgeGlyph || p instanceof NativeFormAugment);
+        return dev.arsconflux.api.glyph.ArsSpellAccess.parts(spell).stream().anyMatch(p -> p instanceof BridgeGlyph || p instanceof NativeFormAugment || dev.ironsnouveau.ability.IronAbility.of(p)!=null);
     }
     public static int ticks(Spell recipe, LivingEntity caster, SpellLevelConfig.ChantMode mode) {
         return dev.arsconflux.api.casting.ChantDurations.combine(occurrences(recipe, caster), mode == SpellLevelConfig.ChantMode.SUM);
@@ -25,6 +25,8 @@ public final class ChantTiming {
         var parts = dev.arsconflux.api.glyph.ArsSpellAccess.parts(recipe);
         for (int i = 0; i < parts.size(); i++) {
             var part = parts.get(i);
+            var ability=dev.ironsnouveau.ability.IronAbility.of(part);
+            if(ability!=null){if(ability.chant>0)result.add(dev.ironsnouveau.ability.AbilityPlatform.chant(caster,ability.chant));continue;}
             if (!(part instanceof AbstractAugment)) action = i;
             ResourceLocation id = part instanceof BridgeGlyph glyph ? glyph.definition().spellId()
                     : part instanceof NativeFormAugment form ? form.spellId() : null;

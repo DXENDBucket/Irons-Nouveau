@@ -1,0 +1,52 @@
+{
+  "version": "0.17.40",
+  "source_base": "7c7a5f09c00ccb3378cafa5ec719881513116aac",
+  "core_commit": "3d7a8bf675af973719b3c02d8021e3cb9201fc69",
+  "upstream": [
+    "1.21.1-3.16.3",
+    "1.20.1-3.16.3"
+  ],
+  "verification": {
+    "neoforge": "6/6 focused GameTests passed; then localized augment hints and corrected constructor-time compatible-augment selection, rebuilt",
+    "forge": "6/6 focused GameTests passed; then corrected constructor-time compatible-augment selection, rebuilt",
+    "commands": [
+      "runGameTestServer -PgameTestNamespaces=irons_nouveau_abilities -PgameTestHeap=1100m (Neo: -PwithoutGlyphAddons=true)",
+      "Neo jar sourcesJar; Forge jarJar reobfJarJar sourcesJar; offline max-workers=1 no-parallel no-daemon",
+      "python tools/check_shared_layout.py --generated"
+    ],
+    "archives": "Four archive integrity/metadata/license/notices checks; 108 hints, five recipes/models, upstream texture references; Forge dagger SRG mappings present; no bundled Iron classes or GameTests",
+    "logs": "build/nonspell-audit-20261102/abilities-{neoforge-final,forge-final,neoforge-package,forge-package}.log",
+    "client": "not manually tested",
+    "deployed_pushed_published": false
+  },
+  "artifacts": [
+    {
+      "path": "build/libs/irons-nouveau-0.17.40-mc1.21.1-neoforge.jar",
+      "platform": "neoforge",
+      "sha256": "694f2a6e9876b3b625813b327981e9aece66404c3b1eaf62471d99c18597ab39",
+      "ability_hints": 108,
+      "source": false
+    },
+    {
+      "path": "build/libs/irons-nouveau-0.17.40-sources.jar",
+      "platform": "neoforge",
+      "sha256": "87763bc83428e05837456c15753032d2b19455b86d5450548f7d175182df7c4c",
+      "ability_hints": 108,
+      "source": true
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.40-mc1.20.1-forge.jar",
+      "platform": "forge",
+      "sha256": "943d6382a6b5711458cd43bd8141f3f60b96e757f0ea4f94a9fcf81947a31ab0",
+      "ability_hints": 108,
+      "source": false
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.40-sources.jar",
+      "platform": "forge",
+      "sha256": "abd074700b8d326270d47aae96c68164b021044676640ac4bd544634865e2adc",
+      "ability_hints": 108,
+      "source": true
+    }
+  ]
+}

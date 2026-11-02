@@ -38,6 +38,7 @@ public final class GlyphCatalog {
         dev.arsconflux.api.glyph.GlyphVisuals.register(MOD_ID, dev.ironsnouveau.glyph.GlyphIcons::source);
         AdditionalGlyphs.register();
         ExpansionGlyphs.register();
+        dev.ironsnouveau.ability.AbilityCatalog.register();
         addForm(new NativeFormAugment("ball_lightning", "Ball Lightning", SpellSchools.ELEMENTAL_AIR,
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.ball_lightning.BallLightning::new, ProjectilePayload.HALF_POWER), 0, SpellTier.ONE));
         addForm(new NativeFormAugment("flaming_barrage", "Flaming Barrage", SpellSchools.ELEMENTAL_FIRE,
@@ -97,6 +98,7 @@ public final class GlyphCatalog {
                 new ProjectileCastAdapter(io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile::new, ProjectilePayload.FULL_POWER), 0, SpellTier.ONE));
     }
     public static void configureCarriers() {
+            dev.ironsnouveau.ability.AbilityCatalog.carriers();
             for (var profile : dev.arsconflux.api.projectile.CarrierRegistry.profiles()) {
                 var glyph = profile.glyph();
                 if (glyph == null) continue;

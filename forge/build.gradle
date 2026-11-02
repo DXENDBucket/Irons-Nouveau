@@ -27,7 +27,7 @@ minecraft {
             // Included source directories have no release-JAR manifest to register Core's mixins.
             args '--mixin.config', 'ars_conflux.mixins.json'
         }
-        gameTestServer { workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
+        gameTestServer { jvmArgs "-Xmx${providers.gradleProperty('gameTestHeap').getOrElse('1100m')}"; workingDirectory project.file('run/forge-gametest'); property 'forge.enabledGameTestNamespaces', providers.gradleProperty('gameTestNamespaces').getOrElse('irons_nouveau'); mods { ars_conflux { source confluxMain }; irons_nouveau { source sourceSets.main; source sourceSets.forgeTest } } }
         client {
             workingDirectory project.file(providers.gradleProperty('iconPreview').getOrElse('false').toBoolean() ? 'run/icon-preview' : 'run/client')
             if (providers.gradleProperty('glyphItemPreview').getOrElse('false').toBoolean()) {

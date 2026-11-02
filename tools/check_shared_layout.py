@@ -26,6 +26,10 @@ def main():
             forge = root / 'forge/build/resources/main/data/irons_nouveau/recipes' / (name + '.json')
             expected_forge = {'type': recipe['type'], 'exp': recipe['exp'], 'output': recipe['output']['id'],
                               'count': recipe['output']['count'], 'inputItems': [{'item': i} for i in recipe['inputs']]}
+            # Iron 1.20.1 contains the art but no registered Expulsion Ring.
+            if name == 'glyph_expulsion':
+                expected_forge['inputItems'] = [{'item': {'item': item}} for item in
+                    ['irons_spellbooks:cooldown_ring', 'minecraft:feather', 'ars_nouveau:source_gem']]
             if json.loads(neo.read_text(encoding='utf-8')) != recipe:
                 raise RuntimeError(f'Ars 5 recipe differs from its definition: {name}')
             if json.loads(forge.read_text(encoding='utf-8')) != expected_forge:

@@ -36,6 +36,7 @@ public abstract class NativeProjectileStateMixin implements NativeCastCarrier {
     @Override public void ironsNouveau$session(CastSession session) { ironsNouveau$session = session; }
     @Inject(method = "shouldBeSaved", at = @At("HEAD"), cancellable = true)
     private void ironsNouveau$ephemeral(CallbackInfoReturnable<Boolean> cir) {
-        if (ironsNouveau$session != null || ironsNouveau$arsDriven()) cir.setReturnValue(false);
+        if (ironsNouveau$session != null || ironsNouveau$arsDriven()
+                ||this instanceof dev.ironsnouveau.ability.DaggerState dagger&&dagger.ironsNouveau$abilitySession()!=null) cir.setReturnValue(false);
     }
 }

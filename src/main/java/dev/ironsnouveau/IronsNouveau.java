@@ -53,6 +53,7 @@ public final class IronsNouveau {
                             java.util.Comparator.comparing(part -> part.getRegistryName().toString()));
                     GlyphCatalog.forms().stream().sorted(order).forEach(glyph -> output.accept(glyph.getGlyph()));
                     GlyphCatalog.glyphs().stream().sorted(order).forEach(glyph -> output.accept(glyph.getGlyph()));
+                    dev.ironsnouveau.ability.AbilityCatalog.parts().stream().sorted(order).forEach(glyph->output.accept(glyph.getGlyph()));
                 })
                 .build());
         tabs.register(bus);

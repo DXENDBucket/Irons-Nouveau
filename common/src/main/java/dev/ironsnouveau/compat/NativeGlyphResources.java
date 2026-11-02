@@ -36,7 +36,7 @@ public final class NativeGlyphResources {
         return dev.ironsnouveau.platform.Locations.id(texture.getNamespace(),path);
     }
     public static List<ResourceLocation> textures() {
-        return Stream.concat(GlyphCatalog.glyphs().stream(),GlyphCatalog.forms().stream())
+        return Stream.concat(Stream.concat(GlyphCatalog.glyphs().stream(),GlyphCatalog.forms().stream()),dev.ironsnouveau.ability.AbilityCatalog.parts().stream())
                 .map(dev.ironsnouveau.glyph.GlyphIcons::source).filter(java.util.Objects::nonNull)
                 .map(dev.arsconflux.api.glyph.GlyphIcon::texture).filter(java.util.Objects::nonNull).distinct().toList();
     }

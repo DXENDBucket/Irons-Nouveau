@@ -54,6 +54,7 @@ public final class SpellProgress {
         return SpellLevelConfig.mode() == SpellLevelConfig.Mode.FIXED ? configured : Math.max(1, craftedLevel(player, spell));
     }
     public static boolean canUse(LivingEntity caster, ResourceLocation spell) {
+        if(dev.ironsnouveau.ability.IronAbility.of(spell)!=null)return true;
         if (dev.ironsnouveau.casting.PresetTools.level(caster, spell) > 0) return true;
         return !SpellLevelConfig.requiresCrafting() || !(caster instanceof Player player) || player.isCreative() || craftedLevel(player, spell) > 0;
     }

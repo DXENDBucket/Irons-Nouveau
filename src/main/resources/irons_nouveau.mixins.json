@@ -53,7 +53,10 @@
     "NativeSelfSpellMixin",
     "NativeSelfManagerMixin",
     "NativeGlyphRecipeMixin",
-    "OptionalAnsSelfPriceMixin"
+    "OptionalAnsSelfPriceMixin",
+    "AbilityDaggerMixin",
+    "AbilityRiftMixin",
+    "AbilityWallMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",
