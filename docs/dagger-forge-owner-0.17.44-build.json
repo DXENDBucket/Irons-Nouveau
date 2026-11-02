@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-03",
+  "version": "0.17.44",
+  "source_base": "0913008",
+  "core_commit": "d8573951b5aebbaa278cd09fc4568222aad7b7af",
+  "validation": {
+    "forge_refmap": "FireField.setOwner -> FireField.m_5602_",
+    "native_ability_hooks_per_platform": 20,
+    "old_forge_0.17.43_negative_control": "Rejected at FireField.setOwner (0/1 calls)",
+    "builds": "Neo jar/sourcesJar and Forge jarJar/reobfJarJar/sourcesJar, offline",
+    "game_launched": false,
+    "game_tests_run": false,
+    "deployed": false,
+    "uploaded": false
+  },
+  "artifacts": [
+    {
+      "platform": "neoforge",
+      "path": "build/libs/irons-nouveau-0.17.44-mc1.21.1-neoforge.jar",
+      "sha256": "1af3ba651c4bf5304f193f4c58abba234dc4332a1de1b1c79a55bdec692012c5"
+    },
+    {
+      "platform": "forge",
+      "path": "forge/build/libs/irons-nouveau-0.17.44-mc1.20.1-forge.jar",
+      "sha256": "909291d08f88cc4ec20e4a63d1e501a665ae36aaa2f63a9024d12f2b1dcfdc84"
+    },
+    {
+      "platform": "neoforge-sources",
+      "path": "build/libs/irons-nouveau-0.17.44-sources.jar",
+      "sha256": "92a210178adceecbeaf9e3a31cf69157eea5edc8ab8299b1a14884bb4b5ea3a1"
+    },
+    {
+      "platform": "forge-sources",
+      "path": "forge/build/libs/irons-nouveau-0.17.44-sources.jar",
+      "sha256": "72f83d2eda26020e06180eb04996936fcc40c2470737ea9a60983b0a00bab76d"
+    }
+  ]
+}

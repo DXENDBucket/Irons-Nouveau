@@ -53,7 +53,8 @@ public abstract class AbilityDaggerMixin implements DaggerState {
         if(!EffectResources.managed(dagger)){original.call(center);return;}
         EffectResources.prepaidChildren(dagger,600,()->original.call(center));
     }
-    @WrapOperation(method="createFireField",at=@At(value="INVOKE",target="Lio/redspace/ironsspellbooks/entity/spells/magma_ball/FireField;setOwner(Lnet/minecraft/world/entity/Entity;)V"))
+    // The enclosing helper is Iron-owned; this inherited Projectile method still needs Forge's SRG mapping.
+    @WrapOperation(method="createFireField",at=@At(value="INVOKE",target="Lio/redspace/ironsspellbooks/entity/spells/magma_ball/FireField;setOwner(Lnet/minecraft/world/entity/Entity;)V",remap=true))
     private void ironsNouveau$fieldOwner(FireField field,Entity nativeOwner,Operation<Void> original){
         var dagger=(FieryDaggerEntity)(Object)this;
         original.call(field,EffectResources.managed(dagger)?dagger.getOwner():nativeOwner);

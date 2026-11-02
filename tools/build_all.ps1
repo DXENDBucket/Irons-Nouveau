@@ -40,5 +40,11 @@ if ($RuntimeChecks) {
 }
 Invoke-TargetBuild $taskRoot $NeoJavaHome $neoCore $neoTasks
 Invoke-TargetBuild (Join-Path $taskRoot 'forge') $ForgeJavaHome $forgeCore $forgeTasks
+$releaseVersion = (Get-Content -LiteralPath (Join-Path $taskRoot 'VERSION') -Raw).Trim()
+$hookChecker = Join-Path $PSScriptRoot 'check_ability_mixin_hooks.py'
+& python $hookChecker --platform neoforge --artifact (Join-Path $taskRoot "build/libs/irons-nouveau-$releaseVersion-mc1.21.1-neoforge.jar") --javap (Join-Path $NeoJavaHome 'bin/javap.exe')
+if ($LASTEXITCODE -ne 0) { throw 'NeoForge Boss-ability hook verification failed' }
+& python $hookChecker --platform forge --artifact (Join-Path $taskRoot "forge/build/libs/irons-nouveau-$releaseVersion-mc1.20.1-forge.jar") --javap (Join-Path $ForgeJavaHome 'bin/javap.exe')
+if ($LASTEXITCODE -ne 0) { throw 'Forge Boss-ability hook verification failed' }
 & python (Join-Path $PSScriptRoot 'check_shared_layout.py') --generated
 if ($LASTEXITCODE -ne 0) { throw 'Shared layout verification failed' }
