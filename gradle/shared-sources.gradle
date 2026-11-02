@@ -49,3 +49,7 @@ def generateGlyphResources = tasks.register('generateGlyphResources') {
 sourceSets.main.resources.srcDir generatedResources
 tasks.named('processResources') { dependsOn generateGlyphResources }
 tasks.named('sourcesJar') { dependsOn generateGlyphResources }
+
+ext.glyphNameRoot = new File(sharedRoot, 'common/src/main/resources/assets/irons_nouveau/lang')
+ext.glyphNameDefinitions = definitions
+apply from: new File(sharedRoot, 'gradle/validate-glyph-names.gradle')

@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-03",
+  "version": "0.17.42",
+  "previous_version": "0.17.41",
+  "source_base": "e45693924debc2d06ff8de5ee7a5abccf2e3a6d2",
+  "scope": "language-key aliases and build validation only; no Java gameplay changes",
+  "native_name_lookup": "<registry namespace>.glyph_name.<registry path> in installed Ars 5.13.3 and compiled Ars 5.13.1",
+  "validation": "Neo and Forge resource/source packages rebuilt; canonical English/Chinese keys, CRC/license/pack metadata, Forge declared refmap present; Core verifyDistributions passed",
+  "game_started": false,
+  "curseforge_uploaded": false,
+  "artifacts": [
+    {
+      "platform": "neoforge",
+      "kind": "binary",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\build\\libs\\irons-nouveau-0.17.42-mc1.21.1-neoforge.jar",
+      "sha256": "2e9305782ede7837bc825a817e83d6edaf45b62f6b68a5f219992f1c3b9c939e"
+    },
+    {
+      "platform": "neoforge",
+      "kind": "sources",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\build\\libs\\irons-nouveau-0.17.42-sources.jar",
+      "sha256": "0e001b1f21286813fde3920f3d5258d9a8c40d44ffc7ada06ea90e6b99345881"
+    },
+    {
+      "platform": "forge",
+      "kind": "binary",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\forge\\build\\libs\\irons-nouveau-0.17.42-mc1.20.1-forge.jar",
+      "sha256": "d23b196d3cfed44e97aeda1a80995d35ea4bb58b6d4b51969afa1c5144b0e955"
+    },
+    {
+      "platform": "forge",
+      "kind": "sources",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\forge\\build\\libs\\irons-nouveau-0.17.42-sources.jar",
+      "sha256": "716a841d2e2bd64ae04846e2e224061d65b853c3d6743891a39a0dc79f8899f7"
+    }
+  ]
+}

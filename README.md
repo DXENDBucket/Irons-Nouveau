@@ -1,5 +1,7 @@
 # Iron & Nouveau / Iron 与新生魔艺
 
+0.17.42 修正六个新增能力魔符的名称键：补充 Ars 实际读取的 irons_nouveau.glyph_name 命名空间，中英文一致；新增打包校验，不改法术行为或费用。
+
 0.17.41 新增“不祥灵火球”效果魔符：放置可被摧毁的原生定时灵火球，保留蓄能、倒计时、爆炸特效和灼尽；接入施法归属、友军保护、触发计费与 Instinct 提示。详见 [不祥灵火球](docs/ominous-fire-orb.md)。
 
 0.17.40 新增五种 Boss／装备独有能力：亡灵裂隙、追踪焰刃、焰刃地带、环形火墙与驱逐气流。沿用 Iron 原生载荷，提供材料制作的魔符与 Conflux／Instinct 能力提示；不需要对应卷轴。数值、获取与平台差异见 [非卷轴能力实现](docs/non-scroll-abilities-implementation.md)。

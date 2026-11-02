@@ -274,5 +274,11 @@
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_dampen": "Decreases this ability's strength.",
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_aoe": "Increases the area.",
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_extend_time": "Lengthens the fuse.",
-  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "Shortens the fuse."
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "Shortens the fuse.",
+  "irons_nouveau.glyph_name.glyph_undead_rift": "Undead Rift",
+  "irons_nouveau.glyph_name.glyph_fiery_dagger": "Fiery Dagger",
+  "irons_nouveau.glyph_name.glyph_dagger_zone": "Dagger Zone",
+  "irons_nouveau.glyph_name.glyph_ring_of_fire": "Ring of Fire",
+  "irons_nouveau.glyph_name.glyph_expulsion": "Expulsion",
+  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "Ominous Fire Orb"
 }

@@ -274,5 +274,11 @@
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_dampen": "降低此能力的强度。",
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_aoe": "扩大作用范围。",
   "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_extend_time": "延长引信时间。",
-  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "缩短引信时间。"
+  "ars_nouveau.augment_desc.glyph_ominous_fire_orb_glyph_duration_down": "缩短引信时间。",
+  "irons_nouveau.glyph_name.glyph_undead_rift": "亡灵裂隙",
+  "irons_nouveau.glyph_name.glyph_fiery_dagger": "追踪焰刃",
+  "irons_nouveau.glyph_name.glyph_dagger_zone": "焰刃地带",
+  "irons_nouveau.glyph_name.glyph_ring_of_fire": "环形火墙",
+  "irons_nouveau.glyph_name.glyph_expulsion": "驱逐气流",
+  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "不祥灵火球"
 }

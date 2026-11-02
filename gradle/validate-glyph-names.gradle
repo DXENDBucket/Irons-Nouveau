@@ -1,0 +1,37 @@
+import groovy.json.JsonSlurper
+
+// Match AbstractSpellPart.getLocalizationKey(), not just the presence of readable text.
+def names = tasks.register('verifyGlyphNameKeys') {
+    group = 'verification'
+    description = 'Require canonical namespaced English and Chinese glyph-name keys.'
+    inputs.dir glyphNameRoot
+    if (project.ext.has('glyphNameDefinitions')) inputs.file glyphNameDefinitions
+    doLast {
+        def namespace = glyphNameRoot.parentFile.name
+        def languages = ['en_us','zh_cn'].collectEntries { locale ->
+            [(locale): new JsonSlurper().parse(new File(glyphNameRoot,"${locale}.json"),'UTF-8')]
+        }
+        def ids = new LinkedHashSet<String>()
+        languages.values().each { entries ->
+            entries.keySet().each { key ->
+                ["${namespace}.glyph_name.", 'ars_nouveau.glyph_name.', "item.${namespace}."].each { prefix ->
+                    if (key.startsWith(prefix) && key.substring(prefix.length()).startsWith('glyph_'))
+                        ids.add(key.substring(prefix.length()))
+                }
+            }
+        }
+        if (project.ext.has('glyphNameDefinitions'))
+            ids.addAll(new JsonSlurper().parse(glyphNameDefinitions,'UTF-8').keySet().findAll { it.startsWith('glyph_') })
+        languages.each { locale, entries ->
+            ids.each { id ->
+                def key = "${namespace}.glyph_name.${id}"
+                def value = entries[key]
+                if (!(value instanceof String) || value.isBlank() || value == key || value.contains('??') || value.contains('\uFFFD'))
+                    throw new GradleException("Missing/corrupt runtime glyph name: ${locale} ${key}")
+            }
+        }
+        logger.lifecycle("Verified ${ids.size()} canonical glyph names in both locales for ${namespace}")
+    }
+}
+tasks.named('processResources') { dependsOn names }
+tasks.named('sourcesJar') { dependsOn names }
