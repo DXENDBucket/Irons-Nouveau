@@ -31,7 +31,7 @@ public final class OminousOrbCases {
     }
     public static void placement(GameTestHelper h){
         var caster=actor(h,3,3);var mana=new AtomicInteger(0);cast(h,caster,mana);
-        h.assertTrue(orbs(h,caster).isEmpty(),"No unpaid orb");mana.set(700);cast(h,caster,mana);
+        h.assertTrue(orbs(h,caster).isEmpty(),"No unpaid orb");mana.set(ABILITY.mana+100);cast(h,caster,mana);
         var all=orbs(h,caster);h.assertTrue(all.size()==1,"Exactly one real Iron orb");var orb=all.get(0);
         h.assertTrue(orb.getOwner()==caster&&orb.getFuse()==500&&orb.getChargeTime()==20,"Original owner and native fuse/charge data");
         h.assertTrue(orb.getHealth()==150&&orb.getRadius()==12&&orb.getDamage()>=120,"Expected health, radius and scaled base damage");
@@ -43,7 +43,7 @@ public final class OminousOrbCases {
     public static void explosion(GameTestHelper h){
         var caster=actor(h,3,3);var friend=actor(h,4,3);var enemy=actor(h,5,3);
         enemy.getAttribute(Attributes.MAX_HEALTH).setBaseValue(500);enemy.setHealth(500);
-        var mana=new AtomicInteger(600);cast(h,caster,mana);var orb=orbs(h,caster).get(0);orb.setNoGravity(true);orb.setChargeTime(0);orb.setFuse(4);
+        var mana=new AtomicInteger(ABILITY.mana);cast(h,caster,mana);var orb=orbs(h,caster).get(0);orb.setNoGravity(true);orb.setChargeTime(0);orb.setFuse(4);
         var allies=Allies.register(dev.ironsnouveau.platform.Locations.id("test:orb_allies"),(a,b)->a==caster&&b==friend);
         h.runAtTickTime(8,()->{try{
             h.assertTrue(orb.isRemoved(),"Native timer detonates and removes orb");
@@ -54,7 +54,7 @@ public final class OminousOrbCases {
         }finally{try{allies.close();}catch(Exception e){throw new RuntimeException(e);}}});
     }
     public static void destruction(GameTestHelper h){
-        var caster=actor(h,3,3);var enemy=actor(h,5,3);cast(h,caster,new AtomicInteger(600));var orb=orbs(h,caster).get(0);orb.setNoGravity(true);orb.setChargeTime(0);
+        var caster=actor(h,3,3);var enemy=actor(h,5,3);cast(h,caster,new AtomicInteger(ABILITY.mana));var orb=orbs(h,caster).get(0);orb.setNoGravity(true);orb.setChargeTime(0);
         h.runAtTickTime(2,()->{
             orb.onAntiMagic(io.redspace.ironsspellbooks.api.magic.MagicData.getPlayerMagicData(caster));
             h.assertTrue(orb.getHealth()==140,"Native anti-magic damages the charged orb");
@@ -64,8 +64,8 @@ public final class OminousOrbCases {
         });
     }
     public static void cleanup(GameTestHelper h){
-        var caster=actor(h,3,3);var victim=actor(h,5,3);cast(h,caster,new AtomicInteger(600));var lost=orbs(h,caster).get(0);lost.setNoGravity(true);lost.setChargeTime(0);lost.setFuse(1);caster.discard();lost.tickCount++;lost.tick();
-        var other=actor(h,4,4);cast(h,other,new AtomicInteger(600));var expired=orbs(h,other).stream().filter(e->e!=lost).findFirst().orElseThrow();expired.setNoGravity(true);expired.setChargeTime(0);expired.setFuse(1);
+        var caster=actor(h,3,3);var victim=actor(h,5,3);cast(h,caster,new AtomicInteger(ABILITY.mana));var lost=orbs(h,caster).get(0);lost.setNoGravity(true);lost.setChargeTime(0);lost.setFuse(1);caster.discard();lost.tickCount++;lost.tick();
+        var other=actor(h,4,4);cast(h,other,new AtomicInteger(ABILITY.mana));var expired=orbs(h,other).stream().filter(e->e!=lost).findFirst().orElseThrow();expired.setNoGravity(true);expired.setChargeTime(0);expired.setFuse(1);
         expired.getPersistentData().getCompound("irons_nouveau_lease").putLong("expires",h.getLevel().getGameTime());
         expired.tickCount++;expired.tick();
         {

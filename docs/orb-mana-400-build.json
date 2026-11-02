@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-03",
+  "version": "0.17.43",
+  "source_base": "c673b65365f20a96f08f76445c83c8f1157823e6",
+  "core_commit": "b8265ccdb0afe3f6e60fbd52afa1c855b9aeb6eb",
+  "tuning": {
+    "ability": "ominous_fire_orb",
+    "previous_mana": 600,
+    "mana": 400
+  },
+  "validation": {
+    "packaged_bytecode": "both loaders contain 400 Mana; chant/cooldown still 40/500 ticks",
+    "changed_classes_vs_previous": {
+      "neoforge": [
+        "dev/ironsnouveau/ability/IronAbility.class"
+      ],
+      "forge": [
+        "dev/ironsnouveau/ability/IronAbility.class"
+      ]
+    },
+    "builds": "Neo compileGameTestJava/jar/sourcesJar; Forge compileForgeTestJava/jarJar/reobfJarJar/sourcesJar; both offline builds passed",
+    "archive_checks": "CRC, license/notices, pack metadata, Forge declared refmap; test fixtures compile",
+    "new_game_tests_run": false,
+    "client_run": false
+  },
+  "curseforge_uploaded": false,
+  "artifacts": [
+    {
+      "platform": "neoforge",
+      "kind": "binary",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\build\\libs\\irons-nouveau-0.17.43-mc1.21.1-neoforge.jar",
+      "sha256": "1df8c2e7a8d5ed2098c42666d5bd6d5dd9b267077fa1a0c5dc9600d4b612399c"
+    },
+    {
+      "platform": "neoforge",
+      "kind": "sources",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\build\\libs\\irons-nouveau-0.17.43-sources.jar",
+      "sha256": "0a3887d45e24878aa29d46e7d72651c7b4fe9ffff7a89aceaaa7aac7042da172"
+    },
+    {
+      "platform": "forge",
+      "kind": "binary",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\forge\\build\\libs\\irons-nouveau-0.17.43-mc1.20.1-forge.jar",
+      "sha256": "77b3c3cb0ecaf3a835768fee45cfa11d9001b845ac4fd4755d6745e7ea5093b2"
+    },
+    {
+      "platform": "forge",
+      "kind": "sources",
+      "path": "C:\\Users\\57991\\Documents\\MinecraftDev\\Irons-Nouveau\\forge\\build\\libs\\irons-nouveau-0.17.43-sources.jar",
+      "sha256": "0573a56c02bd3bb26ec2d5e0c772f1fb21b16be627b76197d9006d188b4f0e69"
+    }
+  ]
+}
