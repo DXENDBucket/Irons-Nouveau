@@ -1,0 +1,47 @@
+{
+  "version": "0.17.39",
+  "source_base": "79348f3",
+  "core_commit": "3d7a8bf675af973719b3c02d8021e3cb9201fc69",
+  "upstream": [
+    "1.21.1-3.16.3",
+    "1.20.1-3.16.3"
+  ],
+  "changes": "11 existing glyph ability hints; explicit NeoForge metadata; non-scroll native ability survey. No new glyph implementations.",
+  "verification": {
+    "static_hint_model_coverage": "103/103; all tag IDs declared in Core",
+    "builds": "NeoForge jar/sourcesJar; Forge jarJar/reobfJarJar/sourcesJar; offline builds passed",
+    "archives": "All four archives: integrity, shared hints, metadata, license/notices and no bundled Iron classes. Runtime Forge refmap present and nonempty (29 mappings). Source JAR is not a runnable mod and does not include generated refmap.",
+    "runtime_or_gametest": "not run",
+    "deployed_or_published": "not performed"
+  },
+  "artifacts": [
+    {
+      "path": "build/libs/irons-nouveau-0.17.39-mc1.21.1-neoforge.jar",
+      "platform": "neoforge",
+      "sha256": "3d65e6213ac1a0bf14baa76dc49b65cb2ab6b9c30e5a01d27d0a3a57c2b9afa7",
+      "ability_hints": 103,
+      "pack_format": 34
+    },
+    {
+      "path": "build/libs/irons-nouveau-0.17.39-sources.jar",
+      "platform": "neoforge",
+      "sha256": "5abd21662064c8141673052af077685afefcbd869a6dd0649abdc960ce357756",
+      "ability_hints": 103,
+      "pack_format": 34
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.39-mc1.20.1-forge.jar",
+      "platform": "forge",
+      "sha256": "4d2887bbc40f5d1ffe673f43ab1288ce4bb2b297c803053fd6f628bcc8d228b4",
+      "ability_hints": 103,
+      "pack_format": 15
+    },
+    {
+      "path": "forge/build/libs/irons-nouveau-0.17.39-sources.jar",
+      "platform": "forge",
+      "sha256": "105b8965afa1218b784b5fbb217eb6e9ef71a9691e13eafece7931106dcb8c6e",
+      "ability_hints": 103,
+      "pack_format": 15
+    }
+  ]
+}
