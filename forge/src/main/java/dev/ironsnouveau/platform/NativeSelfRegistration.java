@@ -12,7 +12,8 @@ public final class NativeSelfRegistration {
     private static void items(RegisterEvent event) {
         if(!event.getRegistryKey().equals(Registries.ITEM))return;
         for(var id:NativeSpellIndex.spells()) {
-            var glyph=GlyphCatalog.addNative(id);
+            var manual=dev.ironsnouveau.compat.wind.WindManualCatalog.register(id);
+            var glyph=manual!=null?manual:GlyphCatalog.addNative(id);
             if(glyph!=null)event.register(Registries.ITEM,glyph.getRegistryName(),glyph::getGlyph);
         }
     }

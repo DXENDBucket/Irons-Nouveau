@@ -280,5 +280,12 @@
   "irons_nouveau.glyph_name.glyph_dagger_zone": "焰刃地带",
   "irons_nouveau.glyph_name.glyph_ring_of_fire": "环形火墙",
   "irons_nouveau.glyph_name.glyph_expulsion": "驱逐气流",
-  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "不祥灵火球"
+  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "不祥灵火球",
+  "irons_nouveau.wind.wind_blade": "将弹射物替换为原生风刃，保留逐渐扩大的刃体、粒子与贯穿命中。",
+  "irons_nouveau.wind.tornado": "在选中位置形成龙卷风。龙卷风可以被火焰点燃。",
+  "irons_nouveau.wind.almighty_push": "在选中位置形成风之屏障，排斥周围的生物。",
+  "irons_nouveau.wind.tailwind": "为自身或友军赋予原生顺风效果。",
+  "irons_nouveau.wind.wind_jump": "让自身或友军借助气流跃起，并获得缓降。",
+  "irons_nouveau.wind.iron_slash": "让选中的自身或友军沿其视线突进斩击，保留原生冰霜联动。",
+  "irons_nouveau.wind.aeropic": "让选中的自身或友军沿其视线执行原生空中回旋突进。"
 }

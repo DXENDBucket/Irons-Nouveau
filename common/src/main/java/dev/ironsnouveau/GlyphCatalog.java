@@ -118,7 +118,10 @@ public final class GlyphCatalog {
                 SpellSchools.MANIPULATION,false,false,dev.ironsnouveau.bridge.NativeSelfAdapter.INSTANCE);
         var glyph=new BridgeGlyph(definition);GlyphRegistry.registerSpell(glyph);GLYPHS.add(glyph);return glyph;
     }
-    private static void addForm(NativeFormAugment form) { GlyphRegistry.registerSpell(form); FORMS.add(form); }
+    public static void addForm(NativeFormAugment form) { GlyphRegistry.registerSpell(form); FORMS.add(form); }
+    public static BridgeGlyph addManual(GlyphDefinition definition) {
+        var glyph=new BridgeGlyph(definition);GlyphRegistry.registerSpell(glyph);GLYPHS.add(glyph);return glyph;
+    }
     private static void complex(String id, String name, SpellSchool school, SpellTier tier) {
         var payload = new ComplexProjectilePayload(id);
         addForm(new NativeFormAugment(id, name, school, new ProjectileCastAdapter(payload::create, payload), 0, tier));

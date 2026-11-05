@@ -1,0 +1,76 @@
+{
+  "version": "0.17.45",
+  "coreSha": "816c8ac4d55a84a0b0c93510567761a231bad665",
+  "coreTrackedFilesChanged": false,
+  "artifacts": [
+    {
+      "artifact": "build/libs/irons-nouveau-0.17.45-mc1.21.1-neoforge.jar",
+      "sha256": "0b0e475602076cb1f70be99a95baeb91a85244232ba237ecb53b8421894b2173",
+      "bytes": 1940500
+    },
+    {
+      "artifact": "build/libs/irons-nouveau-0.17.45-sources.jar",
+      "sha256": "2cca8dab5f9a6a2d4ae5456a468604e8fbab2035b0753986ea2efa8e1f2c9079",
+      "bytes": 1684446
+    },
+    {
+      "artifact": "forge/build/libs/irons-nouveau-0.17.45-mc1.20.1-forge.jar",
+      "sha256": "f3538dce9bf967f3ad0964a654b943e7222b12658d86cf05034af12488dfeed8",
+      "bytes": 2133778
+    },
+    {
+      "artifact": "forge/build/libs/irons-nouveau-0.17.45-sources.jar",
+      "sha256": "cf47487899c5c9739dc5f91854d80ff6470911053934ab4b10f9cb87a06b1976",
+      "bytes": 1684995
+    }
+  ],
+  "dependencies": [
+    {
+      "dependency": "libs/ars.jar",
+      "version": "5.13.1",
+      "sha256": "99dff85e8778f7ae21dfd51cdedadf20f555a834fc757c0afe5f03c10eea96f2"
+    },
+    {
+      "dependency": "libs/iron.jar",
+      "version": "1.21.1-3.16.3",
+      "sha256": "13d644474ddba4f8478b4ce68294687fd509c994b3f344a224142b102dbe6f73"
+    },
+    {
+      "dependency": "libs/wind-spellbooks.jar",
+      "version": "1.0.5",
+      "sha256": "2b3507abfa36df18bd49b289778ce59d1c3e3d9dc10b4e7aae4cbe0756815d40"
+    },
+    {
+      "dependency": "libs/ars-spells.jar",
+      "version": "3.3.2",
+      "sha256": "6b4a805a5872f97f615989b594ef0038c3497402aa1587dee65b97373366dad5"
+    },
+    {
+      "dependency": "libs/not-enough-glyphs.jar",
+      "version": "4.6.1",
+      "sha256": "2060fd11025a737f07aca7eda6df232401e6324a4f33539e13c009f840a6efa2"
+    },
+    {
+      "dependency": "forge/libs/ars-nouveau-forge1201.jar",
+      "version": "4.12.7",
+      "sha256": "1f1debc282a0c379c1141f2840ea294eede6f6b544c589663f40bbe17b59a1af"
+    },
+    {
+      "dependency": "forge/libs/wind-spellbooks-forge1201.jar",
+      "version": "1.0.3",
+      "sha256": "925189907f1f1a925751bf921685769e75c67d36d5ff46d12e2e774468865f61"
+    }
+  ],
+  "verification": {
+    "neoforgeWindCases": 8,
+    "neoforgeNegSplashCases": 1,
+    "neoforgeWindAbsentCases": 1,
+    "forgeWindCases": 8,
+    "clientGraphicsManuallyChecked": false
+  },
+  "notes": [
+    "Actual native release JARs inspected; no native assets or code bundled.",
+    "Aeropic native book recast interaction is not an extra Ars interaction stage.",
+    "No CurseForge upload or git push authorized in this task."
+  ]
+}

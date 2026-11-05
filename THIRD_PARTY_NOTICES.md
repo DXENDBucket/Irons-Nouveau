@@ -8,6 +8,8 @@ The code of Iron & Nouveau is licensed under the MIT License in `LICENSE`, copyr
 
 ## Runtime dependencies
 
+Wind's Spellbooks is an optional runtime integration. Its installed classes and resource identifiers are referenced directly; no Wind classes, assets, dependency JAR or decompiled source are redistributed. The upstream project page declares All Rights Reserved, while the inspected JAR metadata declares MIT; this project does not rely on the latter to redistribute upstream content.
+
 Ars Nouveau, Iron's Spells 'n Spellbooks and their dependencies are installed separately and remain under their respective licenses. Optional integrations are also installed separately. No dependency mod JARs are included in this repository or shaded into the Iron's Nouveau release JAR.
 
 Glyph models reference Iron's installed scroll models and textures by resource identifier. Those upstream resources are not copied into this repository and are not covered by this project's MIT license.

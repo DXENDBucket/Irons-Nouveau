@@ -2,6 +2,10 @@ package dev.ironsnouveau.casting;
 
 /** One runtime driver. Future targeted/channel drivers do not need to implement projectile methods. */
 public interface CastExecution {
+    /** Attach Ars motion without assuming an Iron projectile superclass. */
+    default CastExecution withTrajectory(com.hollingsworth.arsnouveau.common.entity.EntityProjectileSpell carrier) {
+        throw new UnsupportedOperationException("This execution does not support Ars projectile motion");
+    }
     default boolean occupiesCaster() { return false; }
     default java.util.List<dev.arsconflux.api.execution.ExecutionClaim> claims(CastSession session) {
         if(!occupiesCaster())return java.util.List.of();

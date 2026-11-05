@@ -37,9 +37,12 @@ public final class MotionEffects {
         actor.getPersistentData().put(KEY, tag);
     }
     public static boolean tick(LivingEntity actor, String spellPath, BooleanSupplier action) {
+        return tick(actor, dev.ironsnouveau.platform.Locations.id("irons_spellbooks",spellPath),action);
+    }
+    public static boolean tick(LivingEntity actor, ResourceLocation spellIdExpected, BooleanSupplier action) {
         if (!(actor.level() instanceof ServerLevel world)) return action.getAsBoolean();
         var tag = actor.getPersistentData().getCompound(KEY);
-        if (!tag.getString("spell").equals("irons_spellbooks:" + spellPath)) return action.getAsBoolean();
+        if (!tag.getString("spell").equals(spellIdExpected.toString())) return action.getAsBoolean();
         var spellId = ResourceLocation.tryParse(tag.getString("spell"));
         var glyphId = ResourceLocation.tryParse(tag.getString("glyph"));
         var entity = tag.hasUUID("owner") ? world.getEntity(tag.getUUID("owner")) : null;

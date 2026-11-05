@@ -41,10 +41,13 @@ public final class NativeGlyphResources {
                 .map(dev.arsconflux.api.glyph.GlyphIcon::texture).filter(java.util.Objects::nonNull).distinct().toList();
     }
     public static void recipes(Map<ResourceLocation,JsonElement> recipes) {
-        for(var glyph:GlyphCatalog.glyphs())if(glyph.nativeSelf()) {
-            var spell=SpellRegistry.getSpell(glyph.definition().spellId());if(spell==SpellRegistry.none()||!spell.isEnabled())continue;
+        var glyphs=Stream.concat(GlyphCatalog.glyphs().stream(),GlyphCatalog.forms().stream()).toList();
+        for(var glyph:glyphs) {
+            var id=dev.ironsnouveau.casting.BoundSpellSupport.ironSpell(glyph);
+            if(id==null||id.getNamespace().equals("irons_spellbooks"))continue;
+            var spell=SpellRegistry.getSpell(id);if(spell==SpellRegistry.none()||!spell.isEnabled())continue;
             var json=new JsonObject();json.addProperty("type","ars_nouveau:glyph");json.addProperty("exp",27);
-            var scroll=new JsonObject();scroll.addProperty("type","irons_nouveau:spell_scroll");scroll.addProperty("spell",glyph.definition().spellId().toString());
+            var scroll=new JsonObject();scroll.addProperty("type","irons_nouveau:spell_scroll");scroll.addProperty("spell",id.toString());
             dev.ironsnouveau.platform.NativeGlyphRecipe.populate(json,scroll,glyph.getRegistryName());
             recipes.putIfAbsent(glyph.getRegistryName(),json);
         }

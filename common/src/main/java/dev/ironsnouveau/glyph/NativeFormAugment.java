@@ -25,8 +25,13 @@ public final class NativeFormAugment extends AbstractAugment implements dev.arsc
     }
     public NativeFormAugment(String spell, String name, SpellSchool school,
                               NativeCastAdapter adapter, int manaCost, SpellTier tier) {
-        super(dev.ironsnouveau.platform.Locations.id("irons_nouveau", "glyph_" + spell), name);
-        spellId = dev.ironsnouveau.platform.Locations.id("irons_spellbooks", spell);
+        this(dev.ironsnouveau.platform.Locations.id("irons_nouveau", "glyph_" + spell),
+                dev.ironsnouveau.platform.Locations.id("irons_spellbooks", spell), name, school, adapter, manaCost, tier);
+    }
+    public NativeFormAugment(ResourceLocation glyph, ResourceLocation spell, String name, SpellSchool school,
+                             NativeCastAdapter adapter, int manaCost, SpellTier tier) {
+        super(glyph, name);
+        spellId = spell;
         this.adapter = adapter;
         this.manaCost = manaCost;
         spellSchools.add(school); school.addSpellPart(this);
@@ -45,6 +50,14 @@ public final class NativeFormAugment extends AbstractAugment implements dev.arsc
         });
     }
     public ResourceLocation spellId() { return spellId; }
+    @Override public String getLocalizationKey() {
+        return spellId!=null&&!spellId.getNamespace().equals("irons_spellbooks")
+                ? "spell."+spellId.getNamespace()+"."+spellId.getPath():super.getLocalizationKey();
+    }
+    @Override public net.minecraft.network.chat.Component getBookDescLang() {
+        return spellId!=null&&dev.ironsnouveau.compat.wind.WindManualCatalog.owns(spellId)
+                ? net.minecraft.network.chat.Component.translatable("irons_nouveau.wind."+spellId.getPath()):super.getBookDescLang();
+    }
     public NativeCastAdapter adapter() { return adapter; }
     @Override public int getDefaultManaCost() { return 0; }
     @Override public int getCastingCost() { return 0; }

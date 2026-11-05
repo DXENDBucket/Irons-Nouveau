@@ -137,7 +137,7 @@ public final class NativeCasting {
         CastContexts.bind(resolver.spellContext, context.withAccount(inheritedAccount));
         var frozen = resolver.clone();
         CastExecution execution = form.adapter().createExecution(world, caster);
-        if (profile.arsDriven()) execution = ((ProjectileExecution)execution).withTrajectory(ars);
+        if (profile.arsDriven()) execution = execution.withTrajectory(ars);
         ImpactContinuation continuation = hit -> {
             var child = frozen.clone();
             CastContexts.bind(child.spellContext, CastContexts.current().withAccount(inheritedAccount));

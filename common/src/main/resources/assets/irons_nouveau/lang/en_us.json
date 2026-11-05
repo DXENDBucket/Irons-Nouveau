@@ -280,5 +280,12 @@
   "irons_nouveau.glyph_name.glyph_dagger_zone": "Dagger Zone",
   "irons_nouveau.glyph_name.glyph_ring_of_fire": "Ring of Fire",
   "irons_nouveau.glyph_name.glyph_expulsion": "Expulsion",
-  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "Ominous Fire Orb"
+  "irons_nouveau.glyph_name.glyph_ominous_fire_orb": "Ominous Fire Orb",
+  "irons_nouveau.wind.wind_blade": "Replaces the projectile with a native Wind Blade. Keeps its growing blade, particles and piercing hits.",
+  "irons_nouveau.wind.tornado": "Creates a native tornado at the selected point. Fire can ignite it.",
+  "irons_nouveau.wind.almighty_push": "Creates a wind barrier at the selected point, repelling nearby creatures.",
+  "irons_nouveau.wind.tailwind": "Grants native Tailwind to yourself or an ally.",
+  "irons_nouveau.wind.wind_jump": "Launches yourself or an ally upward with a native gust and slow falling.",
+  "irons_nouveau.wind.iron_slash": "The selected allied creature dashes and slashes along its own view. Retains the native frost interaction.",
+  "irons_nouveau.wind.aeropic": "The selected allied creature performs the native aerial spinning lunge along its own view."
 }

@@ -58,7 +58,16 @@
     "AbilityRiftMixin",
     "AbilityWallMixin",
     "AbilityOrbMixin",
-    "AbilityOrbClockMixin"
+    "AbilityOrbClockMixin",
+    "WindTornadoAccess",
+    "WindSlashAccess",
+    "WindPowerCasterMixin",
+    "WindEntityTickMixin",
+    "WindBladeStateMixin",
+    "WindBladeBehaviorMixin",
+    "WindAeropicMixin",
+    "WindSlashDamageMixin",
+    "WindWeaponPowerMixin"
   ],
   "client": [
     "NativeSiphonRenderingMixin",

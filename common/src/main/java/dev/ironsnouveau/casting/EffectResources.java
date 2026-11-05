@@ -103,6 +103,8 @@ public final class EffectResources {
         finally { if (previous == null) ORIGIN.remove(); else ORIGIN.set(previous); }
     }
     public static boolean spawn(Resolution ctx, Entity entity, int ticks) {
+        if(dev.ironsnouveau.compat.wind.WindManualCatalog.owns(ctx.definition().spellId()))
+            dev.arsconflux.api.damage.NativeSpellDamage.bind(entity,ctx.context());
         return scoped(new Origin(ctx.context(), ctx.definition().glyphId(), ctx.definition().spellId(), ctx.level(), ticks, TriggerMana.of(ctx.context())),
                 () -> ctx.world().hasChunkAt(entity.blockPosition()) && ctx.world().addFreshEntity(entity));
     }
@@ -176,8 +178,11 @@ public final class EffectResources {
     /** Returns true only when the join must be cancelled by the loader adapter. */
     public static boolean joined(Entity entity, net.minecraft.world.level.Level level) {
         if (!(level instanceof ServerLevel world)) return false;
+        dev.ironsnouveau.compat.wind.WindNativeAction.joined(entity);
         var origin = ORIGIN.get();
         if (origin != null && (BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getNamespace().equals("irons_spellbooks")
+                || (dev.ironsnouveau.compat.wind.WindManualCatalog.owns(origin.spell())
+                    && BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getNamespace().equals("wind_spellbooks"))
                 || entity instanceof io.redspace.ironsspellbooks.entity.spells.ExtendedEvokerFang
                 || entity instanceof io.redspace.ironsspellbooks.entity.spells.ExtendedFireworkRocket)
                 && (!(entity instanceof NativeCastCarrier carrier) || carrier.ironsNouveau$session() == null)) {

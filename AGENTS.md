@@ -10,3 +10,5 @@
 - 新增专门适配魔符时同时提供共享 `conflux/glyph_abilities` 能力提示；真实玩家菜单／方块权限入口标记 player_only。提示按实际受术者和能力语义填写，不以标签代替召唤物选择等专门 AI，也不为尚未实现的候选注册空壳。Boss 和物品独有能力的首轮核对见 `docs/non-scroll-abilities.md`。
 - 按变化选最小必要验证，收拢后测试；不要频繁重复全矩阵。未做客户端人工验证就明确标注。
 - 只提交自己的文件。交接固定 Core SHA、提交、JAR 哈希、验证证据和未验证项，参考 [交接模板](../Ars-Conflux/docs/agent-handoff-template.md)。此文件不自动授权推送或发布。
+
+- 0.17.45：Wind’s Spellbooks 七种法术按实际 Neo 1.0.5／Forge 1.0.3 手动接入，沿用 glyph_native/wind_spellbooks ID，不生成第二套；风刃改为替换增强，其他按位置或自身／友军执行。实现与边界见 docs/wind-spellbooks.md；原生 Aeropic 书本重施交互未增加为 Ars 阶段。可选 @Pseudo 覆写方法明确列开发名／SRG 名，用 tools/check_wind_mixin_hooks.py 检查实际发行包。Core 固定0.1.51，未改；能力提示、配方、图标和语言同步。Neo八项、NEG溅射一项、无Wind一项与Forge八项通过，未人工验证客户端画面；具体依赖与哈希见 docs/wind-manual-build.json。

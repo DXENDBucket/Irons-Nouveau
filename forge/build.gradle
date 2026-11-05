@@ -13,7 +13,7 @@ sourceSets { forgeTest { compileClasspath += sourceSets.main.output; runtimeClas
 ext.sharedRoot = file('..')
 ext.glyphRecipeFormat = 'ars4'
 apply from: '../gradle/shared-sources.gradle'
-configurations { forgeTestImplementation.extendsFrom implementation; forgeTestRuntimeOnly.extendsFrom runtimeOnly }
+configurations { forgeTestImplementation.extendsFrom implementation; forgeTestCompileOnly.extendsFrom compileOnly; forgeTestRuntimeOnly.extendsFrom runtimeOnly }
 evaluationDependsOn(':ars-conflux')
 def confluxMain = project(':ars-conflux').sourceSets.main
 minecraft {
@@ -61,6 +61,8 @@ tasks.named('compileJava', JavaCompile) {
 }
 
 dependencies {
+    compileOnly fg.deobf('local:wind-spellbooks:forge1201')
+    if(providers.gradleProperty('withWind').getOrElse('false').toBoolean())runtimeOnly fg.deobf('local:wind-spellbooks:forge1201')
     implementation project(':ars-conflux')
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.0'
     for (name in ['ars-nouveau','irons-spells-n-spellbooks','geckolib','curios','patchouli','playeranimator','irons-lib','jei']) {

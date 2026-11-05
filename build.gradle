@@ -51,15 +51,17 @@ neoForge {
     mods { ars_conflux { sourceSet confluxMain }; irons_nouveau { sourceSet sourceSets.main; sourceSet sourceSets.gameTest } }
 }
 dependencies {
+    // Optional manual Wind integration; never embedded or required by the release metadata.
     implementation project(':ars-conflux')
     if (providers.gradleProperty('iconPreview').getOrElse('false').toBoolean()) {
         runtimeOnly fileTree(dir: 'libs/icon-preview', include: '*.jar')
     }
     compileOnly fileTree(dir: 'libs', include: '*.jar')
-    runtimeOnly fileTree(dir: 'libs', include: '*.jar',
-            excludes: providers.gradleProperty('standalone').getOrElse('false').toBoolean()
-                    ? ['ars-spells.jar', 'not-enough-glyphs.jar', 'jei.jar']
-                    : providers.gradleProperty('withoutGlyphAddons').getOrElse('false').toBoolean() ? ['not-enough-glyphs.jar'] : [])
+    def excludedRuntime = providers.gradleProperty('standalone').getOrElse('false').toBoolean()
+            ? ['ars-spells.jar', 'not-enough-glyphs.jar', 'jei.jar']
+            : (providers.gradleProperty('withoutGlyphAddons').getOrElse('false').toBoolean() ? ['not-enough-glyphs.jar'] : [])
+    if(!providers.gradleProperty('withWind').getOrElse('false').toBoolean()) excludedRuntime += ['wind-spellbooks.jar']
+    runtimeOnly fileTree(dir: 'libs', include: '*.jar', excludes: excludedRuntime)
     testImplementation platform('org.junit:junit-bom:5.13.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

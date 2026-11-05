@@ -44,11 +44,13 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
     public boolean nativeSelf() { return definition.adapter() instanceof NativeSelfAdapter; }
     @Override public boolean isEnabled() { return super.isEnabled()&&(definition==null||!nativeSelf()||dev.ironsnouveau.config.SpellLevelConfig.nativeSelfEnabled()); }
     @Override public String getLocalizationKey() {
-        if(definition==null||!nativeSelf())return super.getLocalizationKey();
+        if(definition==null||definition.spellId().getNamespace().equals("irons_spellbooks"))return super.getLocalizationKey();
         var spell=SpellRegistry.getSpell(definition.spellId());
         return spell==SpellRegistry.none()?"spell."+definition.spellId().getNamespace()+"."+definition.spellId().getPath():spell.getComponentId();
     }
     @Override public net.minecraft.network.chat.Component getBookDescLang() {
+        if(definition!=null&&dev.ironsnouveau.compat.wind.WindManualCatalog.owns(definition.spellId()))
+            return net.minecraft.network.chat.Component.translatable("irons_nouveau.wind."+definition.spellId().getPath());
         return nativeSelf()?net.minecraft.network.chat.Component.translatable("irons_nouveau.native_self.description"):super.getBookDescLang();
     }
     @Override public dev.arsconflux.api.resource.ResourceCharge firstCharge(SpellContext context, java.util.List<AbstractAugment> augments) {
@@ -106,7 +108,9 @@ public abstract class AbstractBridgeGlyph extends AbstractEffect implements dev.
         if (!permitted(frame.caster(), resolution.level(), GlyphAccessEvent.Action.RESOLVE)) return;
         boolean applied = CastContexts.scoped(frame, () -> nativeSelf()?apply(resolution,hit)
                 :mana.trigger(definition.spellId(), resolution.level(), () -> apply(resolution, hit)));
-        if (applied&&!nativeSelf()) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
+        boolean nativeWindAction=dev.ironsnouveau.compat.wind.WindManualCatalog.owns(definition.spellId())
+                &&!java.util.Set.of("tornado","almighty_push").contains(definition.spellId().getPath());
+        if (applied&&!nativeSelf()&&!nativeWindAction) spell.getCastFinishSound().ifPresent(sound -> server.playSound(null,
                 hit.getLocation().x, hit.getLocation().y, hit.getLocation().z, sound, SoundSource.PLAYERS, .7f, 1f));
     }
     private boolean apply(Resolution resolution, HitResult hit) {
